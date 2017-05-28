@@ -62,3 +62,8 @@ Cetrero S
  1. https://www.overleaf.com/8996848yfqzxnfhtfzq
  2. https://www.overleaf.com/9440661cjgsnfpzbfjm#/34163911/
  3. https://www.overleaf.com/9756288dzzrngjrzckf
+
+
+## Words borradores
+
+1. https://usachcl-my.sharepoint.com/personal/sergio_salinas_usach_cl/_layouts/15/guestaccess.aspx?docid=1e5c5ed9484df40148f8d91dfd022100b&authkey=AVE-YiVfKht7to_bg7WXTaM

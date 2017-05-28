@@ -5,8 +5,8 @@ Software para el control de aves y cetreros "Mis aves"
 
 ### Entidades externas
 
-Jefe D
-Cetrero S
+1. Jefe D
+2. Cetrero S
 
 ### Almacenamiento
 

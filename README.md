@@ -63,6 +63,9 @@ Software para el control de aves y cetreros "Mis aves"
  2. https://www.overleaf.com/9440661cjgsnfpzbfjm#/34163911/
  3. https://www.overleaf.com/9756288dzzrngjrzckf
 
+## Presentaciones
+
+ 3. https://usachcl-my.sharepoint.com/personal/sergio_salinas_usach_cl/_layouts/15/guestaccess.aspx?docid=1920795c9a49a4695b6dfdb4854543a4e&authkey=AZCuA0D8A0ffIuOEXO-SWdg
 
 ## Words borradores
 

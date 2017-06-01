@@ -65,7 +65,7 @@ Software para el control de aves y cetreros "Mis aves"
 
 ## Presentaciones
 
- 3. https://usachcl-my.sharepoint.com/personal/sergio_salinas_usach_cl/_layouts/15/guestaccess.aspx?docid=1b2cc9862ea7f453da3958ee2a6d430db&authkey=AbkgagnI4U9zBwoIxoZxa04
+ 3. https://usachcl-my.sharepoint.com/personal/sergio_salinas_usach_cl/_layouts/15/guestaccess.aspx?docid=1dd35e4630e9545648d177e04de309719&authkey=AThpHpUOLxYenNZQSr2zDZw
 
 ## Words borradores
 

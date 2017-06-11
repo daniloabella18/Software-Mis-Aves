@@ -62,18 +62,18 @@ include('view/head.php');
                               <h4 class="title">Agregar Ave</h4>
                           </div>
                           <div class="content">
-                              <form>
+                              <form Name ="form1" Method ="POST" ACTION = "send.php">
                                   <div class="row">
                                       <div class="col-md-6">
                                           <div class="form-group">
                                               <label>Anillo</label>
-                                              <input type="text" class="form-control" placeholder="Id ave" >
+                                              <input type="text" class="form-control" placeholder="Id-ave" id="ave" name="anillo" >
                                           </div>
                                       </div>
                                       <div class="col-md-6">
                                           <div class="form-group">
                                               <label>Nombre</label>
-                                              <input type="text" class="form-control" placeholder="Nombre">
+                                              <input type="text" class="form-control" placeholder="Nombre" name="nombre">
                                           </div>
                                       </div>
                                   </div>
@@ -135,8 +135,6 @@ include('view/head.php');
 
                                       </div>
                                       <div class="col-md-4">
-
-
                                       <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
                                                                               <div class="clearfix"></div>
                                       </div>

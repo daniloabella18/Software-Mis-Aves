@@ -7,7 +7,7 @@ if($_SESSION["loggedin"] != true) {
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="utf-8" />
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
@@ -40,23 +40,12 @@ if($_SESSION["loggedin"] != true) {
 
 </head>
 <body>
-
 <div class="wrapper">
     <div class="sidebar" data-color="dark" data-image="assets/img/sidebar-6.jpg">
-
-    <!--
-
-        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
-        Tip 2: you can also add an image using data-image tag
-
-    -->
-
     	<div class="sidebar-wrapper">
             <div class="logo">
-
                 <a href="http://xvideos.com" class="simple-text">
 									<img class="data-image" src="assets/img/logo.png" alt="logo" width="50">
-
                     Mis aves
                 </a>
             </div>
@@ -101,7 +90,9 @@ if($_SESSION["loggedin"] != true) {
 
         <div class="content">
             <div class="container-fluid">
-<h1 class="title">Hola </h1>
+								<h1 class="title">Hola <?= $_SESSION['username'] ?>  </h1>
+
+								<p> Su rut es <?= $_SESSION['rut'] ?> y su cargo es <?= $_SESSION['cargo'] ?>
               </div>
             </div>
         </div>

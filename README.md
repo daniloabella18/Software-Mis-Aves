@@ -70,3 +70,8 @@ Software para el control de aves y cetreros "Mis aves"
 ## Words borradores
 
 1. https://usachcl-my.sharepoint.com/personal/sergio_salinas_usach_cl/_layouts/15/guestaccess.aspx?docid=1e5c5ed9484df40148f8d91dfd022100b&authkey=AVE-YiVfKht7to_bg7WXTaM
+
+## Links varios
+
+Sesión de usuario PHP
+1. http://velozityweb.com/blog/php/login-de-usuarios-y-creacion-de-sesiones-con-php-y-mysql/#sthash.N2IZkiMz.dpbs

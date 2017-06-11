@@ -16,7 +16,7 @@
 <form action="checklogin.php" method="post" >
 
 <label>Nombre Usuario:</label><br>
-<input name="username" type="text" id="username" required>
+<input name="rut" type="text" id="rut" required>
 <br><br>
 
 <label>Password:</label><br>
@@ -27,10 +27,6 @@
 
 </form>
 <hr />
-
-<footer>
- &copy;2016 <a href="http://www.VelozityWeb.com">www.VelozityWeb.com</a>
-</footer>
 
  </body>
 </html>

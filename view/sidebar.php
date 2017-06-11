@@ -1,7 +1,7 @@
 <div class="sidebar" data-color="dark" data-image="assets/img/sidebar-6.jpg">
   <div class="sidebar-wrapper">
         <div class="logo">
-            <a href="http://xvideos.com" class="simple-text">
+            <a href="index.php" class="simple-text">
               <img class="data-image" src="assets/img/logo.png" alt="logo" width="50">
                 Mis aves
             </a>

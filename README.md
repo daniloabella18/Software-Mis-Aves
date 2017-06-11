@@ -3,54 +3,9 @@ Software para el control de aves y cetreros "Mis aves"
 
 ## TODO
 
-### Entidades externas
-
-1. Jefe D
-2. Cetrero S
-
-### Almacenamiento
-
-1. Usuario S
-2. Cargo D
-3. Turno S
-4. Especie D
-5. Estado S
-6. Tipo_Comida D
-7. Región S
-8. Comuna D
-9. Rubro S
-10. Ave D
-11. Destino S
-12. Control D
-13. Controil_comida S
-14. Cliente D
-15. Sede S
-16. Cargo D
-
-### Procesos
-1. Control de acceso S
-2. Geestión de usuario D
-3. Gestión Cliente S
-4. Administración Ave D
-5. Mantenedor de tablas básicas S
-6. Generación de reportes D
-
-### Procesos control
-
-1. Registro Control D
-2. Registro Nota S
-3. Asignar Comida D
-4. Asignar Destino S
-
-### Procesos mantención tablas básicas
-
-1. Mantención Cargo S
-2. Mantención Rubro D
-3. Mantención Comuna S
-4. Mantención Región D
-5. Mantención Tipo_ Comida S
-6. Mantención Estado D
-7. Mantención Especie S
+  - crear login
+  - agregar reportes
+  - hacer huea de reportes
 
 ### Procesos generación reportes
 
@@ -62,6 +17,7 @@ Software para el control de aves y cetreros "Mis aves"
  1. https://www.overleaf.com/8996848yfqzxnfhtfzq
  2. https://www.overleaf.com/9440661cjgsnfpzbfjm#/34163911/
  3. https://www.overleaf.com/9756288dzzrngjrzckf
+ 4. https://www.overleaf.com/9941964gqyjfschbbbg
 
 ## Presentaciones
 
@@ -75,3 +31,6 @@ Software para el control de aves y cetreros "Mis aves"
 
 Sesión de usuario PHP
 1. http://velozityweb.com/blog/php/login-de-usuarios-y-creacion-de-sesiones-con-php-y-mysql/#sthash.N2IZkiMz.dpbs
+
+login
+2. https://codepen.io/colorlib/pen/rxddKy

@@ -23,7 +23,7 @@
             </li>
             <li>
                 <a href="ave.php">
-                  <i class="fa fa-paw" aria-hidden="true"></i>
+                  <i class="fa fa-user-o" aria-hidden="true"></i>
                     <p>Usuario</p>
                 </a>
             </li>

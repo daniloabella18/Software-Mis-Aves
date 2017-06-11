@@ -1,14 +1,6 @@
 <?php
 session_start();
-?>
-
-<?php
-
-$host_db = "localhost";
-$user_db = "root";
-$pass_db = "";
-$db_name = "mis_aves";
-
+require_once("db_const.php");
 
 $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
 

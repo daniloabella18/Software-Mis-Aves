@@ -119,7 +119,7 @@
         <input type="password" placeholder="password"  name="password"/>
         <input type="text" placeholder="rut" name="rut"/>
         <button>create</button>
-        <p class="message">Already registered? <a href="#">Sign In</a></p>
+
       </form>
       <form action="checklogin.php" class="login-form"  method="post">
         <input type="text" placeholder="rut" name="rut"/>

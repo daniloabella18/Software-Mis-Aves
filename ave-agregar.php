@@ -82,12 +82,12 @@ include('view/head.php');
                                           <div class="form-group">
                                               <label>Estado</label>
                                                 <div class="form-group">
-                                                <select class="form-control" id="estado">
+                                                <select class="form-control" name="estado">
                                                   <?php
                                                   $sql = " SELECT * FROM estado ";
                                                   $result = $conexion->query($sql);
                                                   while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                                                    echo '  <option>';
+                                                    echo '<option value="'.$row['Est_id'].'">';
                                                     echo $row['Est_descrip'] ;
                                                     echo "</option>";
                                                   }
@@ -99,7 +99,7 @@ include('view/head.php');
                                       <div class="col-md-6">
                                           <div class="form-group">
                                               <label>Fecha nacimiento</label>
-                                              <input type="text" class="form-control" placeholder="DD/MM/AAAA">
+                                              <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="fecha">
                                           </div>
                                       </div>
                                   </div>
@@ -108,12 +108,12 @@ include('view/head.php');
                                       <div class="col-md-12">
                                           <div class="form-group">
                                               <label>Especie</label>
-                                                    <select class="form-control" id="especie">
+                                                    <select class="form-control" name="especie">
                                                       <?php
                                                       $sql = " SELECT * FROM especie ";
                                                       $result = $conexion->query($sql);
                                                       while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                                                        echo '  <option>';
+                                                        echo ' <option value="'.$row['Esp_id'].'">';
                                                         echo $row['Esp_nombre'] ;
                                                         echo "</option>";
                                                       }
@@ -127,9 +127,9 @@ include('view/head.php');
                                       <div class="col-md-4">
                                           <div class="form-group">
                                               <label>Genero</label>
-                                              <select class="form-control" id="genero">
-                                                <option>Macho</option>
-                                                <option>Hembra</option>
+                                              <select class="form-control" name="genero">
+                                                <option value = "M">Macho</option>
+                                                <option value = "H">Hembra</option>
                                               </select>
                                           </div>
 

@@ -16,6 +16,7 @@ include('view/head.php');
 	<?php
 	include('view/sidebar.php');
 	?>
+
     <div class="main-panel">
         <nav class="navbar navbar-default navbar-fixed">
             <div class="container-fluid">

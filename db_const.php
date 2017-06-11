@@ -1,7 +1,7 @@
 <?php
 	# mysql db constants DB_HOST, DB_USER, DB_PASS, DB_NAME
-	const DB_HOST = 'localhost';
-	const DB_USER = 'root';
-	const DB_PASS = '';
-	const DB_NAME = 'mis_aves';
+	$host_db = "localhost";
+	$user_db = "root";
+	$pass_db = "";
+	$db_name = "mis_aves";
 ?>

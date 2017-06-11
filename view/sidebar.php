@@ -17,8 +17,14 @@
             <!-- <li class="active"> -->
             <li>
                 <a href="ave.php">
-                    <i class="pe-7s-graph"></i>
+                  <i class="fa fa-eye" aria-hidden="true"></i>
                     <p>Ave</p>
+                </a>
+            </li>
+            <li>
+                <a href="ave.php">
+                  <i class="fa fa-paw" aria-hidden="true"></i>
+                    <p>Usuario</p>
                 </a>
             </li>
         </ul>

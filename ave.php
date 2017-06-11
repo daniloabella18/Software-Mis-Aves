@@ -29,11 +29,10 @@ include('view/head.php');
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="#">Dashboard</a>
               </div>
               <div class="collapse navbar-collapse">
                   <ul class="nav navbar-nav navbar-left">
-                    <li><a href="#" onclick="hideAddress()">Agregar</a></li>
+                    <li><a href="ave-agregar.php" onclick="hideAddress()">Agregar</a></li>
                     <li><a href="#"  onclick="hideAddress()" >Modificar</a></li>
                     <li><a href="#" onclick="showAddress()">Quitar</a></li>
                   </ul>
@@ -87,13 +86,9 @@ include('view/head.php');
                                     <tbody>
 
                                   <?php
-                                      $host_db = "localhost";
-                                      $user_db = "root";
-                                      $pass_db = "";
-                                      $db_name = "mis_aves";
 
+                                      require_once("db_const.php");
                                       $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
-
                                       if ($conexion->connect_error) {
                                        die("La conexion falló: " . $conexion->connect_error);
                                       }

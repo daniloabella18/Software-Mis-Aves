@@ -1,3 +1,11 @@
+<?php
+session_start();
+if($_SESSION["loggedin"] != true) {
+    echo("Access denied!");
+    exit();
+}
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -82,7 +90,7 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="#">
+                            <a href="logout.php">
                                 Log out
                             </a>
                         </li>

@@ -68,11 +68,13 @@ include('view/head.php');
     <!--  Notifications Plugin    -->
     <script src="assets/js/bootstrap-notify.js"></script>
 
-    <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 	<script src="assets/js/light-bootstrap-dashboard.js"></script>
+
+	<!--  datepickr Plugin -->
+	<script src="assets/js/datepickr.js"></script>
+
 
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project!
 	<script src="assets/js/demo.js"></script>

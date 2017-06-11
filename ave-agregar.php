@@ -19,6 +19,9 @@ include('view/head.php');
 ?>
 
 <body>
+
+
+
 <div class="wrapper">
 
   <?php
@@ -96,11 +99,11 @@ include('view/head.php');
                                               </div>
                                           </div>
                                       </div>
-                                      <div class="col-md-6">
-                                          <div class="form-group">
-                                              <label>Fecha nacimiento</label>
-                                              <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="fecha">
-                                          </div>
+                                      <div class="col-md-2">
+                                        <div class="form-group ">
+                                          <label>Fecha de nacimiento</label>
+                                          <input  id="datepickr" class="form-control" placeholder="DD/MM/YYYY" name="fecha">
+                                        </div>
                                       </div>
                                   </div>
 
@@ -149,6 +152,23 @@ include('view/head.php');
       </div>
 </div>
 
+
+        <p><input id="datepickr" placeholder="Nothin' special"></p>
+
+        <p><input class="datepickr" placeholder="Custom formatting"></p>
+
+        <p><input id="minAndMax" placeholder="Min and max date options"></p>
+
+        <p>
+            <span class="calendar-icon"></span>
+            <input id="calendar-input" placeholder="Click on my fancy icon">
+        </p>
+
+        <p><input title="parseMe" value="January 1, 3000" placeholder="Welcome to the world of tomorrow!"></p>
+
+        <p><input id="someFrench" class="sil-vous-plait" placeholder="En francais"></p>
+
+
 </body>
 
     <!--   Core JS Files   -->
@@ -167,26 +187,20 @@ include('view/head.php');
     <!--  Google Maps Plugin    -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-    <script>
-    $(document).ready(function() {
-        $(".addr").hide();
-    } );
 
-    function showAddress(){
-        $(".addr").show();
-    }
-    function hideAddress(){
-        $(".addr").hide();
-    }
 
-    function deleteThis(obj){
-    	$(obj).closest('tr').remove();
-    }
-    </script>
 
     <!-- ight Bootstrap Table Core javascript and methods for Demo purpose -->
 	  <script src="assets/js/light-bootstrap-dashboard.js"></script>
 
+    <!--  Calendario -->
+  	<script src="assets/js/datepickr.js"></script>
+
+    <script>
+        // Custom date format
+        datepickr('#datepickr', { dateFormat: 'd/m/Y'});
+
+    </script>
 
 
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project!

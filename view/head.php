@@ -12,6 +12,9 @@
     <!-- Bootstrap core CSS     -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 
+    <!-- calendario    -->
+    <link href="assets/css/datepickr.css" rel="stylesheet" />
+
     <!-- Animation library for notifications   -->
     <link href="assets/css/animate.min.css" rel="stylesheet"/>
 

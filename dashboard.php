@@ -1,83 +1,56 @@
-<?php
-session_start();
-if($_SESSION["loggedin"] != true) {
-    echo("Access denied!");
-    exit();
-}
-?>
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="assets/css/materialize.min.css"  media="screen,projection"/>
 
-<!doctype html>
-<html lang="es">
-<?php
-include('view/head.php');
-?>
-<body>
-<div class="wrapper">
-	<?php
-	include('view/sidebar.php');
-	?>
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
 
-    <div class="main-panel">
-        <nav class="navbar navbar-default navbar-fixed">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">Dashboard</a>
-                </div>
-                <div class="collapse navbar-collapse">
+    <body>
 
+      <!-- Dropdown Structure -->
+      <ul id="dropdown1" class="dropdown-content">
+        <li><a href="#!">one</a></li>
+        <li><a href="#!">two</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">three</a></li>
+      </ul>
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#!" class="brand-logo">Logo</a>
+          <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Aves<i class="material-icons right">arrow_drop_down</i></a></li>
+          </ul>
+          <ul class="side-nav" id="mobile-demo">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Aves<i class="material-icons right">arrow_drop_down</i></a></li>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="logout.php">
-                                Log out
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <div class="content">
-            <div class="container-fluid">
-								<h1 class="title">Hola <?= $_SESSION['username'] ?>  </h1>
-
-								<p> Su rut es <?= $_SESSION['rut'] ?> y su cargo es <?= $_SESSION['cargo'] ?>
-              </div>
-            </div>
+          </ul>
         </div>
-    </div>
+      </nav>
 
-</body>
+      <div class="container">
+
+      </div>
 
 
-<?php
-include('view/foot.php');
-?>
-
-	<!-- Light Bootstrap Table DEMO methods, don't include it in your project!
-	<script src="assets/js/demo.js"></script>
-
-	<script type="text/javascript">
-    	$(document).ready(function(){
-
-        	demo.initChartist();
-
-        	$.notify({
-            	icon: 'pe-7s-star',
-            	message: "Bienvenido a mis aves."
-
-            },{
-                type: 'info',
-                timer: 4000
-            });
-
-    	});
-	</script>
--->
-</html>
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="assets/js/materialize.min.js"></script>
+      <script>
+        $( document ).ready(function(){
+          // Initialize collapse button
+          $(".button-collapse").sideNav();
+          // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+//          $('.collapsible').collapsible();
+          $(".dropdown-button").dropdown({
+              hover: false
+          });
+        });
+      </script>
+    </body>
+  </html>

@@ -1,5 +1,14 @@
 <?php
- session_start();
+  session_start();
+  if($_SESSION["loggedin"] != true) {
+      echo("Access denied!");
+      exit();
+  }
+  require_once("db_const.php");
+  $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
+  if ($conexion->connect_error) {
+   die("La conexion falló: " . $conexion->connect_error);
+  }
 include 'layouts/head.php';
 ?>
 
@@ -40,53 +49,63 @@ include 'layouts/head.php';
       <div class="card card-block">
                 <h4 class="card-title">Registrar Control</h4>
                 <p class="card-text">Rellene los datos para registar el control de un ave, si desea modificar un control seleccione uno de los de abajo, controles de otros días no pueden ser modificados</p>
-        <form>
-
-
-            <!--Second row-->
-            <div class="row">
-                <!--First column-->
-                <div class="col-md-12">
-
-                    <div class="md-form">
-                        <textarea type="text" id="form76" class="md-textarea"></textarea>
-                        <label for="form76">Basic textarea</label>
-                    </div>
-
-                </div>
-            </div>
-            <!--/.Second row-->
-
+        <form  Name ="form1" Method ="POST" ACTION = "send.php">
             <!--Third row-->
             <div class="row">
 
                 <!--First column-->
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="md-form">
-                        <input type="text" id="form41" class="form-control">
-                        <label for="form41" class="">Example label</label>
+                        <input type="text" id="form41" class="form-control" name="anillo">
+                        <label for="form41" class="">Anillo</label>
                     </div>
                 </div>
 
                 <!--Second column-->
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="md-form">
-                        <input type="text" id="form51" class="form-control">
-                        <label for="form51" class="">Example label</label>
+                        <input type="text" id="form51" class="form-control" name="ave">
+                        <label for="form51" class="ave">Ave</label>
                     </div>
                 </div>
 
                 <!--Third column-->
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="md-form">
-                        <input type="text" id="form61" class="form-control">
-                        <label for="form61" class="">Example label</label>
+                        <input type="text" id="form61" class="form-control" name="peso">
+                        <label for="form61" class="">Peso</label>
                     </div>
                 </div>
-
+                <!--Third column-->
+                <div class="col-md-3">
+                  <div class="md-form">
+                  <select class="mdb-select" name="caperuza">
+                    <option value="" disabled selected></option>
+                    <option value="c">Con</option>
+                    <option value="s">Sin</option>
+                  </select>
+                  <label for="form61" >Caperuza</label>
+                  </div>
+                </div>
             </div>
             <!--/.Third row-->
+
+            <div class="row">
+              <!--Textarea with icon prefix-->
+              <div class="col-md-12">
+                <div class="md-form">
+                    <i class="fa fa-pencil prefix"></i>
+                    <textarea type="text" id="form8" class="md-textarea" name="observacion"></textarea>
+                    <label for="form8">Observación</label>
+                </div>
+              </div>
+            </div>
+            <div class="md-form form-group">
+                <button type="submit" href="send.php" class="btn btn-primary btn-lg">Login</a>
+            </div>
         </form>
+
+
 
         </div>
 

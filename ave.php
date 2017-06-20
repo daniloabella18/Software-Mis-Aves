@@ -7,16 +7,16 @@ include 'layouts/head.php';
 
     <header>
       <?php include 'layouts/sidebar.php';?>
-        <!-- Navbar -->
-        <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
-            <!-- SideNav slide-out button -->
-            <div class="float-xs-left">
-                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
-            </div>
-            <!-- Breadcrumb-->
-            <div class="breadcrumb-dn mr-auto">
-                <p>Mis aves</p>
-            </div>
+      <!-- Navbar -->
+      <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
+          <!-- SideNav slide-out button -->
+          <div class="float-xs-left">
+              <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+          </div>
+          <!-- Breadcrumb-->
+          <div class="breadcrumb-dn mr-auto">
+              <p>Mis aves</p>
+          </div>
             <ul class="nav navbar-nav ml-auto flex-row">
               <li class="nav-item active">
                   <a class="nav-link">Registrar Control</a>
@@ -36,7 +36,7 @@ include 'layouts/head.php';
 
     <!--Main layout-->
     <main>
-    <div class="container-fluid">
+    <div class="container-fluid text-center">
       <div class="card card-block">
                 <h4 class="card-title">Registrar Control</h4>
                 <p class="card-text">Rellene los datos para registar el control de un ave, si desea modificar un control seleccione uno de los de abajo, controles de otros días no pueden ser modificados</p>
@@ -164,8 +164,7 @@ include 'layouts/head.php';
         </div>
     </main>
     <!--/Main layout-->
-
-
+    <?php include 'layouts/footer.php';?>
 </body>
 
 </html>

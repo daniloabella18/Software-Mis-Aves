@@ -6,7 +6,7 @@ include 'layouts/head.php';
 <body class="fixed-sn pink-skin bg-skin-lp">
 
     <header>
-      <?php include 'layouts/sidebar.php';?>
+        <?php include 'layouts/sidebar.php';?>
         <!-- Navbar -->
         <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
             <!-- SideNav slide-out button -->
@@ -21,7 +21,7 @@ include 'layouts/head.php';
                 <li class="nav-item">
                     <a  href="logout.php" class="nav-link"><i class="fa fa-user"></i> <span class="hidden-sm-down">Log out</span></a>
                 </li>
-                </li>
+
             </ul>
         </nav>
         <!-- /.Navbar -->

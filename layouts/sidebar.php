@@ -5,7 +5,7 @@
     <!-- Logo -->
     <li>
         <div class="logo-wrapper waves-light">
-            <a href="#"><img src="assets/img/logo.png" class="flex-center"></a>
+            <a href="dashboard.php"><img src="assets/img/logo.png" class="flex-center"></a>
         </div>
     </li>
     <!--/. Logo -->
@@ -24,12 +24,12 @@
     <!-- Side navigation links -->
     <li>
         <ul class="collapsible collapsible-accordion">
-            <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-chevron-right"></i> Aves<i class="fa fa-angle-down rotate-icon"></i></a>
+            <li><a  class="collapsible-header waves-effect arrow-r"><i class="fa fa-chevron-right"></i> Aves<i class="fa fa-angle-down rotate-icon"></i></a>
                 <div class="collapsible-body">
                     <ul>
                         <li><a href="#" class="waves-effect">Administrar aves</a>
                         </li>
-                        <li><a href="#" class="waves-effect">Control ave</a>
+                        <li><a href="ave.php" class="waves-effect">Control ave</a>
                           <div class="collapsible-body">
                               <ul>
                                   <li><a href="#" class="waves-effect">Administrar aves</a>

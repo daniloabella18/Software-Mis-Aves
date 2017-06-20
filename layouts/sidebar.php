@@ -27,9 +27,9 @@
             <li><a  class="collapsible-header waves-effect arrow-r"><i class="fa fa-chevron-right"></i> Aves<i class="fa fa-angle-down rotate-icon"></i></a>
                 <div class="collapsible-body">
                     <ul>
-                        <li><a href="#" class="waves-effect">Administrar aves</a>
+                        <li><a href="adminave.php" class="waves-effect">Administrar aves</a>
                         </li>
-                        <li><a href="ave.php" class="waves-effect">Control ave</a>
+                        <li><a href="controlave.php" class="waves-effect">Control ave</a>
                           <div class="collapsible-body">
                               <ul>
                                   <li><a href="#" class="waves-effect">Administrar aves</a>

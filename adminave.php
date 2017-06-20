@@ -39,6 +39,9 @@ include 'layouts/head.php';
 
     <!--Main layout-->
     <main>
+
+
+
     <div class="container-fluid text-center">
       <div class="card card-block">
                 <h4 class="card-title">Administrar ave</h4>
@@ -54,9 +57,7 @@ include 'layouts/head.php';
             $genero =  $_POST['genero'];
             $sql = "INSERT INTO ave(Ave_anillo, Ave_nombre, Ave_estado, Ave_fecha_nac, Ave_especie, Ave_genero) VALUES ('".$anillo."', '".$ave."', '".$estado."' ,'".$fechanac."', '".$especie."', '".$genero."')";
             $result = $conexion->query($sql);
-            echo "<script> $(document).ready(function() {
-                toastr.success('Ave  agregada correctamente);
-             }); </script>";
+            echo "";
           }
         ?>
         <form Method ="POST" ACTION = "">
@@ -195,6 +196,7 @@ include 'layouts/head.php';
     </main>
     <!--/Main layout-->
     <?php include 'layouts/footer.php';?>
+     
 </body>
 
 </html>

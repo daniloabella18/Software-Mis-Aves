@@ -18,10 +18,16 @@ include 'layouts/head.php';
                 <p>Mis aves</p>
             </div>
             <ul class="nav navbar-nav ml-auto flex-row">
+              <li class="nav-item">
+                  <a class="nav-link">Registrar Ave</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link">Registrar Nota</a>
+              </li>
                 <li class="nav-item">
                     <a  href="logout.php" class="nav-link"><i class="fa fa-user"></i> <span class="hidden-sm-down">Log out</span></a>
                 </li>
-                </li>
+
             </ul>
         </nav>
         <!-- /.Navbar -->

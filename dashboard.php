@@ -31,7 +31,7 @@ include 'layouts/head.php';
     <!--Main layout-->
     <main>
         <div class="container-fluid text-center" style="height: 800px;">
-          <h1>Bienvenido cetrero</h1>
+          <h1 class="display-4">Bienvenido cetrero</h1>
           <p class="lead">Te haz logueado como  <?= $_SESSION['username']?> </p>
         </div>
     </main>

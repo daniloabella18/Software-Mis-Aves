@@ -61,45 +61,62 @@ include 'layouts/head.php';
         <br/>
         <form action="" method="post">
 
-        <?php
-        if ( isset( $_POST['modificar'] ) )
-          {
-              echo 'PICO';
+        <?php/*
+        if (isset( $_POST['modificar'])) {
+              $count = 1;
+              echo '<br>';
+              foreach ($_POST['data'] as $key){
+                if(isset($_POST[2])){
+                  print $count;
+                  print $key['ave_anillo'];
+                  print $key['ave_nombre'];
+                  print $key['est_descrip'];
+                  print $key['Ave_fecha_nac'];
+                  print $key['esp_nombre'];
+                  print $key['ave_genero'];
+                  echo "<br>";
+                  $count = $count + 1;
+               }
+           }
           }
+          */
         if (isset($_GET['search'])) {
              $sql = "SELECT A.ave_anillo, A.ave_nombre, B.est_descrip, A.Ave_fecha_nac, E.esp_nombre, A.ave_genero FROM ave A, estado B, especie E WHERE A.ave_estado = B.est_id and A.ave_especie = E.esp_id";
              $result = $conexion->query($sql);
-             $count = 0;
+             $count = 1;
+             echo '<div class="table-responsive">
+                  <table class="table ">
+             <thead>
+             <th class="addr" id="table_id" ></th>
+             <th>Anillo</th>
+             <th>Name</th>
+             <th>Estado</th>
+             <th>Fecha nacimiento</th>
+             <th>Especie</th>
+             <th>Genero</th>
+             </thead>
+             <tbody>';
              while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                 if($_GET['search'] == $row['ave_anillo'] or $_GET['search'] == $row['ave_nombre']){
-                   echo '<div class="table-responsive">
-                        <table class="table ">
-                   <thead>
-                   <th class="addr" id="table_id" ></th>
-                   <th>Anillo</th>
-                   <th>Name</th>
-                   <th>Estado</th>
-                   <th>Fecha nacimiento</th>
-                   <th>Especie</th>
-                   <th>Genero</th>
-                   </thead>
-                   <tbody>';
+
+
                  echo '<tr>';
-                 echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox1" name="'.$count.'"><label for="checkbox1"></label></fieldset></td>';
-                 echo '<td ><input type="hidden" name="data[0][ave_anillo]" value="'.$row['ave_anillo'].'">'.$row['ave_anillo'].'</td>';
-                 echo '<td><input type="hidden" name="data['.$count.'][]" value="'.$row['ave_nombre'].'">'.$row['ave_nombre'].'</td>';
-                 echo '<td><input type="hidden" name="data['.$count.'][]" value="'.$row['est_descrip'].'">'.$row['est_descrip'].'</td>';
-                 echo '<td><input type="hidden" name="data['.$count.'][]" value="'.$row['Ave_fecha_nac'].'">'.$row['Ave_fecha_nac'].'</td>';
-                 echo '<td><input type="hidden" name="data['.$count.'][]" value="'.$row['esp_nombre'].'">'.$row['esp_nombre'].'</td>';
-                 echo '<td><input type="hidden" name="data['.$count.'][]" value="'.$row['ave_genero'].'">'.$row['ave_genero'].'</td>';
+                 echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox'.$count.'" name="'.$count.'"><label for="checkbox'.$count.'"></label></fieldset></td>';
+                 echo '<td ><input type="hidden" name="data['.$count.'][ave_anillo]" value="'.$row['ave_anillo'].'">'.$row['ave_anillo'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][ave_nombre]" value="'.$row['ave_nombre'].'">'.$row['ave_nombre'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][est_descrip]" value="'.$row['est_descrip'].'">'.$row['est_descrip'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][Ave_fecha_nac]" value="'.$row['Ave_fecha_nac'].'">'.$row['Ave_fecha_nac'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][esp_nombre]" value="'.$row['esp_nombre'].'">'.$row['esp_nombre'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][ave_genero]" value="'.$row['ave_genero'].'">'.$row['ave_genero'].'</td>';
                  echo "</tr>";
-                 echo '
-                </tbody>
-            </table>
-            </div>';
+
               $count= $count + 1;
-               }
+
              }
+             echo '
+            </tbody>
+        </table>
+        </div>';
+             echo '<input type="hidden" name="count" value="'.$count.'">';
              echo '<button type="submit"  name="modificar" class="btn btn-primary btn-lg">Modificar</button>';
 
              }

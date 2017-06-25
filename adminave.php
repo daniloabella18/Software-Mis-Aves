@@ -40,9 +40,6 @@ include 'layouts/head.php';
 
     <!--Main layout-->
     <main>
-
-
-
     <div class="container-fluid text-center">
 
       <div class="card card-block">
@@ -149,7 +146,7 @@ include 'layouts/head.php';
             $fechanac =  $_POST['fechanac'];
             $especie =  $_POST['especie'];
             $genero =  $_POST['genero'];
-            $sql = "INSERT OR REPLACE INTO ave(Ave_anillo, Ave_nombre, Ave_estado, Ave_fecha_nac, Ave_especie, Ave_genero) VALUES ('".$anillo."', '".$ave."', '".$estado."' ,'".$fechanac."', '".$especie."', '".$genero."')";
+            $sql = "REPLACE INTO ave(Ave_anillo, Ave_nombre, Ave_estado, Ave_fecha_nac, Ave_especie, Ave_genero) VALUES ('".$anillo."', '".$ave."', '".$estado."' ,'".$fechanac."', '".$especie."', '".$genero."')";
             $result = $conexion->query($sql);
             echo "Datos actualizados correctamente";
           }
@@ -173,7 +170,7 @@ include 'layouts/head.php';
             }
         }
         ?>
-        <form Method ="POST" ACTION = "">
+        <form Method ="POST" ACTION = "adminave.php">
             <!--Third row-->
             <div class="row">
 
@@ -198,20 +195,13 @@ include 'layouts/head.php';
                     <div class="md-form">
                       <select class="select-wrapper mdb-select" name="estado">
                         <?php
-                        $sql = " SELECT * FROM estado ";
+                        $sql = " SELECT E.est_id, E.Est_descrip FROM estado E ORDER BY  E.Est_descrip = '".$estado."' desc ";
                         $result = $conexion->query($sql);
-                        if($especie !=''){
-                          echo ' <option value="'.$row['Est_descrip'].'">';
-                          echo $estado;
-                          echo "</option>";
-                        }
                         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                            if ($estado != $row['Est_descrip']) {
                             echo '<option value="'.$row['Est_id'].'">';
                             echo $row['Est_descrip'] ;
                             echo "</option>";
                           }
-                        }
                          ?>
                       </select>
                       <label>Estado</label>
@@ -227,19 +217,12 @@ include 'layouts/head.php';
                 <div class="md-form">
                   <select class="select-wrapper mdb-select" name="especie">
                     <?php
-                       $sql = " SELECT * FROM especie ";
+                       $sql = " SELECT E.Esp_id, E.Esp_nombre FROM especie E ORDER BY  E.Esp_nombre = '".$especie."' desc ";
                        $result = $conexion->query($sql);
-                       if($especie !=''){
-                         echo ' <option value="'.$row['Esp_id'].'">';
-                         echo $especie;
-                         echo "</option>";
-                       }
                        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                         if ($especie != $row['Esp_nombre']) {
                            echo ' <option value="'.$row['Esp_id'].'">';
                            echo $row['Esp_nombre'] ;
                            echo "</option>";
-                         }
                        }
                       ?>
                   </select>

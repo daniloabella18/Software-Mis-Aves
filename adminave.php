@@ -149,10 +149,29 @@ include 'layouts/head.php';
             $fechanac =  $_POST['fechanac'];
             $especie =  $_POST['especie'];
             $genero =  $_POST['genero'];
-            $sql = "INSERT INTO ave(Ave_anillo, Ave_nombre, Ave_estado, Ave_fecha_nac, Ave_especie, Ave_genero) VALUES ('".$anillo."', '".$ave."', '".$estado."' ,'".$fechanac."', '".$especie."', '".$genero."')";
+            $sql = "INSERT OR REPLACE INTO ave(Ave_anillo, Ave_nombre, Ave_estado, Ave_fecha_nac, Ave_especie, Ave_genero) VALUES ('".$anillo."', '".$ave."', '".$estado."' ,'".$fechanac."', '".$especie."', '".$genero."')";
             $result = $conexion->query($sql);
-            echo "";
+            echo "Datos actualizados correctamente";
           }
+
+            $anillo = '';
+            $nombre = '';
+            $estado = '';
+            $fechanac =  '';
+            $especie =  '';
+            $genero = '';
+            if (isset($_POST['modificar'])) {
+              foreach ($_POST['data'] as $key){
+                if(isset($_POST[1])){
+                  $anillo = $key['ave_anillo'];
+                  $nombre = $key['ave_nombre'];
+                  $estado = $key['est_descrip'];
+                  $fechanac =  $key['Ave_fecha_nac'];
+                  $especie =  $key['esp_nombre'];
+                  $genero = $key['ave_genero'];
+              }
+            }
+        }
         ?>
         <form Method ="POST" ACTION = "">
             <!--Third row-->
@@ -161,7 +180,7 @@ include 'layouts/head.php';
                 <!--First column-->
                 <div class="col-md-4 m-b-4">
                     <div class="md-form">
-                        <input type="text" id="form41" class="form-control" name="anillo">
+                        <input type="text" id="form41" class="form-control" name="anillo" value="<?php echo $anillo ?>" >
                         <label for="form41" class="">Anillo</label>
                     </div>
                 </div>
@@ -169,7 +188,7 @@ include 'layouts/head.php';
                 <!--Second column-->
                 <div class="col-md-4 m-b-4">
                     <div class="md-form">
-                        <input type="text" id="form51" class="form-control" name="ave">
+                        <input type="text" id="form51" class="form-control" name="ave" value="<?php echo $nombre ?>" >
                         <label for="form51" class="ave">Ave</label>
                     </div>
                 </div>
@@ -181,10 +200,17 @@ include 'layouts/head.php';
                         <?php
                         $sql = " SELECT * FROM estado ";
                         $result = $conexion->query($sql);
-                        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                          echo '<option value="'.$row['Est_id'].'">';
-                          echo $row['Est_descrip'] ;
+                        if($especie !=''){
+                          echo ' <option value="'.$row['Est_descrip'].'">';
+                          echo $estado;
                           echo "</option>";
+                        }
+                        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                            if ($estado != $row['Est_descrip']) {
+                            echo '<option value="'.$row['Est_id'].'">';
+                            echo $row['Est_descrip'] ;
+                            echo "</option>";
+                          }
                         }
                          ?>
                       </select>
@@ -203,10 +229,17 @@ include 'layouts/head.php';
                     <?php
                        $sql = " SELECT * FROM especie ";
                        $result = $conexion->query($sql);
-                       while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                       if($especie !=''){
                          echo ' <option value="'.$row['Esp_id'].'">';
-                         echo $row['Esp_nombre'] ;
+                         echo $especie;
                          echo "</option>";
+                       }
+                       while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                         if ($especie != $row['Esp_nombre']) {
+                           echo ' <option value="'.$row['Esp_id'].'">';
+                           echo $row['Esp_nombre'] ;
+                           echo "</option>";
+                         }
                        }
                       ?>
                   </select>
@@ -216,15 +249,22 @@ include 'layouts/head.php';
 
               <div class="col-md-4 m-b-4">
                   <div class="md-form">
-                      <input type="text" id="form51" class="form-control" name="fechanac">
+                      <input type="text" id="form51" class="form-control" name="fechanac"  value="<?php echo $fechanac ?>">
                       <label for="form51" class="">Fecha nacimiento</label>
                   </div>
               </div>
               <div class="col-md-4 m-b-4">
                 <div class="md-form">
                   <select class="select-wrapper mdb-select" name="genero">
-                    <option value = "M">Macho</option>
-                    <option value = "H">Hembra</option>
+                    <?php if ($genero == 'H') {
+                      echo '<option value = "H">Hembra</option>
+                      <option value = "M">Macho</option>';
+                    }else {
+                        echo '<option value = "M">Macho</option>
+                        <option value = "H">Hembra</option>';
+                      }
+                     ?>
+
                   </select>
                   <label>Genero</label>
                 </div>

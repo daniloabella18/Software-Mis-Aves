@@ -5,6 +5,7 @@
       exit();
   }
   require_once("db_const.php");
+
   $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
   if ($conexion->connect_error) {
    die("La conexion falló: " . $conexion->connect_error);
@@ -43,6 +44,60 @@ include 'layouts/head.php';
 
 
     <div class="container-fluid text-center">
+
+      <div class="card card-bloc">
+        <table class="table ">
+          <thead>
+            <th class="addr" id="table_id" ></th>
+            <th>Anillo</th>
+            <th>Name</th>
+            <th>Estado</th>
+            <th>Fecha nacimiento</th>
+            <th>Especie</th>
+            <th>Genero</th>
+            </thead>
+            <tbody>
+            <?php
+            $per_page = 10;
+            require_once("db_const.php");
+            $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
+            if ($conexion->connect_error) {
+             die("La conexion falló: " . $conexion->connect_error);
+            }
+            $sql = "SELECT A.ave_anillo, A.ave_nombre, B.est_descrip, A.Ave_fecha_nac, E.esp_nombre, A.ave_genero FROM ave A, estado B, especie E WHERE A.ave_estado = B.est_id and A.ave_especie = E.esp_id";
+            $result = $conexion->query($sql);
+            $count = mysqli_num_rows($result);
+            $pages = ceil($count/$per_page);
+            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+              echo '<tr>';
+              echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox1"><label for="checkbox1"></label></fieldset></td>';
+              echo "<td>".$row['ave_anillo']."</td>" ;
+              echo "<td>".$row['ave_nombre']."</td>" ;
+              echo "<td>".$row['est_descrip']."</td>" ;
+              echo "<td>".$row['Ave_fecha_nac']."</td>" ;
+              echo "<td>".$row['esp_nombre']."</td>" ;
+              echo "<td>".$row['ave_genero']."</td>" ;
+              echo "</tr>";
+            }
+            ?>
+            </tbody>
+        </table>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3 offset-md-3">
+
+            <button type="submit"  name="submit" class="btn btn-primary">Modificar</button>
+          </div>
+          <div class="col-md-3 offset-md-3">
+            <button type="submit"  name="submit" class="btn btn-primary">Quitar</button>
+            </div>
+          </div>
+          </div>
+    </div>
+
+    <br/>
+
+
       <div class="card card-block">
                 <h4 class="card-title">Administrar ave</h4>
                 <p class="card-text">Descripción</p>
@@ -145,58 +200,13 @@ include 'layouts/head.php';
 </br>
 
 
-            <div class="card card-bloc">
-              <table class="table ">
-                <thead>
-                  <th class="addr"  ></th>
-                  <th>Anillo</th>
-                  <th>Name</th>
-                  <th>Estado</th>
-                  <th>Fecha nacimiento</th>
-                  <th>Especie</th>
-                  <th>Genero</th>
-                  </thead>
-                  <tbody>
-                  <?php
-                  require_once("db_const.php");
-                  $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
-                  if ($conexion->connect_error) {
-                   die("La conexion falló: " . $conexion->connect_error);
-                  }
-                  $sql = "SELECT A.ave_anillo, A.ave_nombre, B.est_descrip, A.Ave_fecha_nac, E.esp_nombre, A.ave_genero FROM ave A, estado B, especie E WHERE A.ave_estado = B.est_id and A.ave_especie = E.esp_id";
-                  $result = $conexion->query($sql);
-                  while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                    echo '<tr>';
-                    echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox1"><label for="checkbox1"></label></fieldset></td>';
-                    echo "<td>".$row['ave_anillo']."</td>" ;
-                    echo "<td>".$row['ave_nombre']."</td>" ;
-                    echo "<td>".$row['est_descrip']."</td>" ;
-                    echo "<td>".$row['Ave_fecha_nac']."</td>" ;
-                    echo "<td>".$row['esp_nombre']."</td>" ;
-                    echo "<td>".$row['ave_genero']."</td>" ;
-                    echo "</tr>";
-                  }
-                  ?>
-                  </tbody>
-              </table>
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-3 offset-md-3">
 
-                  <button type="submit"  name="submit" class="btn btn-primary">Modificar</button>
-                </div>
-                <div class="col-md-3 offset-md-3">
-                  <button type="submit"  name="submit" class="btn btn-primary">Quitar</button>
-                  </div>
-                </div>
-                </div>
-          </div>
 
         </div>
     </main>
     <!--/Main layout-->
     <?php include 'layouts/footer.php';?>
-     
+
 </body>
 
 </html>

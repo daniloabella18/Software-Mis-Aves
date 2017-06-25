@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 
 <head>
     <!-- Required meta tags always come first -->
@@ -8,6 +9,11 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Mis aves</title>
     <!-- Font Awesome -->
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <!-- CSS -->
     <link href="assets/css/compiled.min.css" rel="stylesheet">
@@ -21,5 +27,5 @@
             background-attachment: fixed;
         }
     </style>
-    
+
 </head>

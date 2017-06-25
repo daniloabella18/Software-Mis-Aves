@@ -112,7 +112,7 @@
 </head>
 
 <body>
-  <div class="login-page">
+  <div class="login-page">1209y
     <div class="form">
       <form action="checklogin.php" class="register-form" method="post">
         <input type="text" placeholder="rut" name="rut" />

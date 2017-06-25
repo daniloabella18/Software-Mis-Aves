@@ -25,7 +25,7 @@ include 'layouts/head.php';
           </div>
           <!-- Breadcrumb-->
           <div class="breadcrumb-dn mr-auto">
-              <p>Mis aves</p>
+              <p>Administrar ave</p>
           </div>
             <ul class="nav navbar-nav ml-auto flex-row">
                 <li class="nav-item">
@@ -51,17 +51,20 @@ include 'layouts/head.php';
         <form action="" method="GET">
             <div class="row">
               <div class="col-md-4 offset-md-4" >
-                <div class="md-form">
-                  <label for="form2">Buscar</label>
-                  <input type="text" id="form2" class="form-control" name="search">
-                </div>
+                <div class="md-form input-group">
+                  <input type="search" class="form-control" placeholder="Anillo o Nombre del ave" name="search">
+                  <span class="input-group-btn">
+                      <button   type="submit" class="btn btn-primary btn-lg" type="button">Go!</button>
+                  </span>
+              </div>
               </div>
             </div>
             </form>
         <br/>
         <form action="" method="post">
 
-        <?php/*
+        <?php
+        /*
         if (isset( $_POST['modificar'])) {
               $count = 1;
               echo '<br>';
@@ -81,23 +84,30 @@ include 'layouts/head.php';
           }
           */
         if (isset($_GET['search'])) {
-             $sql = "SELECT A.ave_anillo, A.ave_nombre, B.est_descrip, A.Ave_fecha_nac, E.esp_nombre, A.ave_genero FROM ave A, estado B, especie E WHERE A.ave_estado = B.est_id and A.ave_especie = E.esp_id";
+             $sql = "SELECT A.ave_anillo, A.ave_nombre, B.est_descrip, A.Ave_fecha_nac, E.esp_nombre, A.ave_genero FROM ave A, estado B, especie E WHERE A.ave_estado = B.est_id and A.ave_especie = E.esp_id and (A.ave_anillo = '".$_GET['search']."' or A.ave_nombre = '".$_GET['search']."')";
              $result = $conexion->query($sql);
              $count = 1;
-             echo '<div class="table-responsive">
-                  <table class="table ">
-             <thead>
-             <th class="addr" id="table_id" ></th>
-             <th>Anillo</th>
-             <th>Name</th>
-             <th>Estado</th>
-             <th>Fecha nacimiento</th>
-             <th>Especie</th>
-             <th>Genero</th>
-             </thead>
-             <tbody>';
-             while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 
+            if(mysqli_num_rows($result) ==0){
+              echo 'El ave pedida no existe';
+            }else{
+
+
+                 echo '<div class="table-responsive">
+                      <table class="table ">
+                 <thead>
+                 <th class="addr" id="table_id" ></th>
+                 <th>Anillo</th>
+                 <th>Name</th>
+                 <th>Estado</th>
+                 <th>Fecha nacimiento</th>
+                 <th>Especie</th>
+                 <th>Genero</th>
+                 </thead>
+                 <tbody>';
+
+             while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+               //if($_GET['search'] == $row['ave_anillo'] or $_GET['search'] == $row['ave_nombre']){
 
                  echo '<tr>';
                  echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox'.$count.'" name="'.$count.'"><label for="checkbox'.$count.'"></label></fieldset></td>';
@@ -110,7 +120,7 @@ include 'layouts/head.php';
                  echo "</tr>";
 
               $count= $count + 1;
-
+              //}
              }
              echo '
             </tbody>
@@ -118,8 +128,8 @@ include 'layouts/head.php';
         </div>';
              echo '<input type="hidden" name="count" value="'.$count.'">';
              echo '<button type="submit"  name="modificar" class="btn btn-primary btn-lg">Modificar</button>';
-
-             }
+           }
+         }
             ?>
           </form>
       </div>

@@ -59,19 +59,21 @@ include 'layouts/head.php';
             </div>
             </form>
         <br/>
+        <form action="" method="post">
 
         <?php
+        if ( isset( $_POST['modificar'] ) )
+          {
+              echo 'PICO';
+          }
         if (isset($_GET['search'])) {
-             require_once("db_const.php");
-             $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
-             if ($conexion->connect_error) {
-              die("La conexion falló: " . $conexion->connect_error);
-             }
              $sql = "SELECT A.ave_anillo, A.ave_nombre, B.est_descrip, A.Ave_fecha_nac, E.esp_nombre, A.ave_genero FROM ave A, estado B, especie E WHERE A.ave_estado = B.est_id and A.ave_especie = E.esp_id";
              $result = $conexion->query($sql);
+             $count = 0;
              while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
                  if($_GET['search'] == $row['ave_anillo'] or $_GET['search'] == $row['ave_nombre']){
-                   echo '<table class="table ">
+                   echo '<div class="table-responsive">
+                        <table class="table ">
                    <thead>
                    <th class="addr" id="table_id" ></th>
                    <th>Anillo</th>
@@ -83,22 +85,26 @@ include 'layouts/head.php';
                    </thead>
                    <tbody>';
                  echo '<tr>';
-                 echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox1"><label for="checkbox1"></label></fieldset></td>';
-                 echo "<td>".$row['ave_anillo']."</td>" ;
-                 echo "<td>".$row['ave_nombre']."</td>" ;
-                 echo "<td>".$row['est_descrip']."</td>" ;
-                 echo "<td>".$row['Ave_fecha_nac']."</td>" ;
-                 echo "<td>".$row['esp_nombre']."</td>" ;
-                 echo "<td>".$row['ave_genero']."</td>" ;
+                 echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox1" name="'.$count.'"><label for="checkbox1"></label></fieldset></td>';
+                 echo '<td ><input type="hidden" name="data[0][ave_anillo]" value="'.$row['ave_anillo'].'">'.$row['ave_anillo'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][]" value="'.$row['ave_nombre'].'">'.$row['ave_nombre'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][]" value="'.$row['est_descrip'].'">'.$row['est_descrip'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][]" value="'.$row['Ave_fecha_nac'].'">'.$row['Ave_fecha_nac'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][]" value="'.$row['esp_nombre'].'">'.$row['esp_nombre'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][]" value="'.$row['ave_genero'].'">'.$row['ave_genero'].'</td>';
                  echo "</tr>";
                  echo '
                 </tbody>
-            </table>';
+            </table>
+            </div>';
+              $count= $count + 1;
                }
              }
+             echo '<button type="submit"  name="modificar" class="btn btn-primary btn-lg">Modificar</button>';
+
              }
             ?>
-
+          </form>
       </div>
 
     <br/>
@@ -202,13 +208,7 @@ include 'layouts/head.php';
             </div>
         </form>
         </div>
-
-</br>
-
-
-
-
-        </div>
+      </div>
     </main>
     <!--/Main layout-->
     <?php include 'layouts/footer.php';?>

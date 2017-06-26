@@ -58,7 +58,7 @@
             </div>
             </form>
         <br/>
-        <form action="" method="post">
+        <form action="adminave.php" method="post">
 
         <?php
 
@@ -283,6 +283,21 @@
         echo("Hubo un error al procesar la solicitud: " .$conexion->error);
       }else {
         echo '<script>$(document).ready(function () {toastr.success("Ave  agregada correctamente");});</script>';
+      }
+    }
+    if (isset($_POST['quitar'])) {
+      foreach ($_POST['data'] as $key){
+        if (!empty($key['checkbox'])) {
+            $anillo = $key['ave_anillo'];
+            break;
+        }
+      }
+      $sql = "DELETE FROM ave WHERE Ave_anillo= '".$anillo."'";
+      $result = $conexion->query($sql);
+      if(!$result){
+        echo("Hubo un error al procesar la solicitud: " .$conexion->error);
+      }else {
+        echo '<script>$(document).ready(function () {toastr.success("Ave quitada correctamente");});</script>';
       }
     }
     ?>

@@ -110,48 +110,61 @@ include '../layouts/head.php';
                 </div>
               </div>
             </div>
-            <div class="md-form form-group">
-                <button type="submit" href="send.php" class="btn btn-primary btn-lg">Login</a>
-            </div>
 
             <div class="row">
-
                 <!--First column-->
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="md-form">
-                        <input type="text" id="form41" class="form-control" name="anillo">
-                        <label for="form41" class="">Anillo</label>
+                      <div class="md-form">
+                        <select class="mdb-select" name="caperuza">
+                          <option value="hom">gorrion</option>
+                          <option value="met">metro</option>
+                        </select>
+                        <label for="form61" >Comida</label>
+                      </div>
+
                     </div>
                 </div>
 
                 <!--Second column-->
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="md-form">
-                        <input type="text" id="form51" class="form-control" name="ave">
-                        <label for="form51" class="ave">Ave</label>
+                        <input type="text" id="form51" class="form-control" name="cantidad">
+                        <label for="form51" class="ave">Cantidad</label>
                     </div>
                 </div>
 
-                <!--Third column-->
-                <div class="col-md-3">
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-primary">Agregar comida</button>
+
+                </div>
+              </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
                   <div class="md-form">
                     <select class="mdb-select" name="caperuza" id='cliente'>
                       <option value="hom">Homecenter</option>
                       <option value="met">metro</option>
                     </select>
-                    <label for="form61" >Caperuza</label>
+                    <label for="form41" class="">Comida</label>
                   </div>
                 </div>
 
                 <!--Third column-->
-                <div class="col-md-3">
+                <div class="col-md-8">
                   <div class="md-form">
                   <select class="mdb-select" id="sede">
                   </select>
-
+                  <label for="form61" >Sede</label>
                   </div>
                 </div>
-            </div>
+              </div>
+
+              <div class="md-form form-group">
+                  <button type="submit" href="send.php" class="btn btn-primary btn-lg">Login</a>
+              </div>
 
         </form>
 

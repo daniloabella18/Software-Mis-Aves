@@ -4,18 +4,18 @@
       die("No se tienen los permisos necesarios para acceder aquí");
       exit('0');
   }
-  require_once("db_const.php");
+  require_once("../db_const.php");
   $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
   if ($conexion->connect_error) {
    die("La conexion falló: " . $conexion->connect_error);
   }
-  include 'layouts/head.php';
+  include '../layouts/head.php';
 ?>
 
 <body class="fixed-sn pink-skin bg-skin-lp">
 
     <header>
-      <?php include 'layouts/sidebar.php';?>
+      <?php include '../layouts/sidebar.php';?>
       <!-- Navbar -->
       <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
           <!-- SideNav slide-out button -->
@@ -28,7 +28,7 @@
           </div>
             <ul class="nav navbar-nav ml-auto flex-row">
                 <li class="nav-item">
-                    <a  href="logout.php" class="nav-link"><i class="fa fa-user"></i> <span class="hidden-sm-down">Log out</span></a>
+                    <a  href="../logout.php" class="nav-link"><i class="fa fa-user"></i> <span class="hidden-sm-down">Log out</span></a>
                 </li>
             </ul>
         </nav>
@@ -197,7 +197,6 @@
                         <label for="form41" class="<?php if($anillo != ''){echo "disabled"; } ?>">Anillo</label>
                     </div>
                 </div>
-
                 <!--Second column-->
                 <div class="col-md-4 m-b-4">
                     <div class="md-form">
@@ -278,7 +277,7 @@
     </main>
     <!--/Main layout-->
 
-    <?php include 'layouts/footer.php';
+    <?php include '../layouts/footer.php';
     if (isset($_POST['submit'])) {
       if(!$result){
         echo("Hubo un error al procesar la solicitud: " .$conexion->error);

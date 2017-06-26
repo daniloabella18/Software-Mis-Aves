@@ -5,7 +5,7 @@
     <!-- Logo -->
     <li>
         <div class="logo-wrapper waves-light">
-            <a href="dashboard.php"><img src="assets/img/logo.png" class="flex-center"></a>
+            <a href="dashboard.php"><img src="../assets/img/logo.png" class="flex-center"></a>
         </div>
     </li>
     <!--/. Logo -->

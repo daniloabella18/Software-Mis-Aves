@@ -10,18 +10,17 @@
     <title>Mis aves</title>
     <!-- Font Awesome -->
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
 
 
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
     <!-- CSS -->
-    <link href="assets/css/compiled.min.css" rel="stylesheet">
+    <link href="../assets/css/compiled.min.css" rel="stylesheet">
 
 
 
     <style>
         .bg-skin-lp {
-            background-image: url('assets/img/img.jpg');
+            background-image: url('../assets/img/img.jpg');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center center;

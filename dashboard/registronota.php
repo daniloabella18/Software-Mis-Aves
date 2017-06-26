@@ -4,18 +4,18 @@
       echo("Access denied!");
       exit();
   }
-  require_once("db_const.php");
+  require_once("../db_const.php");
   $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
   if ($conexion->connect_error) {
    die("La conexion falló: " . $conexion->connect_error);
   }
-include 'layouts/head.php';
+include '../layouts/head.php';
 ?>
 
 <body class="fixed-sn pink-skin bg-skin-lp">
 
     <header>
-      <?php include 'layouts/sidebar.php';?>
+      <?php include '../layouts/sidebar.php';?>
       <!-- Navbar -->
       <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
           <!-- SideNav slide-out button -->
@@ -28,13 +28,13 @@ include 'layouts/head.php';
           </div>
             <ul class="nav navbar-nav ml-auto flex-row">
               <li class="nav-item ">
-                  <a class="nav-link">Registrar Control</a>
+                  <a href="controlave.php" class="nav-link">Registrar Control</a>
               </li>
-              <li class="nav-item">
-                  <a class="nav-link active">Registrar Nota</a>
+              <li class="nav-item active">
+                  <a class="nav-link">Registrar Nota</a>
               </li>
                 <li class="nav-item">
-                    <a  href="logout.php" class="nav-link"><i class="fa fa-user"></i> <span class="hidden-sm-down">Log out</span></a>
+                    <a  href="../logout.php" class="nav-link"><i class="fa fa-user"></i> <span class="hidden-sm-down">Log out</span></a>
                 </li>
 
             </ul>
@@ -183,7 +183,7 @@ include 'layouts/head.php';
         </div>
     </main>
     <!--/Main layout-->
-    <?php include 'layouts/footer.php';?>
+    <?php include '../layouts/footer.php';?>
 </body>
 
 </html>

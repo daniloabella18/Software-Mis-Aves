@@ -5,13 +5,13 @@ if(!isset($_SESSION["loggedin"])){
     die("No se tienen los permisos necesarios");
     exit('0');
 }
-include 'layouts/head.php';
+include '../layouts/head.php';
 ?>
 
 <body class="fixed-sn pink-skin bg-skin-lp">
 
     <header>
-        <?php include 'layouts/sidebar.php';?>
+        <?php include '../layouts/sidebar.php';?>
         <!-- Navbar -->
         <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
             <!-- SideNav slide-out button -->
@@ -24,7 +24,7 @@ include 'layouts/head.php';
             </div>
             <ul class="nav navbar-nav ml-auto flex-row">
                 <li class="nav-item">
-                    <a  href="logout.php" class="nav-link"><i class="fa fa-user"></i> <span class="hidden-sm-down">Log out</span></a>
+                    <a  href="../logout.php" class="nav-link"><i class="fa fa-user"></i> <span class="hidden-sm-down">Log out</span></a>
                 </li>
 
             </ul>
@@ -42,7 +42,7 @@ include 'layouts/head.php';
     </main>
     <!--/Main layout-->
 
-    <?php include 'layouts/footer.php';?>
+    <?php include '../layouts/footer.php';?>
 </body>
 
 </html>

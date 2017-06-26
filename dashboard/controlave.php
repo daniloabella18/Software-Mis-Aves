@@ -91,7 +91,7 @@ include '../layouts/head.php';
           if (isset($_GET['search'])) {
             //SELECT C.Con_id, A.Ave_anillo, A.Ave_nombre, C.Con_peso,C.Con_cape, U.usu_nombre, C.Con_fecha, T.Tur_descp, C.Con_obs  FROM control C, ave A, usuario U, turno T WHERE C.Con_Ave = A.Ave_anillo and C.Con_usu = U.usu_rut and C.Con_turno = T.Tur_cod
                $sql = "SELECT C.Con_id, A.Ave_anillo, A.Ave_nombre, C.Con_peso,C.Con_cape, U.usu_nombre, C.Con_fecha, T.Tur_descp, C.Con_obs  FROM control C, ave A, usuario U, turno T WHERE C.Con_Ave = A.Ave_anillo and C.Con_usu = U.usu_rut and C.Con_turno = T.Tur_cod
-                        and (C.Con_Ave = '".$_GET['search']."' or A.Ave_nombre = '".$_GET['search']."')";
+                        and (C.Con_Ave = '".$_GET['search']."' or A.Ave_nombre = '".$_GET['search']."') ORDER BY C.Con_fecha asc LIMIT 6";
                $result = $conexion->query($sql);
                $count = 1;
               if(mysqli_num_rows($result) ==0){
@@ -114,9 +114,6 @@ include '../layouts/head.php';
                    <tbody>';
 
                while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                 //if($_GET['search'] == $row['ave_anillo'] or $_GET['search'] == $row['ave_nombre']){
-//SELECT C.Con_id, A.Ave_anillo, A.Ave_nombre, C.Con_peso,C.Con_cape, U.usu_nombre, C.Con_fecha, T.Tur_descp, C.Con_obs  FROM control C, ave A, usuario U, turno T WHERE C.Con_Ave = A.Ave_anillo and C.Con_usu = U.usu_rut and C.Con_turno = T.Tur_cod
-
                    echo '<tr>';
                    echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox'.$count.'" name="data['.$count.'][checkbox]" value="on "><label for="checkbox'.$count.'"></label></fieldset></td>';
                    echo '<td ><input type="hidden" name="data['.$count.'][con_id]" value="'.$row['Con_id'].'">'.$row['Con_id'].'</td>';
@@ -129,12 +126,7 @@ include '../layouts/head.php';
                    echo '<td><input type="hidden" name="data['.$count.'][tur_descp]" value="'.$row['Tur_descp'].'">'.$row['Tur_descp'].'</td>';
                    echo '<td><input type="hidden" name="data['.$count.'][con_obs]" value="'.$row['Con_obs'].'">'.$row['Con_obs'].'</td>';
                    echo "</tr>";
-
                 $count= $count + 1;
-                if ($count == 6) {
-                  break;
-                }
-                //}
                }
                echo '
                       </tbody>

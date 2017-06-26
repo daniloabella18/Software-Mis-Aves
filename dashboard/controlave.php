@@ -61,13 +61,8 @@ include '../layouts/head.php';
                     </div>
                 </div>
 
-                <!--Second column-->
-                <div class="col-md-3">
-                    <div class="md-form">
-                        <input type="text" id="form51" class="form-control" name="ave">
-                        <label for="form51" class="ave">Ave</label>
-                    </div>
-                </div>
+
+
 
                 <!--Third column-->
                 <div class="col-md-3">
@@ -103,6 +98,45 @@ include '../layouts/head.php';
             <div class="md-form form-group">
                 <button type="submit" href="send.php" class="btn btn-primary btn-lg">Login</a>
             </div>
+
+            <div class="row">
+
+                <!--First column-->
+                <div class="col-md-3">
+                    <div class="md-form">
+                        <input type="text" id="form41" class="form-control" name="anillo">
+                        <label for="form41" class="">Anillo</label>
+                    </div>
+                </div>
+
+                <!--Second column-->
+                <div class="col-md-3">
+                    <div class="md-form">
+                        <input type="text" id="form51" class="form-control" name="ave">
+                        <label for="form51" class="ave">Ave</label>
+                    </div>
+                </div>
+
+                <!--Third column-->
+                <div class="col-md-3">
+                    <div class="md-form">
+                        <input type="text" id="form61" class="form-control" name="peso">
+                        <label for="form61" class="">Peso</label>
+                    </div>
+                </div>
+                <!--Third column-->
+                <div class="col-md-3">
+                  <div class="md-form">
+                  <select class="mdb-select" name="caperuza">
+                    <option value="" disabled selected></option>
+                    <option value="c">Con</option>
+                    <option value="s">Sin</option>
+                  </select>
+                  <label for="form61" >Caperuza</label>
+                  </div>
+                </div>
+            </div>
+
         </form>
 
 

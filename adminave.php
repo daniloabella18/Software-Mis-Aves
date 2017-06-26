@@ -1,17 +1,15 @@
 <?php
-
   session_start();
-  if($_SESSION["loggedin"] != true) {
-      echo("Access denied!");
-      exit();
+  if(!isset($_SESSION["loggedin"])) {
+      die("No se tienen los permisos necesarios para acceder aquí");
+      exit('0');
   }
   require_once("db_const.php");
-
   $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
   if ($conexion->connect_error) {
    die("La conexion falló: " . $conexion->connect_error);
   }
-include 'layouts/head.php';
+  include 'layouts/head.php';
 ?>
 
 <body class="fixed-sn pink-skin bg-skin-lp">
@@ -32,12 +30,13 @@ include 'layouts/head.php';
                 <li class="nav-item">
                     <a  href="logout.php" class="nav-link"><i class="fa fa-user"></i> <span class="hidden-sm-down">Log out</span></a>
                 </li>
-
             </ul>
         </nav>
         <!-- /.Navbar -->
     </header>
     <!--/.Double navigation-->
+
+
 
     <!--Main layout-->
     <main>
@@ -52,7 +51,7 @@ include 'layouts/head.php';
                 <div class="md-form input-group">
                   <input type="search" class="form-control" placeholder="Anillo o Nombre del ave" name="search">
                   <span class="input-group-btn">
-                      <button   type="submit" class="btn btn-primary btn-lg" type="button">Go!</button>
+                      <button   type="submit" class="btn btn-primary btn-lg" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
                   </span>
               </div>
               </div>
@@ -62,25 +61,8 @@ include 'layouts/head.php';
         <form action="" method="post">
 
         <?php
-        /*
-        if (isset( $_POST['modificar'])) {
-              $count = 1;
-              echo '<br>';
-              foreach ($_POST['data'] as $key){
-                if(isset($_POST[2])){
-                  print $count;
-                  print $key['ave_anillo'];
-                  print $key['ave_nombre'];
-                  print $key['est_descrip'];
-                  print $key['Ave_fecha_nac'];
-                  print $key['esp_nombre'];
-                  print $key['ave_genero'];
-                  echo "<br>";
-                  $count = $count + 1;
-               }
-           }
-          }
-          */
+
+        //Se recibe la información de buscar un ave
         if (isset($_GET['search'])) {
              $sql = "SELECT A.ave_anillo, A.ave_nombre, B.est_descrip, A.Ave_fecha_nac, E.esp_nombre, A.ave_genero FROM ave A, estado B, especie E WHERE A.ave_estado = B.est_id and A.ave_especie = E.esp_id and (A.ave_anillo = '".$_GET['search']."' or A.ave_nombre = '".$_GET['search']."')";
              $result = $conexion->query($sql);
@@ -108,7 +90,7 @@ include 'layouts/head.php';
                //if($_GET['search'] == $row['ave_anillo'] or $_GET['search'] == $row['ave_nombre']){
 
                  echo '<tr>';
-                 echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox'.$count.'" name="'.$count.'"><label for="checkbox'.$count.'"></label></fieldset></td>';
+                 echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox'.$count.'" name="data['.$count.'][checkbox]" value="on "><label for="checkbox'.$count.'"></label></fieldset></td>';
                  echo '<td ><input type="hidden" name="data['.$count.'][ave_anillo]" value="'.$row['ave_anillo'].'">'.$row['ave_anillo'].'</td>';
                  echo '<td><input type="hidden" name="data['.$count.'][ave_nombre]" value="'.$row['ave_nombre'].'">'.$row['ave_nombre'].'</td>';
                  echo '<td><input type="hidden" name="data['.$count.'][est_descrip]" value="'.$row['est_descrip'].'">'.$row['est_descrip'].'</td>';
@@ -121,11 +103,17 @@ include 'layouts/head.php';
               //}
              }
              echo '
-            </tbody>
-        </table>
-        </div>';
-             echo '<input type="hidden" name="count" value="'.$count.'">';
+                    </tbody>
+                </table>
+                </div>';
+            //Botton de modificar ave
+             echo '<div class="md-form form-group">';
+             echo '<input type="hidden" name="count" value="data">';
              echo '<button type="submit"  name="modificar" class="btn btn-primary btn-lg">Modificar</button>';
+             //Botton de quitar ave
+             echo '<input type="hidden" name="count" value="data">';
+             echo '<button type="submit"  name="quitar" class="btn btn-primary btn-lg">Quitar</button>';
+             echo "</div>";
            }
          }
             ?>
@@ -135,6 +123,7 @@ include 'layouts/head.php';
     <br/>
 
 
+
       <div class="card card-block">
                 <h4 class="card-title">Administrar ave</h4>
                 <p class="card-text">Descripción</p>
@@ -142,6 +131,7 @@ include 'layouts/head.php';
         <?php
           //echo $fechanac =  date("Y-m-d", strtotime("22-01-2911"));
           if (isset($_POST['submit'])){ //Recibe la información del formulario agregar ave
+
             $anillo = $_POST['anillo'];
             $ave = $_POST['ave'];
             $estado = $_POST['estado'];
@@ -149,17 +139,15 @@ include 'layouts/head.php';
             $fechanac =  date("Y-m-d", strtotime($fecha));
             $especie =  $_POST['especie'];
             $genero =  $_POST['genero'];
-            $sql = "REPLACE INTO ave(Ave_anillo, Ave_nombre, Ave_estado, Ave_fecha_nac, Ave_especie, Ave_genero) VALUES ('".$anillo."', '".$ave."', '".$estado."' ,'".$fechanac."', '".$especie."', '".$genero."')";
+            $sql = "INSERT INTO ave(Ave_anillo, Ave_nombre, Ave_estado, Ave_fecha_nac, Ave_especie, Ave_genero) VALUES ('".$anillo."', '".$ave."', '".$estado."' ,'".$fechanac."', '".$especie."', '".$genero."')
+                     ON DUPLICATE KEY UPDATE Ave_nombre = '".$ave."', Ave_estado = '".$estado."', Ave_fecha_nac='".$fechanac."', Ave_especie='".$especie."', Ave_genero='".$genero."'";
             $result = $conexion->query($sql);
-            if(!$result){
-              echo("Hubo un error al procesar la solicitud: " .$conexion->error);
-            }
-            echo '<br>';
-            echo $ave;
-            echo $estado ;
-            echo $fechanac ;
-            echo $especie ;
-            echo $genero;
+            //echo '<br>';
+            //echo $ave;
+            //echo $estado ;
+            //echo $fechanac ;
+            //echo $especie ;
+            //echo $genero;
           }
 
             $anillo = '';
@@ -169,17 +157,34 @@ include 'layouts/head.php';
             $especie =  '';
             $genero = '';
             if (isset($_POST['modificar'])) {
+              /*
               foreach ($_POST['data'] as $key){
-                if(isset($_POST[1])){
-                  $anillo = $key['ave_anillo'];
-                  $nombre = $key['ave_nombre'];
-                  $estado = $key['est_descrip'];
-                  $fechanac =  $key['Ave_fecha_nac'];
-                  $especie =  $key['esp_nombre'];
-                  $genero = $key['ave_genero'];
+                if (!empty($key['checkbox'])) {
+                    print $key['checkbox'];
+                    print $key['ave_anillo'];
+                    print $key['ave_nombre'];
+                    print $key['est_descrip'];
+                    print $key['Ave_fecha_nac'];
+                    print   $key['esp_nombre'];
+                    print $key['ave_genero'];
+                    echo "<br>";
+                  }
+                }
+                */
+              foreach ($_POST['data'] as $key){
+                if (!empty($key['checkbox'])) {
+                    $anillo = $key['ave_anillo'];
+                    $nombre = $key['ave_nombre'];
+                    $estado = $key['est_descrip'];
+                    $fechanac =  $key['Ave_fecha_nac'];
+                    $especie =  $key['esp_nombre'];
+                    $genero = $key['ave_genero'];
+                    break;
+
+                }
               }
             }
-        }
+
         ?>
         <form Method ="POST" ACTION = "adminave.php">
             <!--Third row-->
@@ -188,8 +193,8 @@ include 'layouts/head.php';
                 <!--First column-->
                 <div class="col-md-4 m-b-4">
                     <div class="md-form">
-                        <input type="text" id="form41" class="form-control" name="anillo" value="<?php echo $anillo ?>" >
-                        <label for="form41" class="">Anillo</label>
+                        <input type="text" id="form41" class="form-control" name="anillo" value="<?php echo $anillo ?>" <?php if($anillo != ''){echo "disabled"; } ?>>
+                        <label for="form41" class="<?php if($anillo != ''){echo "disabled"; } ?>">Anillo</label>
                     </div>
                 </div>
 
@@ -272,7 +277,17 @@ include 'layouts/head.php';
       </div>
     </main>
     <!--/Main layout-->
-    <?php include 'layouts/footer.php';?>
+
+    <?php include 'layouts/footer.php';
+    if (isset($_POST['submit'])) {
+      if(!$result){
+        echo("Hubo un error al procesar la solicitud: " .$conexion->error);
+      }else {
+        echo '<script>$(document).ready(function () {toastr.success("Ave  agregada correctamente");});</script>';
+      }
+    }
+    ?>
+
 
 </body>
 

@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once("db_const.php");
-
 $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
 
 if ($conexion->connect_error) {

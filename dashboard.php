@@ -1,5 +1,10 @@
 <?php
- session_start();
+session_start();
+
+if(!isset($_SESSION["loggedin"])){
+    die("No se tienen los permisos necesarios");
+    exit('0');
+}
 include 'layouts/head.php';
 ?>
 
@@ -32,7 +37,7 @@ include 'layouts/head.php';
     <main>
         <div class="container-fluid text-center" style="height: 800px;">
           <h1 class="display-4">Bienvenido cetrero</h1>
-          <p class="lead">Te haz logueado como  <?= $_SESSION['username']?> </p>
+          <p class="lead">Te haz logueado como  <?= $_SESSION['username']?> tu cago es <?= $_SESSION['cargo'] ?> y tu rut es <?= $_SESSION['rut'] ?></p>
         </div>
     </main>
     <!--/Main layout-->

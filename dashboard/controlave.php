@@ -61,6 +61,13 @@ include '../layouts/head.php';
     <!--Main layout-->
     <main>
     <div class="container-fluid text-center">
+
+      <div class="card card-block">
+
+    </div>
+
+    <br>
+
       <div class="card card-block">
                 <h4 class="card-title">Registrar Control</h4>
                 <p class="card-text">Rellene los datos para registar el control de un ave, si desea modificar un control seleccione uno de los de abajo, controles de otros días no pueden ser modificados</p>
@@ -76,18 +83,15 @@ include '../layouts/head.php';
                     </div>
                 </div>
 
-
-
-
                 <!--Third column-->
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="md-form">
                         <input type="text" id="form61" class="form-control" name="peso">
                         <label for="form61" class="">Peso</label>
                     </div>
                 </div>
                 <!--Third column-->
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <div class="md-form">
                   <select class="mdb-select" name="caperuza">
                     <option value="" disabled selected></option>
@@ -97,18 +101,20 @@ include '../layouts/head.php';
                   <label for="form61" >Caperuza</label>
                   </div>
                 </div>
+                <div class="col-md-5">
+                  <div class="md-form">
+                      <!--<i class="fa fa-pencil prefix"></i>
+                      <textarea type="text" id="form8" class="md-textarea"></textarea>-->
+                      <input type="text" id="form8" class="form-control" name="observacion"></textarea>
+                      <label for="form8">Observación</label>
+                  </div>
+                </div>
             </div>
             <!--/.Third row-->
 
             <div class="row">
               <!--Textarea with icon prefix-->
-              <div class="offset-md-2 col-md-8">
-                <div class="md-form">
-                    <i class="fa fa-pencil prefix"></i>
-                    <textarea type="text" id="form8" class="md-textarea" name="observacion"></textarea>
-                    <label for="form8">Observación</label>
-                </div>
-              </div>
+
             </div>
 
             <div class="row" id="copiar">
@@ -187,7 +193,7 @@ include '../layouts/head.php';
               </div>
 
               <div class="md-form form-group">
-                  <button type="submit" href="send.php" class="btn btn-primary btn-lg">Login</a>
+                  <button type="submit" href="send.php" class="btn btn-primary btn-lg">Agregar Control</a>
               </div>
 
         </form>
@@ -199,9 +205,7 @@ include '../layouts/head.php';
 </br>
 
 
-    <div class="card card-block">
 
-  </div>
         </div>
     </main>
     <!--/Main layout-->

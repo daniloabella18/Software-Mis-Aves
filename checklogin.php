@@ -1,8 +1,9 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 session_start();
 require_once("db_const.php");
 $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
-
+$conexion->set_charset("utf8");// Para la ñ y tildes
 if ($conexion->connect_error) {
  die("La conexion falló: " . $conexion->connect_error);
 }

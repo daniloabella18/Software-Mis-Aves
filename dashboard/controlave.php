@@ -1,4 +1,6 @@
 <?php
+  header('Content-Type: text/html; charset=utf-8');
+  //header('Content-Type: text/html; charset=iso-8859-1');
   session_start();
   if($_SESSION["loggedin"] != true) {
       echo("Access denied!");
@@ -6,6 +8,7 @@
   }
   require_once("../db_const.php");
   $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
+  $conexion->set_charset("utf8");
   if ($conexion->connect_error) {
    die("La conexion falló: " . $conexion->connect_error);
   }
@@ -100,6 +103,7 @@ include '../layouts/head.php';
                    <th class="addr" id="table_id" ></th>
                    <th>ID</th>
                    <th>Anillo</th>
+                   <th>Ave</th>
                    <th>Peso</th>
                    <th>Caperuza</th>
                    <th>Cetrero</th>
@@ -120,6 +124,7 @@ include '../layouts/head.php';
                    echo '<td><input type="hidden" name="data['.$count.'][ave_nombre]" value="'.$row['Ave_nombre'].'">'.$row['Ave_nombre'].'</td>';
                    echo '<td><input type="hidden" name="data['.$count.'][con_peso]" value="'.$row['Con_peso'].'">'.$row['Con_peso'].'</td>';
                    echo '<td><input type="hidden" name="data['.$count.'][con_cape]" value="'.$row['Con_cape'].'">'.$row['Con_cape'].'</td>';
+                   echo '<td><input type="hidden" name="data['.$count.'][usu_nombre]" value="'.$row['usu_nombre'].'">'.$row['usu_nombre'].'</td>';
                    echo '<td><input type="hidden" name="data['.$count.'][con_fecha]" value="'.$row['Con_fecha'].'">'.date("d-m-Y", strtotime($row['Con_fecha'])).'</td>';
                    echo '<td><input type="hidden" name="data['.$count.'][tur_descp]" value="'.$row['Tur_descp'].'">'.$row['Tur_descp'].'</td>';
                    echo '<td><input type="hidden" name="data['.$count.'][con_obs]" value="'.$row['Con_obs'].'">'.$row['Con_obs'].'</td>';

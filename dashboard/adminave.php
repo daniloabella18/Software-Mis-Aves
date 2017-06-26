@@ -301,7 +301,7 @@
       $sql = "DELETE FROM ave WHERE Ave_anillo= '".$anillo."'";
       $result = $conexion->query($sql);
       if(!$result){
-        echo("Hubo un error al procesar la solicitud: " .$conexion->error);
+        echo '<script>$(document).ready(function () {toastr.error("No se puede quitar el ave '.$nombre.', tiene controles asocidados.");});</script>';
       }else {
         echo '<script>$(document).ready(function () {toastr.success("Ave '.$nombre.' quitada correctamente");});</script>';
       }

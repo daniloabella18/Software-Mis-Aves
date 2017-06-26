@@ -125,13 +125,18 @@
 
 
       <div class="card card-block">
-                <h4 class="card-title">Administrar ave</h4>
-                <p class="card-text">Descripción</p>
+        <?php if (isset($_POST['modificar'])) {
+           echo '<h4 class="card-title"> Modificar ave </h4>';
+           echo '<p class="card-text">Escriba los datos a modificar de un ave y luego aprete en el botón de abajo, el anillo de un ave no se puede modificar, debe crear un nuevo ave para cambiar el anillo.</p>';
+        } else {
+          echo '<h4 class="card-title"> Agregar ave</h4>';
+          echo '<p class="card-text">Rellene los datos pedidos para agregar a un ave.</p>';}
+        ?>
+
 
         <?php
           //echo $fechanac =  date("Y-m-d", strtotime("22-01-2911"));
           if (isset($_POST['submit'])){ //Recibe la información del formulario agregar ave
-
             $anillo = $_POST['anillo'];
             $ave = $_POST['ave'];
             $estado = $_POST['estado'];
@@ -269,7 +274,7 @@
             </div>
             </div>
             <div class="md-form form-group">
-                <button type="submit"  name="submit" class="btn btn-primary btn-lg">Agregar</button>
+                <button type="submit"  name="submit" class="btn btn-primary btn-lg"><?php if (!isset($_POST['modificar'])){echo 'Agregar'; }else {echo 'Modificar';} ?> </button>
             </div>
         </form>
         </div>
@@ -282,13 +287,14 @@
       if(!$result){
         echo("Hubo un error al procesar la solicitud: " .$conexion->error);
       }else {
-        echo '<script>$(document).ready(function () {toastr.success("Ave  agregada correctamente");});</script>';
+        echo '<script>$(document).ready(function () {toastr.success("Ave '.$_POST['ave'].' agregada correctamente");});</script>';
       }
     }
     if (isset($_POST['quitar'])) {
       foreach ($_POST['data'] as $key){
         if (!empty($key['checkbox'])) {
             $anillo = $key['ave_anillo'];
+            $nombre = $key['ave_nombre'];
             break;
         }
       }
@@ -297,7 +303,7 @@
       if(!$result){
         echo("Hubo un error al procesar la solicitud: " .$conexion->error);
       }else {
-        echo '<script>$(document).ready(function () {toastr.success("Ave quitada correctamente");});</script>';
+        echo '<script>$(document).ready(function () {toastr.success("Ave '.$nombre.' quitada correctamente");});</script>';
       }
     }
     ?>

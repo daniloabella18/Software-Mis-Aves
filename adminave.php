@@ -148,7 +148,13 @@ include 'layouts/head.php';
             $genero =  $_POST['genero'];
             $sql = "REPLACE INTO ave(Ave_anillo, Ave_nombre, Ave_estado, Ave_fecha_nac, Ave_especie, Ave_genero) VALUES ('".$anillo."', '".$ave."', '".$estado."' ,'".$fechanac."', '".$especie."', '".$genero."')";
             $result = $conexion->query($sql);
-            echo "Datos actualizados correctamente";
+            echo("Error description: " .$conexion->error);
+            echo '<br>';
+            echo $ave;
+            echo $estado ;
+            echo $fechanac ;
+            echo $especie ;
+            echo $genero;
           }
 
             $anillo = '';
@@ -198,7 +204,7 @@ include 'layouts/head.php';
                         $sql = " SELECT E.est_id, E.Est_descrip FROM estado E ORDER BY  E.Est_descrip = '".$estado."' desc ";
                         $result = $conexion->query($sql);
                         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                            echo '<option value="'.$row['Est_id'].'">';
+                            echo '<option value="'.$row['est_id'].'">';
                             echo $row['Est_descrip'] ;
                             echo "</option>";
                           }

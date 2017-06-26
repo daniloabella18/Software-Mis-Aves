@@ -102,7 +102,7 @@ include '../layouts/head.php';
 
             <div class="row">
               <!--Textarea with icon prefix-->
-              <div class="col-md-12">
+              <div class="offset-md-2 col-md-8">
                 <div class="md-form">
                     <i class="fa fa-pencil prefix"></i>
                     <textarea type="text" id="form8" class="md-textarea" name="observacion"></textarea>
@@ -111,7 +111,7 @@ include '../layouts/head.php';
               </div>
             </div>
 
-            <div class="row">
+            <div class="row" id="copiar">
                 <!--First column-->
                 <div class="col-md-4">
                     <div class="md-form">
@@ -122,7 +122,6 @@ include '../layouts/head.php';
                         </select>
                         <label for="form61" >Comida</label>
                       </div>
-
                     </div>
                 </div>
 
@@ -133,13 +132,38 @@ include '../layouts/head.php';
                         <label for="form51" class="ave">Cantidad</label>
                     </div>
                 </div>
-
                 <div class="col-md-4">
-                  <button type="button" class="btn btn-primary">Agregar comida</button>
-
+                  <button type="button" class="btn btn-primary" id="add_row">Agregar comida</button>
                 </div>
               </div>
 
+              <div class="row" id="esconder">
+                <!--First column-->
+                <div class="col-md-4">
+                    <div class="md-form">
+                      <div class="md-form">
+                        <select class="mdb-select" name="caperuza">
+                          <option value="hom">gorrion</option>
+                          <option value="met">metro</option>
+                        </select>
+                        <label for="form61" >Comida</label>
+                      </div>
+                    </div>
+                </div>
+
+                <!--Second column-->
+                <div class="col-md-4">
+                    <div class="md-form">
+                        <input type="text" id="form51" class="form-control" name="cantidad">
+                        <label for="form51" class="ave">Cantidad</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-primary" id="subtract_row">Esconder comida</button>
+                </div>
+              </div>
+
+<br>
 
             <div class="row">
                 <div class="col-md-4">
@@ -185,6 +209,8 @@ include '../layouts/head.php';
 
     <script type='text/javascript'>
       $(document).ready(function(){
+
+
         <?php
           echo "var subcats = $jsonSubCats; \n";
         ?>
@@ -213,6 +239,19 @@ include '../layouts/head.php';
         });
       });
 
+      //agregar fila
+      $('#esconder').hide();
+      $("#subtract_row").hide();
+      $("#add_row").click(function(){
+        $("#esconder").show();
+        $("#add_row").hide();
+        $("#subtract_row").show();
+      });
+      $("#subtract_row").click(function(){
+        $("#esconder").hide();
+        $("#add_row").show();
+        $("#subtract_row").hide();
+      });
     </script>
 
 

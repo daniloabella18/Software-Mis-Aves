@@ -10,12 +10,6 @@
    die("La conexion falló: " . $conexion->connect_error);
   }
 
-  $query = "SELECT cli_cod,cli_nombre FROM cliente";
-  $result = $conexion->query($query);
-
-  while($row = $result->fetch_assoc()){
-    $categories[] = array("id" => $row['cli_cod'], "val" => $row['cli_nombre']);
-  }
 
   //$query = "SELECT id, catid, subcat FROM subcat";
   $query = "SELECT sed_cod, sed_cliente, sed_nombre FROM sede";
@@ -27,10 +21,9 @@
 
   }
 
-  $jsonCats = json_encode($categories);
+
   $jsonSubCats = json_encode($subcats);
 
-  echo $jsonCats;
 
 ?>
 <head>
@@ -45,7 +38,7 @@
     <div class="container-fluid text-center">
 
       <div class="card card-block">
-        <?php echo $jsonCats;
+        <?php
               echo "<br>";
               echo $jsonSubCats;
          ?>
@@ -72,18 +65,13 @@
 </main>
 <!--/Main layout-->
 
-<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script><script type='text/javascript'>
-
-  <?php
-    echo "var categories = $jsonCats; \n";
-    echo "var subcats = $jsonSubCats; \n";
-  ?>
+<?php include '../layouts/footer.php';?>
 
 
+<script type='text/javascript'>
 
   $(document).ready(function(){
     <?php
-      echo "var categories = $jsonCats; \n";
       echo "var subcats = $jsonSubCats; \n";
     ?>
 
@@ -103,6 +91,7 @@
       for (var i = 0; i < subcats[cliente].length; i++) {
         itemval= '<option value="'+ subcats[cliente][i].id + '">'+ subcats[cliente][i].val + '</option>';
       }
+      console.log("pico");
       $("#sede").append(itemval)
     });
   });

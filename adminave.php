@@ -1,4 +1,5 @@
 <?php
+
   session_start();
   if($_SESSION["loggedin"] != true) {
       echo("Access denied!");
@@ -111,7 +112,7 @@ include 'layouts/head.php';
                  echo '<td ><input type="hidden" name="data['.$count.'][ave_anillo]" value="'.$row['ave_anillo'].'">'.$row['ave_anillo'].'</td>';
                  echo '<td><input type="hidden" name="data['.$count.'][ave_nombre]" value="'.$row['ave_nombre'].'">'.$row['ave_nombre'].'</td>';
                  echo '<td><input type="hidden" name="data['.$count.'][est_descrip]" value="'.$row['est_descrip'].'">'.$row['est_descrip'].'</td>';
-                 echo '<td><input type="hidden" name="data['.$count.'][Ave_fecha_nac]" value="'.$row['Ave_fecha_nac'].'">'.$row['Ave_fecha_nac'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][Ave_fecha_nac]" value="'.$row['Ave_fecha_nac'].'">'.date("d-m-Y", strtotime($row['Ave_fecha_nac'])).'</td>';
                  echo '<td><input type="hidden" name="data['.$count.'][esp_nombre]" value="'.$row['esp_nombre'].'">'.$row['esp_nombre'].'</td>';
                  echo '<td><input type="hidden" name="data['.$count.'][ave_genero]" value="'.$row['ave_genero'].'">'.$row['ave_genero'].'</td>';
                  echo "</tr>";
@@ -139,16 +140,20 @@ include 'layouts/head.php';
                 <p class="card-text">Descripción</p>
 
         <?php
-          if (isset($_POST['submit'])){
+          //echo $fechanac =  date("Y-m-d", strtotime("22-01-2911"));
+          if (isset($_POST['submit'])){ //Recibe la información del formulario agregar ave
             $anillo = $_POST['anillo'];
             $ave = $_POST['ave'];
             $estado = $_POST['estado'];
-            $fechanac =  $_POST['fechanac'];
+            $fecha = $_POST['fechanac'];
+            $fechanac =  date("Y-m-d", strtotime($fecha));
             $especie =  $_POST['especie'];
             $genero =  $_POST['genero'];
             $sql = "REPLACE INTO ave(Ave_anillo, Ave_nombre, Ave_estado, Ave_fecha_nac, Ave_especie, Ave_genero) VALUES ('".$anillo."', '".$ave."', '".$estado."' ,'".$fechanac."', '".$especie."', '".$genero."')";
             $result = $conexion->query($sql);
-            echo("Error description: " .$conexion->error);
+            if(!$result){
+              echo("Hubo un error al procesar la solicitud: " .$conexion->error);
+            }
             echo '<br>';
             echo $ave;
             echo $estado ;
@@ -238,7 +243,7 @@ include 'layouts/head.php';
 
               <div class="col-md-4 m-b-4">
                   <div class="md-form">
-                      <input type="text" id="form51" class="form-control" name="fechanac"  value="<?php echo $fechanac ?>">
+                      <input type="text" id="form51" class="form-control" name="fechanac"  value="<?php if ($fechanac!=''){ echo date("d-m-Y", strtotime($fechanac)); }else{ echo date("d-m-Y"); } ?>">
                       <label for="form51" class="">Fecha nacimiento</label>
                   </div>
               </div>

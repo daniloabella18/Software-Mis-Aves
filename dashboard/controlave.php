@@ -146,7 +146,7 @@ include '../layouts/head.php';
                 <!--Third column-->
                 <div class="col-md-3">
                   <div class="md-form">
-                  <select class="browser-default" id="sede">
+                  <select class="mdb-select" id="sede">
                   </select>
 
                   </div>
@@ -183,7 +183,9 @@ include '../layouts/head.php';
           itemval= '<option value="'+ subcats[cliente][i].id + '">'+ subcats[cliente][i].val + '</option>';
         }
           console.log(itemval)
+
         $("#sede").append(itemval)
+        $('#sede').material_select('update');
         //se vacia
         $('#cliente').bind('change', function (e) {
           $('#sede').empty();
@@ -194,6 +196,7 @@ include '../layouts/head.php';
           }
           console.log("pico");
           $("#sede").append(itemval)
+          $('#sede').material_select('update');
         });
       });
 

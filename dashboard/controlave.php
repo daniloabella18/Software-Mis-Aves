@@ -131,6 +131,9 @@ include '../layouts/head.php';
                    echo "</tr>";
 
                 $count= $count + 1;
+                if ($count == 6) {
+                  break;
+                }
                 //}
                }
                echo '

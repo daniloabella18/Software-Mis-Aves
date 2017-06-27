@@ -192,9 +192,13 @@ include '../layouts/head.php';
                           if($row['Tur_hora_ini'] <= $hora and $hora <= $row['Tur_hora_final']){
                             $turno = $row['Tur_cod'];
                           }
-                        }else{ // Si el turno es del día actual al siguiente
+                        }elseif( $hora>"00:01" and $hora < "23:59" ){ // Si el turno es del día actual al siguiente
                           if($row['Tur_hora_ini'] <= $hora and $hora >=$row['Tur_hora_final']){
                             $turno = $row['Tur_cod'];
+                          }else {
+                            if($row['Tur_hora_ini'] > $hora and $hora <=$row['Tur_hora_final']){
+                              $turno = $row['Tur_cod'];
+                            }
                           }
                         }
                       }
@@ -222,7 +226,8 @@ include '../layouts/head.php';
                                 VALUES ('.$con_id.', '$comida2', '$cantidad2')";
                         $resultComida2 = $conexion->query($sql);
                       }
-                      echo $con_id."tula<br>";
+                      /*
+                      echo $con_id."<br>";
                       echo $conexion->error;
                       echo '<br>';
                       echo $_SESSION['rut'];
@@ -242,7 +247,7 @@ include '../layouts/head.php';
 
                       echo '<br>';
                       echo '<br>';
-
+                      */
                     //  $sql = "INSERT INTO ave(Ave_anillo, Ave_nombre, Ave_estado, Ave_fecha_nac, Ave_especie, Ave_genero) VALUES ('".$anillo."', '".$ave."', '".$estado."' ,'".$fechanac."', '".$especie."', '".$genero."')
                         //       ON DUPLICATE KEY UPDATE Ave_nombre = '".$ave."', Ave_estado = '".$estado."', Ave_fecha_nac='".$fechanac."', Ave_especie='".$especie."', Ave_genero='".$genero."'";
                       //$result = $conexion->query($sql);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-06-2017 a las 12:47:10
+-- Tiempo de generación: 27-06-2017 a las 06:28:28
 -- Versión del servidor: 10.1.24-MariaDB
 -- Versión de PHP: 7.1.6
 
@@ -23,6 +23,8 @@ USE `mis_aves`;
 --
 -- Estructura de tabla para la tabla `ave`
 --
+-- Creación: 25-06-2017 a las 10:36:01
+--
 
 DROP TABLE IF EXISTS `ave`;
 CREATE TABLE IF NOT EXISTS `ave` (
@@ -38,17 +40,30 @@ CREATE TABLE IF NOT EXISTS `ave` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Aves de la empresa';
 
 --
+-- RELACIONES PARA LA TABLA `ave`:
+--   `Ave_estado`
+--       `estado` -> `Est_id`
+--   `Ave_especie`
+--       `especie` -> `Esp_id`
+--
+
+--
 -- Volcado de datos para la tabla `ave`
 --
 
 INSERT INTO `ave` (`Ave_anillo`, `Ave_nombre`, `Ave_estado`, `Ave_fecha_nac`, `Ave_especie`, `Ave_genero`) VALUES
-('h.123', 'Turok', 'tra', '2000-01-20', 'agu', 'M'),
+('h.100', 'pollo', 'mud', '2017-06-26', 'agu', 'M'),
+('h.123', 'Turok', 'tra', '2000-01-20', 'agu', 'H'),
+('h.124', 'rede', 'tra', '2017-06-27', 'agu', 'H'),
+('h.145', 'Silvestre', 'mud', '2000-01-10', 'buh', 'H'),
 ('h.210', 'Pollo', 'mud', '2000-01-20', 'agu', 'M');
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `cargo`
+--
+-- Creación: 25-06-2017 a las 10:36:01
 --
 
 DROP TABLE IF EXISTS `cargo`;
@@ -57,6 +72,10 @@ CREATE TABLE IF NOT EXISTS `cargo` (
   `Car_descrip` varchar(30) COLLATE latin1_spanish_ci NOT NULL COMMENT 'Descripci?n',
   PRIMARY KEY (`Car_cod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Cargo de un usuario en la empresa';
+
+--
+-- RELACIONES PARA LA TABLA `cargo`:
+--
 
 --
 -- Volcado de datos para la tabla `cargo`
@@ -71,6 +90,8 @@ INSERT INTO `cargo` (`Car_cod`, `Car_descrip`) VALUES
 --
 -- Estructura de tabla para la tabla `cliente`
 --
+-- Creación: 25-06-2017 a las 10:36:01
+--
 
 DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE IF NOT EXISTS `cliente` (
@@ -80,6 +101,12 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `cli_rubro` varchar(3) COLLATE latin1_spanish_ci DEFAULT NULL COMMENT 'Rubro',
   PRIMARY KEY (`cli_cod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Cliente en la que va a trabajar un ave';
+
+--
+-- RELACIONES PARA LA TABLA `cliente`:
+--   `cli_rubro`
+--       `rubro` -> `Rub_cod`
+--
 
 --
 -- Volcado de datos para la tabla `cliente`
@@ -94,6 +121,10 @@ INSERT INTO `cliente` (`cli_cod`, `cli_nombre`, `cli_descrip`, `cli_rubro`) VALU
 --
 -- Estructura de tabla para la tabla `comuna`
 --
+-- Creación: 25-06-2017 a las 10:36:02
+-- Última actualización: 26-06-2017 a las 01:52:39
+-- Última revisión: 26-06-2017 a las 06:43:19
+--
 
 DROP TABLE IF EXISTS `comuna`;
 CREATE TABLE IF NOT EXISTS `comuna` (
@@ -102,6 +133,12 @@ CREATE TABLE IF NOT EXISTS `comuna` (
   `com_idprov` int(11) DEFAULT NULL COMMENT 'Provincia a la que pertenece',
   PRIMARY KEY (`com_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=347 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Comunas de Chile' ROW_FORMAT=DYNAMIC;
+
+--
+-- RELACIONES PARA LA TABLA `comuna`:
+--   `com_idprov`
+--       `provincia` -> `pro_id`
+--
 
 --
 -- Volcado de datos para la tabla `comuna`
@@ -460,57 +497,85 @@ INSERT INTO `comuna` (`com_id`, `com_nombre`, `com_idprov`) VALUES
 --
 -- Estructura de tabla para la tabla `control`
 --
+-- Creación: 25-06-2017 a las 10:36:01
+--
 
 DROP TABLE IF EXISTS `control`;
 CREATE TABLE IF NOT EXISTS `control` (
   `Con_id` int(6) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `Con_Ave` varchar(5) COLLATE latin1_spanish_ci NOT NULL COMMENT 'Ave',
-  `Con_usu` int(9) NOT NULL COMMENT 'Usuario',
+  `Con_usu` varchar(10) COLLATE latin1_spanish_ci NOT NULL COMMENT 'Usuario',
   `Con_fecha` date NOT NULL COMMENT 'Fecha',
   `Con_turno` int(1) NOT NULL COMMENT 'Turno',
   `Con_peso` int(4) NOT NULL COMMENT 'Peso ave',
-  `Con_cape` varchar(1) COLLATE latin1_spanish_ci NOT NULL COMMENT 'Peso medido con o sin caperuza',
+  `Con_cape` varchar(2) COLLATE latin1_spanish_ci NOT NULL COMMENT 'Peso medido con o sin caperuza',
   `Con_obs` varchar(400) COLLATE latin1_spanish_ci DEFAULT NULL COMMENT 'Observaciones',
   PRIMARY KEY (`Con_id`),
   KEY `Con_Ave` (`Con_Ave`),
-  KEY `Con_turno` (`Con_turno`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Control de cada ave';
+  KEY `Con_turno` (`Con_turno`),
+  KEY `Con_usu` (`Con_usu`)
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Control de cada ave';
+
+--
+-- RELACIONES PARA LA TABLA `control`:
+--   `Con_Ave`
+--       `ave` -> `Ave_anillo`
+--   `Con_turno`
+--       `turno` -> `Tur_cod`
+--   `Con_usu`
+--       `usuario` -> `usu_rut`
+--
 
 --
 -- Volcado de datos para la tabla `control`
 --
 
 INSERT INTO `control` (`Con_id`, `Con_Ave`, `Con_usu`, `Con_fecha`, `Con_turno`, `Con_peso`, `Con_cape`, `Con_obs`) VALUES
-(1, 'h.123', 50553205, '2018-05-21', 0, 456, 'S', 'El ave estaba agitada.'),
-(2, 'h.210', 101366006, '2018-10-21', 1, 400, 'N', 'El ave está demasiada flaca.');
+(59, 'h.124', '10136600-6', '2017-06-27', 0, 600, 'CC', 'Me mordio'),
+(60, 'h.210', '10136600-6', '2017-06-27', 0, 600, 'CC', 'me odia');
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `control_comida`
 --
+-- Creación: 26-06-2017 a las 23:14:00
+--
 
 DROP TABLE IF EXISTS `control_comida`;
 CREATE TABLE IF NOT EXISTS `control_comida` (
   `Cco_control` int(6) NOT NULL COMMENT 'Control',
   `Cco_tco` varchar(2) COLLATE latin1_spanish_ci NOT NULL COMMENT 'Comida',
-  `Coo_cant` int(1) NOT NULL COMMENT 'Cantidad',
+  `Cco_cant` int(1) NOT NULL COMMENT 'Cantidad',
   PRIMARY KEY (`Cco_control`,`Cco_tco`),
   KEY `Cco_tco` (`Cco_tco`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Comida que come un ave en un control' ROW_FORMAT=COMPACT;
 
 --
+-- RELACIONES PARA LA TABLA `control_comida`:
+--   `Cco_control`
+--       `control` -> `Con_id`
+--   `Cco_tco`
+--       `tipo_comida` -> `Tco_cod`
+--   `Cco_tco`
+--       `tipo_comida` -> `Tco_cod`
+--
+
+--
 -- Volcado de datos para la tabla `control_comida`
 --
 
-INSERT INTO `control_comida` (`Cco_control`, `Cco_tco`, `Coo_cant`) VALUES
-(1, 'po', 1),
-(1, 'ra', 3);
+INSERT INTO `control_comida` (`Cco_control`, `Cco_tco`, `Cco_cant`) VALUES
+(59, 'po', 1),
+(60, 'po', 1),
+(60, 'ra', 2);
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `destino`
+--
+-- Creación: 25-06-2017 a las 10:36:01
 --
 
 DROP TABLE IF EXISTS `destino`;
@@ -521,17 +586,27 @@ CREATE TABLE IF NOT EXISTS `destino` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Lugar al que va un ave';
 
 --
+-- RELACIONES PARA LA TABLA `destino`:
+--   `Des_Control`
+--       `control` -> `Con_id`
+--   `Des_sede`
+--       `sede` -> `sed_cod`
+--
+
+--
 -- Volcado de datos para la tabla `destino`
 --
 
 INSERT INTO `destino` (`Des_Control`, `Des_sede`) VALUES
-(1, 'hompt'),
-(2, 'metpb');
+(59, 'hompt'),
+(60, 'metpb');
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `especie`
+--
+-- Creación: 25-06-2017 a las 10:36:01
 --
 
 DROP TABLE IF EXISTS `especie`;
@@ -540,6 +615,10 @@ CREATE TABLE IF NOT EXISTS `especie` (
   `Esp_nombre` varchar(30) COLLATE latin1_spanish_ci NOT NULL COMMENT 'Especie de un ave',
   PRIMARY KEY (`Esp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Especie de un ave';
+
+--
+-- RELACIONES PARA LA TABLA `especie`:
+--
 
 --
 -- Volcado de datos para la tabla `especie`
@@ -554,6 +633,8 @@ INSERT INTO `especie` (`Esp_id`, `Esp_nombre`) VALUES
 --
 -- Estructura de tabla para la tabla `estado`
 --
+-- Creación: 25-06-2017 a las 10:36:01
+--
 
 DROP TABLE IF EXISTS `estado`;
 CREATE TABLE IF NOT EXISTS `estado` (
@@ -561,6 +642,10 @@ CREATE TABLE IF NOT EXISTS `estado` (
   `Est_descrip` varchar(30) COLLATE latin1_spanish_ci NOT NULL COMMENT 'Descripci?n',
   PRIMARY KEY (`Est_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Estado del ave';
+
+--
+-- RELACIONES PARA LA TABLA `estado`:
+--
 
 --
 -- Volcado de datos para la tabla `estado`
@@ -575,6 +660,8 @@ INSERT INTO `estado` (`Est_id`, `Est_descrip`) VALUES
 --
 -- Estructura de tabla para la tabla `nota`
 --
+-- Creación: 25-06-2017 a las 10:36:01
+--
 
 DROP TABLE IF EXISTS `nota`;
 CREATE TABLE IF NOT EXISTS `nota` (
@@ -585,6 +672,10 @@ CREATE TABLE IF NOT EXISTS `nota` (
   `not_turno` int(1) DEFAULT NULL COMMENT 'turno',
   PRIMARY KEY (`not_cod`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Notas que pueden dejar los usuarios';
+
+--
+-- RELACIONES PARA LA TABLA `nota`:
+--
 
 --
 -- Volcado de datos para la tabla `nota`
@@ -599,6 +690,10 @@ INSERT INTO `nota` (`not_cod`, `not_usuario`, `not_fecha`, `not_descrip`, `not_t
 --
 -- Estructura de tabla para la tabla `provincia`
 --
+-- Creación: 25-06-2017 a las 10:36:02
+-- Última actualización: 26-06-2017 a las 01:52:39
+-- Última revisión: 26-06-2017 a las 06:43:19
+--
 
 DROP TABLE IF EXISTS `provincia`;
 CREATE TABLE IF NOT EXISTS `provincia` (
@@ -607,6 +702,12 @@ CREATE TABLE IF NOT EXISTS `provincia` (
   `pro_idreg` varchar(5) DEFAULT NULL COMMENT 'Region a la que pertenece',
   PRIMARY KEY (`pro_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COMMENT='Provincias de Chile' ROW_FORMAT=DYNAMIC;
+
+--
+-- RELACIONES PARA LA TABLA `provincia`:
+--   `pro_idreg`
+--       `region` -> `reg_ID`
+--
 
 --
 -- Volcado de datos para la tabla `provincia`
@@ -673,6 +774,8 @@ INSERT INTO `provincia` (`pro_id`, `pro_nombre`, `pro_idreg`) VALUES
 --
 -- Estructura de tabla para la tabla `region`
 --
+-- Creación: 25-06-2017 a las 10:36:01
+--
 
 DROP TABLE IF EXISTS `region`;
 CREATE TABLE IF NOT EXISTS `region` (
@@ -681,6 +784,10 @@ CREATE TABLE IF NOT EXISTS `region` (
   `reg_abrev` varchar(5) COLLATE latin1_spanish_ci DEFAULT NULL COMMENT 'Abreviatura de las regiones ISO 3166 2 CL',
   PRIMARY KEY (`reg_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Regiones de chile';
+
+--
+-- RELACIONES PARA LA TABLA `region`:
+--
 
 --
 -- Volcado de datos para la tabla `region`
@@ -708,6 +815,8 @@ INSERT INTO `region` (`reg_ID`, `reg_nombre`, `reg_abrev`) VALUES
 --
 -- Estructura de tabla para la tabla `rubro`
 --
+-- Creación: 25-06-2017 a las 10:36:01
+--
 
 DROP TABLE IF EXISTS `rubro`;
 CREATE TABLE IF NOT EXISTS `rubro` (
@@ -715,6 +824,10 @@ CREATE TABLE IF NOT EXISTS `rubro` (
   `Rub_descrip` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`Rub_cod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Sector en el que se desempe?a el cliente';
+
+--
+-- RELACIONES PARA LA TABLA `rubro`:
+--
 
 --
 -- Volcado de datos para la tabla `rubro`
@@ -729,6 +842,8 @@ INSERT INTO `rubro` (`Rub_cod`, `Rub_descrip`) VALUES
 --
 -- Estructura de tabla para la tabla `sede`
 --
+-- Creación: 25-06-2017 a las 10:36:01
+--
 
 DROP TABLE IF EXISTS `sede`;
 CREATE TABLE IF NOT EXISTS `sede` (
@@ -738,6 +853,14 @@ CREATE TABLE IF NOT EXISTS `sede` (
   `sed_comuna` int(3) NOT NULL COMMENT 'Comuna',
   PRIMARY KEY (`sed_cod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Sede del cliente';
+
+--
+-- RELACIONES PARA LA TABLA `sede`:
+--   `sed_cliente`
+--       `cliente` -> `cli_cod`
+--   `sed_comuna`
+--       `comuna` -> `com_id`
+--
 
 --
 -- Volcado de datos para la tabla `sede`
@@ -752,6 +875,8 @@ INSERT INTO `sede` (`sed_cod`, `sed_nombre`, `sed_cliente`, `sed_comuna`) VALUES
 --
 -- Estructura de tabla para la tabla `tipo_comida`
 --
+-- Creación: 25-06-2017 a las 10:36:01
+--
 
 DROP TABLE IF EXISTS `tipo_comida`;
 CREATE TABLE IF NOT EXISTS `tipo_comida` (
@@ -759,6 +884,10 @@ CREATE TABLE IF NOT EXISTS `tipo_comida` (
   `Tco_animal` varchar(30) COLLATE latin1_spanish_ci NOT NULL COMMENT 'Animal',
   PRIMARY KEY (`Tco_cod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Tipo de comida que come un ave';
+
+--
+-- RELACIONES PARA LA TABLA `tipo_comida`:
+--
 
 --
 -- Volcado de datos para la tabla `tipo_comida`
@@ -773,6 +902,8 @@ INSERT INTO `tipo_comida` (`Tco_cod`, `Tco_animal`) VALUES
 --
 -- Estructura de tabla para la tabla `turno`
 --
+-- Creación: 25-06-2017 a las 10:36:01
+--
 
 DROP TABLE IF EXISTS `turno`;
 CREATE TABLE IF NOT EXISTS `turno` (
@@ -784,22 +915,29 @@ CREATE TABLE IF NOT EXISTS `turno` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Turno en el que hace un control';
 
 --
+-- RELACIONES PARA LA TABLA `turno`:
+--
+
+--
 -- Volcado de datos para la tabla `turno`
 --
 
 INSERT INTO `turno` (`Tur_cod`, `Tur_descp`, `Tur_hora_ini`, `Tur_hora_final`) VALUES
 (0, 'Mañana', '08:00', '10:00'),
-(1, 'tarde', '19:00', '22:00');
+(1, 'tarde', '19:00', '22:00'),
+(2, 'Noche', '22:00', '08:00');
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `usuario`
 --
+-- Creación: 25-06-2017 a las 10:36:01
+--
 
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
-  `usu_rut` int(9) NOT NULL COMMENT 'Rut',
+  `usu_rut` varchar(10) COLLATE latin1_spanish_ci NOT NULL COMMENT 'Rut',
   `usu_contra` varchar(60) COLLATE latin1_spanish_ci NOT NULL COMMENT 'Contraseña',
   `usu_nombre` varchar(60) COLLATE latin1_spanish_ci DEFAULT NULL COMMENT 'Nombre',
   `usu_apellido` varchar(60) COLLATE latin1_spanish_ci DEFAULT NULL COMMENT 'Apellido',
@@ -813,12 +951,20 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci COMMENT='Usuarios de la empresa';
 
 --
+-- RELACIONES PARA LA TABLA `usuario`:
+--   `usu_cargo`
+--       `cargo` -> `Car_cod`
+--   `usu_comuna`
+--       `comuna` -> `com_id`
+--
+
+--
 -- Volcado de datos para la tabla `usuario`
 --
 
 INSERT INTO `usuario` (`usu_rut`, `usu_contra`, `usu_nombre`, `usu_apellido`, `usu_fnac`, `usu_dir`, `usu_comuna`, `usu_telefono`, `usu_celular`, `usu_cargo`) VALUES
-(50553205, 'asdf', 'Claudi', 'Saji', '1996-09-11', 'cosa #213', 288, 987654321, 569876543, 'Cet'),
-(101366006, 'qwerty', 'Rodolfo', 'Zuñiga', '1995-10-25', 'San fernando #9876', 296, 789789789, 561234567, 'Jef');
+('10136600-6', 'qwerty', 'Rodolfo', 'Zuñiga', '1995-10-25', 'San fernando #9876', 296, 789789789, 561234567, 'Jef'),
+('5055320-5', 'asdf', 'Claudi', 'Saji', '1996-09-11', 'cosa #213', 288, 987654321, 569876543, 'Cet');
 
 --
 -- Restricciones para tablas volcadas
@@ -836,7 +982,8 @@ ALTER TABLE `ave`
 --
 ALTER TABLE `control`
   ADD CONSTRAINT `control_ibfk_1` FOREIGN KEY (`Con_Ave`) REFERENCES `ave` (`Ave_anillo`),
-  ADD CONSTRAINT `control_ibfk_2` FOREIGN KEY (`Con_turno`) REFERENCES `turno` (`Tur_cod`);
+  ADD CONSTRAINT `control_ibfk_2` FOREIGN KEY (`Con_turno`) REFERENCES `turno` (`Tur_cod`),
+  ADD CONSTRAINT `control_ibfk_3` FOREIGN KEY (`Con_usu`) REFERENCES `usuario` (`usu_rut`);
 
 --
 -- Filtros para la tabla `control_comida`

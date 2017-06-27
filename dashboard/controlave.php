@@ -186,6 +186,7 @@ include '../layouts/head.php';
                       echo $hora;
                       $sql = "SELECT Tur_cod, Tur_hora_ini, Tur_hora_final FROM `turno`";
                       $result = $conexion->query($sql);
+                      $turno=null;
                       while ($row = $result->fetch_array(MYSQLI_ASSOC)){
                         if ($row['Tur_hora_ini'] < $row['Tur_hora_final']) { //si se ve la hora en el mismo día
                           if($row['Tur_hora_ini'] <= $hora and $hora <= $row['Tur_hora_final']){
@@ -422,8 +423,10 @@ include '../layouts/head.php';
           }
         }
           echo "var subcats = $jsonSubCats; \n";
+          if ($turno = null) {
+            echo 'toastr.warning("No hay turno asociado a esta hora, se agrego turno de mañana");';
+          }
         ?>
-
 
         console.log($( "#cliente" ).val());
         cliente = $( "#cliente" ).val();

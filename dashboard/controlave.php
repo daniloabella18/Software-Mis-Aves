@@ -201,6 +201,21 @@ include '../layouts/head.php';
                       $sql = "INSERT INTO `control` (`Con_id`, `Con_Ave`, `Con_usu`, `Con_fecha`, `Con_turno`, `Con_peso`, `Con_cape`, `Con_obs`)
                               VALUES (NULL, '".$anillo."', '".$_SESSION['rut']."', '".$fecha."', '".$turno."', '".$peso."', '".$caperuza."', '".$observacion."')";
                       $resultCon = $conexion->query($sql);
+
+                      //Se obitene el id de control  del AUTO_INCREMENT
+                      $aux = $conexion->query("SELECT `AUTO_INCREMENT` as AI FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'mis_aves' AND TABLE_NAME = 'control'")->fetch_array(MYSQLI_ASSOC);
+                      $con_id = $aux['AI']-1;
+
+                      //Se inserta comida
+                      $sql = "INSERT INTO `control_comida` (`Cco_control`, `Cco_tco`, `Cco_cant`)
+                              VALUES ('.$con_id.', '$comida1', '$cantidad1')";
+                      $resultComida = $conexion->query($sql);
+                      if ($comida2 != null) {
+                        $sql = "INSERT INTO `control_comida` (`Cco_control`, `Cco_tco`, `Cco_cant`)
+                                VALUES ('.$con_id.', '$comida2', '$cantidad2')";
+                        $resultComida2 = $conexion->query($sql);
+                      }
+                      echo $con_id."tula<br>";
                       echo $conexion->error;
                       echo '<br>';
                       echo $_SESSION['rut'];
@@ -378,15 +393,31 @@ include '../layouts/head.php';
     <script type='text/javascript'>
       $(document).ready(function(){
 
-        <?php
-        if ($resultCon) {
-          echo 'toastr.success("Control agregado correctamente");';
-        }else {
-          echo 'toastr.error("Error al registrar el control");';
-        }
+        //agregar fila
+        $('#esconder').hide();
+        $("#subtract_row").hide();
+        $("#add_row").click(function(){
+          $("#esconder").show();
+          $("#add_row").hide();
+          $("#subtract_row").show();
+        });
+        $("#subtract_row").click(function(){
+          $("#esconder").hide();
+          $("#add_row").show();
+          $("#subtract_row").hide();
+        });
 
+        <?php
+        if (isset($_POST['submit'])){
+          if ($resultCon) {
+            echo 'toastr.success("Control agregado correctamente");';
+          }else {
+            echo 'toastr.error("Error al registrar el control");';
+          }
+        }
           echo "var subcats = $jsonSubCats; \n";
         ?>
+
 
         console.log($( "#cliente" ).val());
         cliente = $( "#cliente" ).val();
@@ -410,20 +441,6 @@ include '../layouts/head.php';
           $("#sede").append(itemval)
           $('#sede').material_select('update');
         });
-      });
-
-      //agregar fila
-      $('#esconder').hide();
-      $("#subtract_row").hide();
-      $("#add_row").click(function(){
-        $("#esconder").show();
-        $("#add_row").hide();
-        $("#subtract_row").show();
-      });
-      $("#subtract_row").click(function(){
-        $("#esconder").hide();
-        $("#add_row").show();
-        $("#subtract_row").hide();
       });
     </script>
 

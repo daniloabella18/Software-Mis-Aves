@@ -110,8 +110,6 @@ include '../layouts/head.php';
                    <th>Peso</th>
                    <th>Caperuza</th>
                    <th >Comida</th>
-
-
                    <th>Cetrero</th>
                    <th>Fecha</th>
                    <th>Turno</th>
@@ -165,10 +163,9 @@ include '../layouts/head.php';
       <div class="card card-block">
                 <h4 class="card-title">Registrar Control</h4>
                 <p class="card-text">Rellene los datos para registar el control de un ave, si desea modificar un control seleccione uno de los de abajo, controles de otros días no pueden ser modificados</p>
-        <form  Name ="form1" Method ="POST" ACTION = "send.php">
-            <!--Third row-->
+        <form  Name ="form1" Method ="POST" ACTION = "">
+            <!--FILA ANILLO, PESO CAPERUA                         -->
             <div class="row">
-
                 <!--First column-->
                 <div class="col-md-3">
                     <div class="md-form">
@@ -176,7 +173,6 @@ include '../layouts/head.php';
                         <label for="form41" class="">Anillo</label>
                     </div>
                 </div>
-
                 <!--Third column-->
                 <div class="col-md-2">
                     <div class="md-form">
@@ -206,17 +202,14 @@ include '../layouts/head.php';
             </div>
             <!--/.Third row-->
 
-            <div class="row">
-              <!--Textarea with icon prefix-->
-
-            </div>
-
-            <div class="row" id="copiar">
+            <!--FILA COMIDA                         -->
+            <div class="row" >
                 <!--First column-->
                 <div class="col-md-4">
                     <div class="md-form">
                       <div class="md-form">
-                        <select class="mdb-select" name="caperuza">
+                        <select class="mdb-select" name="comida1">
+                          <option value="" disabled selected></option>
                           <option value="hom">gorrion</option>
                           <option value="met">metro</option>
                         </select>
@@ -228,7 +221,7 @@ include '../layouts/head.php';
                 <!--Second column-->
                 <div class="col-md-4">
                     <div class="md-form">
-                        <input type="text" id="form51" class="form-control" name="cantidad">
+                        <input type="text" id="form51" class="form-control" name="cantidad1">
                         <label for="form51" class="ave">Cantidad</label>
                     </div>
                 </div>
@@ -237,12 +230,14 @@ include '../layouts/head.php';
                 </div>
               </div>
 
+              <!--FILA COMIDA     OCULTA POR DEFECTO                    -->
               <div class="row" id="esconder">
                 <!--First column-->
                 <div class="col-md-4">
                     <div class="md-form">
                       <div class="md-form">
-                        <select class="mdb-select" name="caperuza">
+                        <select class="mdb-select" name="comida2">
+                          <option value="" disabled selected></option>
                           <option value="hom">gorrion</option>
                           <option value="met">metro</option>
                         </select>
@@ -251,20 +246,22 @@ include '../layouts/head.php';
                     </div>
                 </div>
 
-                <!--Second column-->
+                <!--CANTIDAD-->
                 <div class="col-md-4">
                     <div class="md-form">
-                        <input type="text" id="form51" class="form-control" name="cantidad">
+                        <input type="text" id="form51" class="form-control" name="cantidad2">
                         <label for="form51" class="ave">Cantidad</label>
                     </div>
                 </div>
+
+                <!--BOTON ESCONDE COMIDA-->
                 <div class="col-md-4">
                   <button type="button" class="btn btn-primary" id="subtract_row">Esconder comida</button>
                 </div>
               </div>
+              <br>
 
-<br>
-
+              <!--FILA CLIENTE                   -->
             <div class="row">
                 <div class="col-md-4">
                   <div class="md-form">
@@ -279,7 +276,7 @@ include '../layouts/head.php';
                 <!--Third column-->
                 <div class="col-md-8">
                   <div class="md-form">
-                  <select class="mdb-select" id="sede">
+                  <select class="mdb-select" id="sede" name="sede">
                   </select>
                   <label for="form61" >Sede</label>
                   </div>

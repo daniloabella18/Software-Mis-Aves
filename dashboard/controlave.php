@@ -450,7 +450,7 @@ include '../layouts/head.php';
                            if(isset($_POST['modificar'])){echo $con_id;}else{
                               //Se obitene el id de control  del AUTO_INCREMENT
                              $aux = $conexion->query("SELECT `AUTO_INCREMENT` as AI FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'mis_aves' AND TABLE_NAME = 'control'")->fetch_array(MYSQLI_ASSOC);
-                             $con_id = $aux['AI']-1;
+                             $con_id = $aux['AI'];
                              echo $con_id;
                            } ?>" readonly="readonly">
                           <label for="form61" class="">ID control</label>

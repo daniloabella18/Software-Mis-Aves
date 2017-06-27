@@ -90,16 +90,18 @@ include '../layouts/head.php';
           //Se recibe la información de buscar un ave
           if (isset($_GET['search'])) {
             //SELECT C.Con_id, A.Ave_anillo, A.Ave_nombre, C.Con_peso,C.Con_cape, U.usu_nombre, C.Con_fecha, T.Tur_descp, C.Con_obs  FROM control C, ave A, usuario U, turno T WHERE C.Con_Ave = A.Ave_anillo and C.Con_usu = U.usu_rut and C.Con_turno = T.Tur_cod
-               $sql = "SELECT C.Con_id , A.Ave_anillo, A.Ave_nombre, C.Con_peso,C.Con_cape, TC.Tco_animal, CC.Cco_cant,  U.usu_nombre, C.Con_fecha, T.Tur_descp, C.Con_obs  FROM control_comida CC, control C, ave A, usuario U, turno T, tipo_comida TC WHERE C.Con_Ave = A.Ave_anillo and C.Con_usu = U.usu_rut and C.Con_turno = T.Tur_cod AND CC.Cco_control= C.Con_id and CC.Cco_tco = TC.Tco_cod
-                        and (C.Con_Ave = '".$_GET['search']."' or A.Ave_nombre = '".$_GET['search']."') ORDER BY C.Con_fecha asc LIMIT 6";
-               //$sql2="SELECT Cco_control, Cco_tco, Cco_cant FROM control_comida WHERE Cco_control = '1'";
+               $sql = "SELECT C.Con_id , A.Ave_anillo, A.Ave_nombre, C.Con_peso,C.Con_cape, GROUP_CONCAT( CONCAT( TC.Tco_animal, ' - ', CC.Cco_cant) SEPARATOR '<br>') as comi, U.usu_nombre, C.Con_fecha, T.Tur_descp, CL.cli_nombre, S.sed_nombre, C.Con_obs
+                        FROM control_comida CC, control C, ave A, usuario U, turno T, tipo_comida TC, destino D, sede S, cliente CL
+                        WHERE C.Con_Ave = A.Ave_anillo and C.Con_usu = U.usu_rut and C.Con_turno = T.Tur_cod AND CC.Cco_control= C.Con_id and CC.Cco_tco = TC.Tco_cod and D.Des_Control = C.Con_id and S.sed_cod = D.Des_sede and CL.cli_cod = S.sed_cliente
+                        GROUP BY C.Con_id
+                        and (C.Con_Ave = '".$_GET['search']."' or A.Ave_nombre = '".$_GET['search']."') ORDER BY C.Con_fecha asc";
                $result = $conexion->query($sql);
                $count = 1;
               if(mysqli_num_rows($result) ==0){
                 echo 'No hay controles registrados para el ave '.$_GET['search'];
               }else{
                    echo '<div class="table-responsive">
-                        <table class="table ">
+                        <table class="table table-sm table-responsive ">
                    <thead>
                    <th class="addr" id="table_id" ></th>
                    <th>ID</th>
@@ -108,52 +110,35 @@ include '../layouts/head.php';
                    <th>Peso</th>
                    <th>Caperuza</th>
                    <th >Comida</th>
-                   <th>-</th>
-                   <th>Cantidad</th>
+
+
                    <th>Cetrero</th>
                    <th>Fecha</th>
                    <th>Turno</th>
+                   <th>Cliente</th>
+                   <th>Sede</th>
                    <th>Observación</th>
                    </thead>
                    <tbody>';
                $cont_anterior = -1;
+               $table = '';
                while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                   $con_actual =$row['Con_id'];
-                   if ($con_actual != $cont_anterior) {
-                     echo '<tr>';
-                     echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox'.$count.'" name="data['.$count.'][checkbox]" value="on "><label for="checkbox'.$count.'"></label></fieldset></td>';
-                     echo '<td ><input type="hidden" name="data['.$count.'][con_id]" value="'.$row['Con_id'].'">'.$row['Con_id'].'</td>';
-                     echo '<td ><input type="hidden" name="data['.$count.'][ave_anillo]" value="'.$row['Ave_anillo'].'">'.$row['Ave_anillo'].'</td>';
-                     echo '<td><input type="hidden" name="data['.$count.'][ave_nombre]" value="'.$row['Ave_nombre'].'">'.$row['Ave_nombre'].'</td>';
-                     echo '<td><input type="hidden" name="data['.$count.'][con_peso]" value="'.$row['Con_peso'].'">'.$row['Con_peso'].'</td>';
-                     echo '<td><input type="hidden" name="data['.$count.'][con_cape]" value="'.$row['Con_cape'].'">'.$row['Con_cape'].'</td>';
-                     echo '<td><input type="hidden" name="data['.$count.'][tco_animal]" value="'.$row['Tco_animal'].'">'.$row['Tco_animal'].' </td>';
-                     echo '<td>-</td>';
-                     echo '<td><input type="hidden" name="data['.$count.'][cco_cant]" value="'.$row['Cco_cant'].'">'.$row['Cco_cant'].'</td>';
-                     echo '<td><input type="hidden" name="data['.$count.'][usu_nombre]" value="'.$row['usu_nombre'].'">'.$row['usu_nombre'].'</td>';
-                     echo '<td><input type="hidden" name="data['.$count.'][con_fecha]" value="'.$row['Con_fecha'].'">'.date("d-m-Y", strtotime($row['Con_fecha'])).'</td>';
-                     echo '<td><input type="hidden" name="data['.$count.'][tur_descp]" value="'.$row['Tur_descp'].'">'.$row['Tur_descp'].'</td>';
-                     echo '<td><input type="hidden" name="data['.$count.'][con_obs]" value="'.$row['Con_obs'].'">'.$row['Con_obs'].'</td>';
-                     echo "</tr>";
-                  }else{
-                    $count= $count -1;
-                    echo '<tr>';
-                    echo '<td></td>';
-                    echo '<td></td>';
-                    echo '<td></td>';
-                    echo '<td></td>';
-                    echo '<td></td>';
-                    echo '<td></td>';
-                    echo '<td><input type="hidden" name="data['.$count.'][tco_animal2]" value="'.$row['Tco_animal'].'">'.$row['Tco_animal'].'</td>';
-                    echo '<td>-</td>';
-                    echo '<td><input type="hidden" name="data['.$count.'][cco_cant2]" value="'.$row['Cco_cant'].'">'.$row['Cco_cant'].'</td>';
-                    echo '<td></td>';
-                    echo '<td></td>';
-                    echo '<td></td>';
-                    echo '<td></td>';
-                    echo "</tr>";
-                  }
-                $cont_anterior = $con_actual;
+                     $table .= '<tr>';
+                     $table .= '<td><fieldset class="form-group"><input type="checkbox" id="checkbox'.$count.'" name="data['.$count.'][checkbox]" value="on "><label for="checkbox'.$count.'"></label></fieldset></td>';
+                     $table .= '<td ><input type="hidden" name="data['.$count.'][id]" value="'.$row['Con_id'].'">'.$row['Con_id'].'</td>';
+                     $table .= '<td ><input type="hidden" name="data['.$count.'][anillo]" value="'.$row['Ave_anillo'].'">'.$row['Ave_anillo'].'</td>';
+                     $table .= '<td><input type="hidden" name="data['.$count.'][nombre]" value="'.$row['Ave_nombre'].'">'.$row['Ave_nombre'].'</td>';
+                     $table .= '<td><input type="hidden" name="data['.$count.'][peso]" value="'.$row['Con_peso'].'">'.$row['Con_peso'].'</td>';
+                     $table .= '<td><input type="hidden" name="data['.$count.'][cape]" value="'.$row['Con_cape'].'">'.$row['Con_cape'].'</td>';
+                     $table .= '<td><input type="hidden" name="data['.$count.'][animal]" value="'.$row['comi'].'">'.$row['comi'].'</td>';
+                     $table .= '<td><input type="hidden" name="data['.$count.'][cetrero]" value="'.$row['usu_nombre'].'">'.$row['usu_nombre'].'</td>';
+                     $table .= '<td><input type="hidden" name="data['.$count.'][fecha]" value="'.$row['Con_fecha'].'">'.date("d-m-Y", strtotime($row['Con_fecha'])).'</td>';
+                     $table .= '<td><input type="hidden" name="data['.$count.'][turno]" value="'.$row['Tur_descp'].'">'.$row['Tur_descp'].'</td>';
+                     $table .= '<td><input type="hidden" name="data['.$count.'][cliente]" value="'.$row['cli_nombre'].'">'.$row['cli_nombre'].'</td>';
+                     $table .= '<td><input type="hidden" name="data['.$count.'][sede]" value="'.$row['sed_nombre'].'">'.$row['sed_nombre'].'</td>';
+                     $table .= '<td><input type="hidden" name="data['.$count.'][obs]" value="'.$row['Con_obs'].'">'.$row['Con_obs'].'</td>';
+                     $table .= "</tr>";
+                     echo $table;
                 $count= $count + 1;
                }
                echo '

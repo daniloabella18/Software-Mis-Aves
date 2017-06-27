@@ -1,5 +1,7 @@
 <?php
   header('Content-Type: text/html; charset=utf-8');
+  date_default_timezone_set('America/Santiago');
+
   //header('Content-Type: text/html; charset=iso-8859-1');
   session_start();
   if($_SESSION["loggedin"] != true) {
@@ -179,8 +181,29 @@ include '../layouts/head.php';
                       $cantidad2 = $_POST['cantidad2'];
                       $cliente = $_POST['cliente'];
                       $sede = $_POST['sede'];
+                      $hora = date("H:i");
+                      echo $hora;
+                      $sql = "SELECT Tur_cod, Tur_hora_ini, Tur_hora_final FROM `turno`";
+                      $result = $conexion->query($sql);
+                      while ($row = $result->fetch_array(MYSQLI_ASSOC)){
+                        if ($row['Tur_hora_ini'] < $row['Tur_hora_final']) { //si se ve la hora en el mismo día
+                          if($row['Tur_hora_ini'] <= $hora and $hora <= $row['Tur_hora_final']){
+                            $turno = $row['Tur_cod'];
+                          }
+                        }else{ // Si el turno es del día actual al siguiente
+                          if($row['Tur_hora_ini'] <= $hora and $hora >=$row['Tur_hora_final']){
+                            $turno = $row['Tur_cod'];
+                          }
+                        }
+                      }
                       $fecha =  date("Y-m-d");
+                      //Insertar control
+                      $sql = "INSERT INTO `control` (`Con_id`, `Con_Ave`, `Con_usu`, `Con_fecha`, `Con_turno`, `Con_peso`, `Con_cape`, `Con_obs`)
+                              VALUES (NULL, '".$anillo."', '".$_SESSION['rut']."', '".$fecha."', '".$turno."', '".$peso."', '".$caperuza."', '".$observacion."')";
+                      $resultCon = $conexion->query($sql);
+                      echo $conexion->error;
                       echo '<br>';
+                      echo $_SESSION['rut'];
                       echo $anillo;
                       echo $peso;
                       echo $caperuza;
@@ -193,6 +216,8 @@ include '../layouts/head.php';
                       echo $sede ;
                       echo $fecha;
                       echo '<br>';
+                      echo $turno;
+
                       echo '<br>';
                       echo '<br>';
 
@@ -223,8 +248,8 @@ include '../layouts/head.php';
                 <div class="col-md-2">
                   <div class="md-form">
                   <select class="mdb-select" name="caperuza">
-                    <option value="c">Con</option>
-                    <option value="s">Sin</option>
+                    <option value="CC">Con</option>
+                    <option value="SC">Sin</option>
                   </select>
                   <label for="form61" >Caperuza</label>
                   </div>
@@ -353,8 +378,13 @@ include '../layouts/head.php';
     <script type='text/javascript'>
       $(document).ready(function(){
 
-
         <?php
+        if ($resultCon) {
+          echo 'toastr.success("Control agregado correctamente");';
+        }else {
+          echo 'toastr.error("Error al registrar el control");';
+        }
+
           echo "var subcats = $jsonSubCats; \n";
         ?>
 

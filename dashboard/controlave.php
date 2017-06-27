@@ -206,6 +206,11 @@ include '../layouts/head.php';
                       $aux = $conexion->query("SELECT `AUTO_INCREMENT` as AI FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'mis_aves' AND TABLE_NAME = 'control'")->fetch_array(MYSQLI_ASSOC);
                       $con_id = $aux['AI']-1;
 
+                      //Se inserta destino
+                      $sql = "INSERT INTO `destino` (`Des_Control`, `Des_sede`)
+                              VALUES ('".$con_id."', '".$sede."');";
+                      $resultdestino = $conexion->query($sql);
+
                       //Se inserta comida
                       $sql = "INSERT INTO `control_comida` (`Cco_control`, `Cco_tco`, `Cco_cant`)
                               VALUES ('.$con_id.', '$comida1', '$cantidad1')";

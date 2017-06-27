@@ -136,7 +136,9 @@
         ?>
 
 
+
         <?php
+          //Se agrega ave
           //echo $fechanac =  date("Y-m-d", strtotime("22-01-2911"));
           if (isset($_POST['submit'])){ //Recibe la información del formulario agregar ave
             $anillo = $_POST['anillo'];

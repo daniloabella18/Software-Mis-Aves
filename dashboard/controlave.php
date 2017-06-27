@@ -12,16 +12,14 @@
   if ($conexion->connect_error) {
    die("La conexion falló: " . $conexion->connect_error);
   }
-  //$query = "SELECT id, catid, subcat FROM subcat";
+
+  //Precarga las sedes de los clientes
   $query = "SELECT sed_cod, sed_cliente, sed_nombre FROM sede";
   $result = $conexion->query($query);
-
   while($row = $result->fetch_assoc()){
     $subcats[$row['sed_cliente']][] = array("id" => $row['sed_cod'], "val" => $row['sed_nombre']);
 //    $subcats[$row['catid']][] = array("id" => $row['id'], "val" => $row['subcat']);
-
   }
-
 
   $jsonSubCats = json_encode($subcats);
 
@@ -161,9 +159,50 @@ include '../layouts/head.php';
     <br>
 
       <div class="card card-block">
+
+
                 <h4 class="card-title">Registrar Control</h4>
-                <p class="card-text">Rellene los datos para registar el control de un ave, si desea modificar un control seleccione uno de los de abajo, controles de otros días no pueden ser modificados</p>
-        <form  Name ="form1" Method ="POST" ACTION = "">
+                <p class="card-text"> </p>
+
+
+                    <?php
+
+                    if (isset($_POST['submit'])){ //Recibe la información del formulario agregar ave
+                      $anillo = $_POST['anillo'];
+                      $peso = $_POST['peso'];
+                      $caperuza = $_POST['caperuza'];
+                      $observacion = $_POST['observacion'];
+                      $comida1 = $_POST['comida1'] === '' ? null : $_POST['comida1'] ;
+                      $cantidad1 = $_POST['cantidad1'];
+                      $comida2 = '';
+                      $comida2 = empty($_POST['comida2']) ? null : $_POST['comida2'];
+                      $cantidad2 = $_POST['cantidad2'];
+                      $cliente = $_POST['cliente'];
+                      $sede = $_POST['sede'];
+                      $fecha =  date("Y-m-d");
+                      echo '<br>';
+                      echo $anillo;
+                      echo $peso;
+                      echo $caperuza;
+                      echo $observacion;
+                      echo $comida1;
+                      echo $cantidad1;
+                      echo $comida2;
+                      echo $cantidad2;
+                      echo $cliente;
+                      echo $sede ;
+                      echo $fecha;
+                      echo '<br>';
+                      echo '<br>';
+                      echo '<br>';
+
+                    //  $sql = "INSERT INTO ave(Ave_anillo, Ave_nombre, Ave_estado, Ave_fecha_nac, Ave_especie, Ave_genero) VALUES ('".$anillo."', '".$ave."', '".$estado."' ,'".$fechanac."', '".$especie."', '".$genero."')
+                        //       ON DUPLICATE KEY UPDATE Ave_nombre = '".$ave."', Ave_estado = '".$estado."', Ave_fecha_nac='".$fechanac."', Ave_especie='".$especie."', Ave_genero='".$genero."'";
+                      //$result = $conexion->query($sql);
+                }
+                     ?>
+
+        <form  Name ="form1" Method ="POST" ACTION = "controlave.php">
             <!--FILA ANILLO, PESO CAPERUA                         -->
             <div class="row">
                 <!--First column-->
@@ -184,13 +223,13 @@ include '../layouts/head.php';
                 <div class="col-md-2">
                   <div class="md-form">
                   <select class="mdb-select" name="caperuza">
-                    <option value="" disabled selected></option>
                     <option value="c">Con</option>
                     <option value="s">Sin</option>
                   </select>
                   <label for="form61" >Caperuza</label>
                   </div>
                 </div>
+                <!-- OBSERVACION -->
                 <div class="col-md-5">
                   <div class="md-form">
                       <!--<i class="fa fa-pencil prefix"></i>
@@ -209,9 +248,15 @@ include '../layouts/head.php';
                     <div class="md-form">
                       <div class="md-form">
                         <select class="mdb-select" name="comida1">
-                          <option value="" disabled selected></option>
-                          <option value="hom">gorrion</option>
-                          <option value="met">metro</option>
+                          <?php
+                             $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida`";
+                             $result = $conexion->query($sql);
+                             $option = '';
+                             while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                                 $option .= ' <option value="'.$row['Tco_cod'].'">'.$row['Tco_animal'].'</option>';
+                             }
+                             echo $option;
+                            ?>
                         </select>
                         <label for="form61" >Comida</label>
                       </div>
@@ -238,8 +283,7 @@ include '../layouts/head.php';
                       <div class="md-form">
                         <select class="mdb-select" name="comida2">
                           <option value="" disabled selected></option>
-                          <option value="hom">gorrion</option>
-                          <option value="met">metro</option>
+                          <?php echo $option; ?>
                         </select>
                         <label for="form61" >Comida</label>
                       </div>
@@ -265,14 +309,19 @@ include '../layouts/head.php';
             <div class="row">
                 <div class="col-md-4">
                   <div class="md-form">
-                    <select class="mdb-select" name="caperuza" id='cliente'>
-                      <option value="hom">Homecenter</option>
-                      <option value="met">metro</option>
+                    <select class="mdb-select" name="cliente" id='cliente'>
+                      <?php
+                         $sql = " SELECT cli_cod, cli_nombre FROM cliente";
+                         $result = $conexion->query($sql);
+                         $option = '';
+                         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                             echo ' <option value="'.$row['cli_cod'].'">'.$row['cli_nombre'].'</option>';
+                         }
+                        ?>
                     </select>
-                    <label for="form41" class="">Comida</label>
+                    <label for="form41" class="">Cliente</label>
                   </div>
                 </div>
-
                 <!--Third column-->
                 <div class="col-md-8">
                   <div class="md-form">
@@ -282,9 +331,8 @@ include '../layouts/head.php';
                   </div>
                 </div>
               </div>
-
               <div class="md-form form-group">
-                  <button type="submit" href="send.php" class="btn btn-primary btn-lg">Agregar Control</a>
+                  <button   name="submit" type="submit" class="btn btn-primary btn-lg">Agregar Control</a>
               </div>
 
         </form>

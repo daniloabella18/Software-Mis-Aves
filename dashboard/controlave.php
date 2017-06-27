@@ -26,6 +26,29 @@
   $jsonSubCats = json_encode($subcats);
 
 
+function getTurno($conexion){
+  $hora = date("H:i");
+  $sql = "SELECT Tur_descp, Tur_hora_ini, Tur_hora_final FROM `turno`";
+  $result = $conexion->query($sql);
+  $turno=null;
+  while ($row = $result->fetch_array(MYSQLI_ASSOC)){
+    if ($row['Tur_hora_ini'] < $row['Tur_hora_final']) { //si se ve la hora en el mismo día
+      if($row['Tur_hora_ini'] <= $hora and $hora <= $row['Tur_hora_final']){
+        $turno = $row['Tur_descp'];
+      }
+    }elseif( $hora>"00:01" and $hora < "23:59" ){ // Si el turno es del día actual al siguiente
+      if($row['Tur_hora_ini'] <= $hora and $hora >=$row['Tur_hora_final']){
+        $turno = $row['Tur_descp'];
+      }else {
+        if($row['Tur_hora_ini'] > $hora and $hora <=$row['Tur_hora_final']){
+          $turno = $row['Tur_descp'];
+        }
+      }
+    }
+  }
+  return $turno;
+}
+
 
 include '../layouts/head.php';
 ?>
@@ -118,7 +141,6 @@ include '../layouts/head.php';
                    <th>Observación</th>
                    </thead>
                    <tbody>';
-               $cont_anterior = -1;
                $table = '';
                while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
                      $table .= '<tr>';
@@ -167,13 +189,31 @@ include '../layouts/head.php';
                 <h4 class="card-title">Registrar Control</h4>
                 <p class="card-text"> </p>
 
-
                     <?php
+                    if (isset($_POST['modificar'])){ //Recibe la información del formulario agregar ave
+                      foreach ($_POST['data'] as $key){
+                        if (!empty($key['checkbox'])) {
+                          $con_id = $key['id'];
+                          $anillo = $key['anillo'];
+                          $peso = $key['peso'];
+                          $caperuza = $key['cape'];
+
+                          $cliente = $key['cliente'];
+                          $sede = $key['sede'];
+                          $observacion = $key['obs'];
+                          //Datos que nos existen
+                          $cetrero = $key['cetrero'];
+                          $fecha = $key['fecha'];
+                        }
+                      }
+                    }
 
                     if (isset($_POST['submit'])){ //Recibe la información del formulario agregar ave
+                      $con_id = $_POST['con_id'];
                       $anillo = $_POST['anillo'];
                       $peso = $_POST['peso'];
                       $caperuza = $_POST['caperuza'];
+                      $cetrero = $_POST['cetrero'];
                       $observacion = $_POST['observacion'];
                       $comida1 = $_POST['comida1'] === '' ? null : $_POST['comida1'] ;
                       $cantidad1 = $_POST['cantidad1'];
@@ -182,35 +222,20 @@ include '../layouts/head.php';
                       $cantidad2 = $_POST['cantidad2'];
                       $cliente = $_POST['cliente'];
                       $sede = $_POST['sede'];
-                      $hora = date("H:i");
-                      echo $hora;
-                      $sql = "SELECT Tur_cod, Tur_hora_ini, Tur_hora_final FROM `turno`";
+                      $fecha =  date("Y-m-d", strtotime($_POST['fecha']));;
+
+                      $sql = "SELECT Tur_cod, Tur_descp FROM `turno`";
                       $result = $conexion->query($sql);
                       $turno=null;
                       while ($row = $result->fetch_array(MYSQLI_ASSOC)){
-                        if ($row['Tur_hora_ini'] < $row['Tur_hora_final']) { //si se ve la hora en el mismo día
-                          if($row['Tur_hora_ini'] <= $hora and $hora <= $row['Tur_hora_final']){
-                            $turno = $row['Tur_cod'];
-                          }
-                        }elseif( $hora>"00:01" and $hora < "23:59" ){ // Si el turno es del día actual al siguiente
-                          if($row['Tur_hora_ini'] <= $hora and $hora >=$row['Tur_hora_final']){
-                            $turno = $row['Tur_cod'];
-                          }else {
-                            if($row['Tur_hora_ini'] > $hora and $hora <=$row['Tur_hora_final']){
-                              $turno = $row['Tur_cod'];
-                            }
-                          }
+                        if( $_POST['turno'] == $row['Tur_descp']){
+                          $turno = $row['Tur_cod'];
                         }
                       }
-                      $fecha =  date("Y-m-d");
                       //Insertar control
                       $sql = "INSERT INTO `control` (`Con_id`, `Con_Ave`, `Con_usu`, `Con_fecha`, `Con_turno`, `Con_peso`, `Con_cape`, `Con_obs`)
-                              VALUES (NULL, '".$anillo."', '".$_SESSION['rut']."', '".$fecha."', '".$turno."', '".$peso."', '".$caperuza."', '".$observacion."')";
+                              VALUES ('".$con_id."', '".$anillo."', '".$cetrero."', '".$fecha."', '".$turno."', '".$peso."', '".$caperuza."', '".$observacion."')";
                       $resultCon = $conexion->query($sql);
-
-                      //Se obitene el id de control  del AUTO_INCREMENT
-                      $aux = $conexion->query("SELECT `AUTO_INCREMENT` as AI FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'mis_aves' AND TABLE_NAME = 'control'")->fetch_array(MYSQLI_ASSOC);
-                      $con_id = $aux['AI']-1;
 
                       //Se inserta destino
                       $sql = "INSERT INTO `destino` (`Des_Control`, `Des_sede`)
@@ -383,6 +408,58 @@ include '../layouts/head.php';
                   </div>
                 </div>
               </div>
+
+              <!--Datos ocultos   -->
+              <div class="row">
+
+                  <!--First column-->
+                  <div class="col-md-3">
+                      <div class="md-form">
+                          <input type="text" name="cetrero" class="form-control" value="<?php if(isset($_POST['modificar'])){echo $cetrero;}else{echo $_SESSION['rut'];} ?>" readonly="readonly">
+                          <label for="form41" class="">Cetrero</label>
+                      </div>
+                  </div>
+
+                  <!--Second column-->
+                  <div class="col-md-3">
+                      <div class="md-form">
+                          <input type="text" id="form51" class="form-control" name="turno" value="<?php
+                           if(isset($_POST['modificar'])){
+                             echo $turno  ;
+                           }else{
+                             $turno=getTurno($conexion);
+                             echo $turno;
+                           }
+                             ?>" readonly="readonly">
+                          <label for="form51" class="">Turno</label>
+                      </div>
+                  </div>
+
+                  <!--Third column-->
+                  <div class="col-md-3">
+                      <div class="md-form">
+                          <input type="text" id="form61" class="form-control" name="fecha" value="<?php if(isset($_POST['modificar'])){echo $fecha;}else{echo date("d-m-Y");} ?>" readonly="readonly">
+                          <label for="form61" class="">Fecha</label>
+                      </div>
+                  </div>
+
+                  <!--Third column-->
+                  <div class="col-md-3">
+                      <div class="md-form">
+                          <input type="text" id="form61" class="form-control" name="con_id" value="<?php
+                           if(isset($_POST['modificar'])){echo $con_id;}else{
+                              //Se obitene el id de control  del AUTO_INCREMENT
+                             $aux = $conexion->query("SELECT `AUTO_INCREMENT` as AI FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'mis_aves' AND TABLE_NAME = 'control'")->fetch_array(MYSQLI_ASSOC);
+                             $con_id = $aux['AI']-1;
+                             echo $con_id;
+                           } ?>" readonly="readonly">
+                          <label for="form61" class="">ID control</label>
+                      </div>
+                  </div>
+
+              </div>
+              <!--/.Third row-->
+
               <div class="md-form form-group">
                   <button   name="submit" type="submit" class="btn btn-primary btn-lg">Agregar Control</a>
               </div>

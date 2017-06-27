@@ -119,7 +119,6 @@ include '../layouts/head.php';
                         and (C.Con_Ave = '".$_GET['search']."' or A.Ave_nombre = '".$_GET['search']."')
                         GROUP BY C.Con_id";
                $result = $conexion->query($sql);
-               $count = 1;
               if(mysqli_num_rows($result) ==0){
                 echo 'No hay controles registrados para el ave '.$_GET['search'];
               }else{
@@ -142,6 +141,7 @@ include '../layouts/head.php';
                    </thead>
                    <tbody>';
                $table = '';
+               $count = 1;
                while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
                      $table .= '<tr>';
                      $table .= '<td><fieldset class="form-group"><input type="checkbox" id="checkbox'.$count.'" name="data['.$count.'][checkbox]" value="on "><label for="checkbox'.$count.'"></label></fieldset></td>';
@@ -197,7 +197,7 @@ include '../layouts/head.php';
                           $anillo = $key['anillo'];
                           $peso = $key['peso'];
                           $caperuza = $key['cape'];
-
+                          $turno = $key['turno'];
                           $cliente = $key['cliente'];
                           $sede = $key['sede'];
                           $observacion = $key['obs'];
@@ -226,7 +226,6 @@ include '../layouts/head.php';
 
                       $sql = "SELECT Tur_cod, Tur_descp FROM `turno`";
                       $result = $conexion->query($sql);
-                      $turno=null;
                       while ($row = $result->fetch_array(MYSQLI_ASSOC)){
                         if( $_POST['turno'] == $row['Tur_descp']){
                           $turno = $row['Tur_cod'];
@@ -285,14 +284,14 @@ include '../layouts/head.php';
                 <!--First column-->
                 <div class="col-md-3">
                     <div class="md-form">
-                        <input type="text" id="form41" class="form-control" name="anillo">
+                        <input type="text" id="form41" class="form-control" name="anillo"  value="<?php if(isset($_POST['modificar'])){echo $anillo;}else{echo '';} ?>">
                         <label for="form41" class="">Anillo</label>
                     </div>
                 </div>
                 <!--Third column-->
                 <div class="col-md-2">
                     <div class="md-form">
-                        <input type="text" id="form61" class="form-control" name="peso">
+                        <input type="text" id="form61" class="form-control" name="peso" value="<?php if(isset($_POST['modificar'])){echo $peso;}else{echo '';} ?>">
                         <label for="form61" class="">Peso</label>
                     </div>
                 </div>
@@ -310,8 +309,8 @@ include '../layouts/head.php';
                 <div class="col-md-5">
                   <div class="md-form">
                       <!--<i class="fa fa-pencil prefix"></i>
-                      <textarea type="text" id="form8" class="md-textarea"></textarea>-->
-                      <input type="text" id="form8" class="form-control" name="observacion"></textarea>
+                        <textarea type="text" id="form8" class="md-textarea"></textarea>-->
+                      <input type="text" id="form8" class="form-control" name="observacion" value="<?php if(isset($_POST['modificar'])){echo $observacion;}else{echo '';} ?>">
                       <label for="form8">Observación</label>
                   </div>
                 </div>
@@ -425,7 +424,7 @@ include '../layouts/head.php';
                       <div class="md-form">
                           <input type="text" id="form51" class="form-control" name="turno" value="<?php
                            if(isset($_POST['modificar'])){
-                             echo $turno  ;
+                             echo $turno;
                            }else{
                              $turno=getTurno($conexion);
                              echo $turno;

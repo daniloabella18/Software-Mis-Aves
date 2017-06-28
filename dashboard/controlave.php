@@ -16,8 +16,6 @@
   }
 
 
-
-
 function getTurno($conexion){
   $hora = date("H:i");
   $sql = "SELECT Tur_descp, Tur_hora_ini, Tur_hora_final FROM `turno`";
@@ -254,8 +252,7 @@ include '../layouts/head.php';
                               ";
                       $resultCon = $conexion->query($sql);
                       echo $conexion->error;
-
-                      if($cliente != nulonulicimo){
+                      if($cliente != "nulonulicimo"){
                       //Se inserta destino
                         $sql = "INSERT INTO `destino` (`Des_Control`, `Des_sede`)
                                 VALUES ('".$con_id."', '".$sede."')
@@ -540,7 +537,7 @@ include '../layouts/head.php';
               <!--/.Third row-->
 
               <div class="md-form form-group">
-                  <button   name="submit" type="submit" class="btn btn-primary btn-lg">Agregar Control</a>
+                  <button   name="submit" type="submit" class="btn btn-primary btn-lg"><?php if(isset($_POST['modificar'])){ echo "modificar Control"}else { echo "Agregar Control;"}</a>
               </div>
 
         </form>

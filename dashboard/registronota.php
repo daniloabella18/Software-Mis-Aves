@@ -1,4 +1,6 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
+date_default_timezone_set('America/Santiago');
   session_start();
   if($_SESSION["loggedin"] != true) {
       echo("Access denied!");
@@ -6,9 +8,36 @@
   }
   require_once("../db_const.php");
   $conexion = new mysqli($host_db, $user_db, $pass_db, $db_name);
+  $conexion->set_charset("utf8");
   if ($conexion->connect_error) {
    die("La conexion falló: " . $conexion->connect_error);
   }
+
+
+
+  function getTurno($conexion){
+    $hora = date("H:i");
+    $sql = "SELECT Tur_descp, Tur_hora_ini, Tur_hora_final FROM `turno`";
+    $result = $conexion->query($sql);
+    $turno=null;
+    while ($row = $result->fetch_array(MYSQLI_ASSOC)){
+      if ($row['Tur_hora_ini'] < $row['Tur_hora_final']) { //si se ve la hora en el mismo día
+        if($row['Tur_hora_ini'] <= $hora and $hora <= $row['Tur_hora_final']){
+          $turno = $row['Tur_descp'];
+        }
+      }elseif( $hora>"00:01" and $hora < "23:59" ){ // Si el turno es del día actual al siguiente
+        if($row['Tur_hora_ini'] <= $hora and $hora >=$row['Tur_hora_final']){
+          $turno = $row['Tur_descp'];
+        }else {
+          if($row['Tur_hora_ini'] > $hora and $hora <=$row['Tur_hora_final']){
+            $turno = $row['Tur_descp'];
+          }
+        }
+      }
+    }
+    return $turno;
+  }
+
 include '../layouts/head.php';
 ?>
 
@@ -49,7 +78,7 @@ include '../layouts/head.php';
       <div class="card card-block">
                 <h4 class="card-title">Registrar Nota</h4>
                 <p class="card-text">Info ayuda </p>
-        <form  Name ="form1" Method ="POST" ACTION = "send.php">
+        <form  Name ="form1" Method ="POST" ACTION = "">
             <!--Third row-->
 
             <div class="row">
@@ -62,53 +91,24 @@ include '../layouts/head.php';
                 </div>
               </div>
             </div>
-            <div class="md-form form-group">
-                <button type="submit" href="send.php" class="btn btn-primary btn-lg">Login</a>
-            </div>
-        </form>
+
+
         <div class="row">
 
             <!--First column-->
             <div class="col-md-3">
                 <div class="md-form">
-                    <input type="text" id="form41" class="form-control" name="anillo">
-                    <label for="form41" class="">Anillo</label>
+                    <input type="text" id="form41" class="form-control" name="turno" >
+                    <label for="form41" class=""><?php echo getTurno($conexion); ?></label>
                 </div>
             </div>
 
-            <!--Second column-->
-            <div class="col-md-3">
-                <div class="md-form">
-                    <input type="text" id="form51" class="form-control" name="ave">
-                    <label for="form51" class="ave">Ave</label>
-                </div>
-            </div>
-
-            <!--Third column-->
-            <div class="col-md-3">
-                <div class="md-form">
-                    <input type="text" id="form61" class="form-control" name="peso">
-                    <label for="form61" class="">Peso</label>
-                </div>
-            </div>
-            <!--Third column-->
-            <div class="col-md-3">
-              <div class="md-form">
-              <select class="mdb-select" name="caperuza">
-                <option value="" disabled selected></option>
-                <option value="c">Con</option>
-                <option value="s">Sin</option>
-              </select>
-              <label for="form61" >Caperuza</label>
-              </div>
-            </div>
+        <div class="md-form form-group">
+            <button type="submit" class="btn btn-primary btn-lg">Agregar nota</a>
         </div>
-        <!--/.Third row-->
-
-
-
+        </form>
         </div>
-
+  </div>
 </br>
 
 

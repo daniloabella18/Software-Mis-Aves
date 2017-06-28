@@ -1,4 +1,4 @@
-Jef<!--Double navigation-->
+<!--Double navigation-->
 
 <!-- Sidebar navigation -->
 <ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">

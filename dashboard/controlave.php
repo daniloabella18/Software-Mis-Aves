@@ -16,7 +16,11 @@
   }
 
   //Precarga las sedes de los clientes
-  $query = "SELECT sed_cod, sed_cliente, sed_nombre FROM sede";
+  if (isset($_POST['modificar'])){
+     $query = "SELECT sed_cod, sed_cliente, sed_nombre FROM sede ORDER BY sed_nombre".$key['sede']." ";
+   }else {
+     $query = "SELECT sed_cod, sed_cliente, sed_nombre FROM sede";
+   }
   $result = $conexion->query($query);
   while($row = $result->fetch_assoc()){
     $subcats[$row['sed_cliente']][] = array("id" => $row['sed_cod'], "val" => $row['sed_nombre']);
@@ -150,7 +154,7 @@ include '../layouts/head.php';
                      $table .= '<td><input type="hidden" name="data['.$count.'][nombre]" value="'.$row['Ave_nombre'].'">'.$row['Ave_nombre'].'</td>'."\n";
                      $table .= '<td><input type="hidden" name="data['.$count.'][peso]" value="'.$row['Con_peso'].'">'.$row['Con_peso'].'</td>'."\n";
                      $table .= '<td><input type="hidden" name="data['.$count.'][cape]" value="'.$row['Con_cape'].'">'.$row['Con_cape'].'</td>'."\n";
-                     $table .= '<td><input type="hidden" name="data['.$count.'][animal]" value="'.$row['comi'].'">'.$row['comi'].'</td>'."\n";
+                     $table .= '<td><input type="hidden" name="data['.$count.'][comida]" value="'.$row['comi'].'">'.$row['comi'].'</td>'."\n";
                      $table .= '<td></td>'."\n";
                      $table .= '<td><input type="hidden" name="data['.$count.'][cetrero]" value="'.$row['usu_nombre'].'">'.$row['usu_nombre'].'</td>';
                      $table .= '<td><input type="hidden" name="data['.$count.'][fecha]" value="'.$row['Con_fecha'].'">'.date("d-m-Y", strtotime($row['Con_fecha'])).'</td>'."\n";
@@ -191,7 +195,6 @@ include '../layouts/head.php';
 
                 <h4 class="card-title">Registrar Control</h4>
                 <p class="card-text"> </p>
-
                     <?php
                     if (isset($_POST['modificar'])){ //Recibe la información del formulario agregar ave
                       foreach ($_POST['data'] as $key){
@@ -207,11 +210,10 @@ include '../layouts/head.php';
                           //Datos que nos existen
                           $cetrero = $key['cetrero'];
                           $fecha = $key['fecha'];
-
+                          echo $key['comida'];
                         }
                       }
                     }
-
                     if (isset($_POST['submit'])){ //Recibe la información del formulario agregar ave
                       $con_id = $_POST['con_id'];
                       $anillo = $_POST['anillo'];
@@ -305,8 +307,19 @@ include '../layouts/head.php';
                 <div class="col-md-2">
                   <div class="md-form">
                   <select class="mdb-select" name="caperuza">
-                    <option value="CC">Con</option>
-                    <option value="SC">Sin</option>
+                    <?php if(isset($_POST['modificar'])){
+                      if($caperuza == 'CC'  ){
+                      echo  ' <option value="CC">Con</option>
+                              <option value="SC">Sin</option>';
+                      }else{
+                      echo ' <option value="SC">Sin</option>
+                            <option value="CC">Con</option>';
+                          }
+                      }else {
+                        echo  ' <option value="CC">Con</option>
+                                <option value="SC">Sin</option>';
+                      } ?>
+
                   </select>
                   <label for="form61" >Caperuza</label>
                   </div>
@@ -331,7 +344,12 @@ include '../layouts/head.php';
                       <div class="md-form">
                         <select class="mdb-select" name="comida1">
                           <?php
+                          if(isset($_POST['modificar'])){
+
                              $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida`";
+                           }else {
+                             $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida`";
+                           }
                              $result = $conexion->query($sql);
                              $option = '';
                              while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -339,6 +357,7 @@ include '../layouts/head.php';
                              }
                              echo $option;
                             ?>
+
                         </select>
                         <label for="form61" >Comida</label>
                       </div>
@@ -393,13 +412,35 @@ include '../layouts/head.php';
                   <div class="md-form">
                     <select class="mdb-select" name="cliente" id='cliente'>
                       <?php
+                      if (isset($_POST['modificar'])){
+                         $sql = " SELECT cli_cod, cli_nombre FROM cliente ORDER BY ".$cliente."";
+                       }else {
                          $sql = " SELECT cli_cod, cli_nombre FROM cliente";
+                       }
                          $result = $conexion->query($sql);
                          $option = '';
                          while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
                              echo ' <option value="'.$row['cli_cod'].'">'.$row['cli_nombre'].'</option>';
                          }
+
                         ?>
+
+                        <?php /*
+                        $option = '';
+                        if (isset($_POST['modificar'])){
+                           $sql = " SELECT cli_cod, cli_nombre FROM cliente ORDER BY cli_nombre='".$cliente."'";
+                           $option = '';
+                         }else {
+                           $sql = " SELECT cli_cod, cli_nombre FROM cliente";
+                           $option = '<option value="">Casa</option>';
+                         }
+                           $result = $conexion->query($sql);
+                           while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                               $option +=' <option value="'.$row['cli_cod'].'">'.$row['cli_nombre'].'</option>';
+                           }
+                           echo $option;
+                           */
+                          ?>
                     </select>
                     <label for="form41" class="">Cliente</label>
                   </div>
@@ -473,7 +514,7 @@ include '../layouts/head.php';
 
 
 
-        </div>
+      </div>
 
 </br>
 

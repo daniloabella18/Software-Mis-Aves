@@ -54,7 +54,7 @@
                 </div>
             </li>
           <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-text-o"></i>Aves por controlar</a></li>
-          <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-text-o"></i>Controles diarios</a></li>
+          <li><a href="reporte2.php" class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-text-o"></i>Controles diarios</a></li>
           <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-text-o"></i>30 días</a></li>
         </ul>
     </li>

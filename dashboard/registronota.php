@@ -75,10 +75,29 @@ include '../layouts/head.php';
     <!--Main layout-->
     <main>
     <div class="container-fluid text-center">
+      <?php
+      if (isset($_POST['submit'])){
+        $sql = "SELECT Tur_cod, Tur_descp FROM `turno`";
+        $resulttur = $conexion->query($sql);
+        while ($row = $resulttur->fetch_array(MYSQLI_ASSOC)){
+          if( $_POST['turno'] == $row['Tur_descp']){
+            $turno = $row['Tur_cod'];
+          }
+        }
+
+        $sql = "INSERT INTO `nota` (`not_cod`, `not_usuario`, `not_fecha`, `not_descrip`, `not_turno`)
+        VALUES ('".$_POST['not_cod']."', '".$_POST['cetrero']."', '".date("Y-m-d", strtotime($_POST['fecha']))."', '".$_POST['nota']."', '".$turno."')
+        ON DUPLICATE KEY UPDATE not_usuario=VALUES(not_usuario), not_fecha=VALUES(not_fecha), not_descrip=VALUES(not_descrip), not_turno = VALUES(not_descrip)";
+          $result = $conexion->query($sql);
+          echo $conexion->error;
+      }
+
+         ?>
       <div class="card card-block">
                 <h4 class="card-title">Registrar Nota</h4>
                 <p class="card-text">Info ayuda </p>
-        <form  Name ="form1" Method ="POST" ACTION = "">
+
+      <form Method ="POST" ACTION = "registronota.php">
             <!--Third row-->
 
             <div class="row">
@@ -86,7 +105,7 @@ include '../layouts/head.php';
               <div class="col-md-12">
                 <div class="md-form">
                     <i class="fa fa-pencil prefix"></i>
-                    <textarea type="text" id="form8" class="md-textarea" name="nota"></textarea>
+                    <textarea type="text" id="form8" class="md-textarea" name="nota" value="<?php if(isset($_POST['modificar'])){echo $nota;}else{echo "";} ?>"></textarea>
                     <label for="form8">Nota</label>
                 </div>
               </div>
@@ -96,16 +115,51 @@ include '../layouts/head.php';
         <div class="row">
 
             <!--First column-->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="md-form">
-                    <input type="text" id="form41" class="form-control" name="turno" >
-                    <label for="form41" class=""><?php echo getTurno($conexion); ?></label>
+                    <input type="text" id="form41" class="form-control" name="turno"  value="<?php
+                     if(isset($_POST['modificar'])){
+                       echo $turno;
+                     }else{
+                       $turno=getTurno($conexion);
+                       echo $turno;
+                     }
+                       ?>" readonly="readonly">
+                    <label for="form41" class="">Turno</label>
                 </div>
             </div>
 
-        <div class="md-form form-group">
-            <button type="submit" class="btn btn-primary btn-lg">Agregar nota</a>
-        </div>
+            <div class="col-md-2">
+                <div class="md-form">
+                    <input type="text" id="form41" class="form-control" name="fecha" value="<?php if(isset($_POST['modificar'])){echo $fecha;}else{echo date("d-m-Y");} ?>" readonly="readonly">
+                    <label for="form41" class=""> Fecha</label>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="md-form">
+                    <input type="text" id="form41" class="form-control" name="cetrero" value="<?php if(isset($_POST['modificar'])){echo $cetrero;}else{echo $_SESSION['rut'];} ?>" readonly="readonly">                    <label for="form41" class=""> Cetrero</label>
+                </div>
+            </div>
+            <!--Third column-->
+            <div class="col-md-2">
+                <div class="md-form">
+                    <input type="text" id="form61" class="form-control" name="not_cod" value="<?php
+                     if(isset($_POST['modificar'])){echo $con_id;}else{
+                        //Se obitene el id de control  del AUTO_INCREMENT
+                       $aux = $conexion->query("SELECT `AUTO_INCREMENT` as AI FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '".$db_name."' AND TABLE_NAME = 'nota'")->fetch_array(MYSQLI_ASSOC);
+                       $con_id = $aux['AI'];
+                       echo $con_id;
+                     } ?>" readonly="readonly">
+                    <label for="form61" class="">ID Nota</label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="md-form form-group">
+                  <button type="submit"  name="submit" class="btn btn-primary btn-lg"><?php if (!isset($_POST['modificar'])){echo 'Agregar nota'; }else {echo 'Modificar nota';} ?> </button>
+              </div>
+            </div>
         </form>
         </div>
   </div>
@@ -113,77 +167,27 @@ include '../layouts/head.php';
 
 
     <div class="card card-block">
-      <table class="table table-responsive">
-          <thead>
-              <tr>
-                  <th>#</th>
-                  <th></th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Username</th>
-                  <th>Actions</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <th scope="row">1</th>
-                  <td>
-                      <fieldset class="form-group">
-                          <input type="checkbox" id="checkbox1">
-                          <label for="checkbox1"></label>
-                      </fieldset>
-                  </td>
-                  <td>Ashley</td>
-                  <td>Lynwood</td>
-                  <td>@ashow</td>
-                  <td>
-                      <a class="blue-text"><i class="fa fa-user"></i></a>
-                      <a class="teal-text"><i class="fa fa-pencil"></i></a>
-                      <a class="red-text"><i class="fa fa-times"></i></a>
-                  </td>
-              </tr>
-              <tr>
-                  <th scope="row">2</th>
-                  <td>
-                      <fieldset class="form-group">
-                          <input type="checkbox" id="checkbox2">
-                          <label for="checkbox2"></label>
-                      </fieldset>
-                  </td>
-                  <td>Billy</td>
-                  <td>Cullen</td>
-                  <td>@cullby</td>
-                  <td>
-                      <a class="blue-text"><i class="fa fa-user"></i></a>
-                      <a class="teal-text"><i class="fa fa-pencil"></i></a>
-                      <a class="red-text"><i class="fa fa-times"></i></a>
-                  </td>
-              </tr>
-              <tr>
-                  <th scope="row">3</th>
-                  <td>
-                      <fieldset class="form-group">
-                          <input type="checkbox" id="checkbox3">
-                          <label for="checkbox3"></label>
-                      </fieldset>
-                  </td>
-                  <td>Ariel</td>
-                  <td>Macy</td>
-                  <td>@arielsea</td>
-                  <td>
-                      <a class="blue-text"><i class="fa fa-user"></i></a>
-                      <a class="teal-text"><i class="fa fa-pencil"></i></a>
-                      <a class="red-text"><i class="fa fa-times"></i></a>
-                  </td>
-              </tr>
 
-          </tbody>
-      </table>
-  </div>
         </div>
     </main>
     <!--/Main layout-->
-    <?php include '../layouts/footer.php';?>
+    <?php include '../layouts/footer.php';
+
+    echo "<script type='text/javascript'>
+      $(document).ready(function(){";
+
+    if (isset($_POST['submit'])) {
+      if(!$result){
+        echo("Hubo un error al procesar la solicitud: " .$conexion->error);
+          echo 'toastr.error("Error al registrar el control");';
+      }else {
+        echo 'toastr.success("La nota ha sido agregada correctamente");';
+      }
+    }
+echo "  });
+</script>";
+
+    ?>
 </body>
 
 </html>

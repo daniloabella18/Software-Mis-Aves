@@ -235,7 +235,7 @@ include '../layouts/head.php';
                       $cantidad2 = $_POST['cantidad2'];
                       $cliente = $_POST['cliente'];
                       $sede = $_POST['sede'];
-                      $fecha =  date("Y-m-d", strtotime($_POST['fecha']));;
+                      $fecha =  date("Y-m-d", strtotime($_POST['fecha']));
 
                       $sql = "SELECT Tur_cod, Tur_descp FROM `turno`";
                       $result = $conexion->query($sql);
@@ -525,7 +525,7 @@ include '../layouts/head.php';
                           <input type="text" id="form61" class="form-control" name="con_id" value="<?php
                            if(isset($_POST['modificar'])){echo $con_id;}else{
                               //Se obitene el id de control  del AUTO_INCREMENT
-                             $aux = $conexion->query("SELECT `AUTO_INCREMENT` as AI FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'mis_aves' AND TABLE_NAME = 'control'")->fetch_array(MYSQLI_ASSOC);
+                             $aux = $conexion->query("SELECT `AUTO_INCREMENT` as AI FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '".$db_name."' AND TABLE_NAME = 'control'")->fetch_array(MYSQLI_ASSOC);
                              $con_id = $aux['AI'];
                              echo $con_id;
                            } ?>" readonly="readonly">
@@ -537,7 +537,7 @@ include '../layouts/head.php';
               <!--/.Third row-->
 
               <div class="md-form form-group">
-                  <button   name="submit" type="submit" class="btn btn-primary btn-lg"><?php if(isset($_POST['modificar'])){ echo "modificar Control"}else { echo "Agregar Control;"}</a>
+                  <button name="submit" type="submit" class="btn btn-primary btn-lg"> <?php if(isset($_POST['modificar'])){ echo "Modificar Control";}else { echo "Agregar Control";}?> </a>
               </div>
 
         </form>

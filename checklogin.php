@@ -11,7 +11,7 @@ if ($conexion->connect_error) {
 $rut = $_POST['rut'];
 $password = $_POST['password'];
 
-$sql = "SELECT * from usuario WHERE usu_rut LIKE '{$rut}' AND usu_contra LIKE '{$password}' LIMIT 1";
+$sql = "SELECT usu_rut, usu_nombre, usu_cargo from usuario WHERE usu_rut LIKE '{$rut}' AND usu_contra LIKE '{$password}' LIMIT 1";
 //$sql = "SELECT * FROM $tbl_name WHERE nombre_usuario = '$rut'";;
 $result = $conexion->query($sql);
 if ($result->num_rows > 0) {

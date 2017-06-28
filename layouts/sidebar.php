@@ -1,4 +1,4 @@
-<!--Double navigation-->
+Jef<!--Double navigation-->
 
 <!-- Sidebar navigation -->
 <ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">
@@ -27,8 +27,10 @@
             <li><a  class="collapsible-header waves-effect arrow-r"><i class="fa fa-chevron-right"></i> Aves<i class="fa fa-angle-down rotate-icon"></i></a>
                 <div class="collapsible-body">
                     <ul>
-                        <li><a href="adminave.php" class="waves-effect">Administrar aves</a>
-                        </li>
+                      <?php if( $_SESSION['cargo'] == 'Jef' ){
+                        echo '<li><a href="adminave.php" class="waves-effect">Administrar aves</a>
+                        </li>';}
+                         ?>
                         <li><a href="controlave.php" class="waves-effect">Control ave</a>
                           <div class="collapsible-body">
                               <ul>
@@ -42,8 +44,10 @@
                     </ul>
                 </div>
             </li>
-            <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i> Usuarios</a></li>
 
+            <?php if( $_SESSION['cargo'] == 'Jef' ){
+            echo '<li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i> Usuarios</a></li>';}
+            ?>
           <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-text-o"></i> Reportes<i class="fa fa-angle-down rotate-icon"></i></a>
           <div class="collapsible-body">
               <ul>
@@ -57,16 +61,20 @@
           </div>
 
     </li>
-    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-database"></i> Tablas básicas<i class="fa fa-angle-down rotate-icon"></i></a>
+    <?php if( $_SESSION['cargo'] == 'Jef' ){
+    echo '<li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-database"></i> Tablas básicas<i class="fa fa-angle-down rotate-icon"></i></a>
         <div class="collapsible-body">
             <ul>
-                <li><a href="#" class="waves-effect">Muschas</a>
+                <li><a href="#" class="waves-effect">Cliente</a>
                 </li>
-                <li><a href="#" class="waves-effect">Tablas</a>
+                <li><a href="#" class="waves-effect">Sede</a>
+                </li>
+                <li><a href="#" class="waves-effect">Turno</a>
                 </li>
             </ul>
         </div>
-    </li>
+    </li>';}
+    ?>
     </ul>
     <!--/. Side navigation links -->
     <div class="sidenav-bg mask-strong"></div>

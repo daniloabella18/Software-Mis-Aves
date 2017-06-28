@@ -159,9 +159,10 @@ include '../layouts/head.php';
                      $table .= '<td><input type="hidden" name="data['.$count.'][sede]" value="'.$row['sed_nombre'].'">'.$row['sed_nombre'].'</td>'."\n";
                      $table .= '<td><input type="hidden" name="data['.$count.'][obs]" value="'.$row['Con_obs'].'">'.$row['Con_obs'].'</td>'."\n";
                      $table .= "</tr>\n";
-                     echo $table;
+
                 $count= $count + 1;
                }
+               echo $table;
                echo '
                       </tbody>
                   </table>
@@ -176,7 +177,7 @@ include '../layouts/head.php';
                echo "</div>";
              }
            }
-           
+
               ?>
             </form>
         </div>
@@ -186,6 +187,7 @@ include '../layouts/head.php';
 
       <div class="card card-block">
 
+        <?php  echo "Pollito - 1<br>Ratón - 2";?>
 
                 <h4 class="card-title">Registrar Control</h4>
                 <p class="card-text"> </p>
@@ -205,6 +207,7 @@ include '../layouts/head.php';
                           //Datos que nos existen
                           $cetrero = $key['cetrero'];
                           $fecha = $key['fecha'];
+
                         }
                       }
                     }
@@ -232,10 +235,12 @@ include '../layouts/head.php';
                           $turno = $row['Tur_cod'];
                         }
                       }
+
                       //Insertar control
                       $sql = "INSERT INTO `control` (`Con_id`, `Con_Ave`, `Con_usu`, `Con_fecha`, `Con_turno`, `Con_peso`, `Con_cape`, `Con_obs`)
                               VALUES ('".$con_id."', '".$anillo."', '".$cetrero."', '".$fecha."', '".$turno."', '".$peso."', '".$caperuza."', '".$observacion."')";
                       $resultCon = $conexion->query($sql);
+                      echo $conexion->error;
 
                       //Se inserta destino
                       $sql = "INSERT INTO `destino` (`Des_Control`, `Des_sede`)

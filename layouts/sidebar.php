@@ -51,11 +51,11 @@
           <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-text-o"></i> Reportes<i class="fa fa-angle-down rotate-icon"></i></a>
           <div class="collapsible-body">
               <ul>
-                  <li><a href="#" class="waves-effect">Aves por controlar</a>
+                  <li><a href="avesquefaltanporcontrolar.php" class="waves-effect">Aves por controlar</a>
                   </li>
                   <li><a href="Controlesdiarios.php" class="waves-effect">Controles diarios</a>
                   </li>
-                  <li><a href="histoticoave.php" class="waves-effect">30 días ave</a>
+                  <li><a href="historicoave.php" class="waves-effect">30 días ave</a>
                   </li>
               </ul>
           </div>

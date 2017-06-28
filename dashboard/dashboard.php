@@ -37,8 +37,8 @@ include '../layouts/head.php';
     <!--Main layout-->
     <main>
         <div class="container-fluid text-center" style="height: 800px;">
-          <h1 class="display-4">Bienvenido cetrero</h1>
-          <p class="lead">Te haz logueado como  <?= $_SESSION['username']?> tu cargo es <?= $_SESSION['cargo'] ?> y tu rut es <?= $_SESSION['rut'] ?></p>
+          <h1 class="display-4">¡Bienvenido cetrero!</h1>
+          <p class="lead">Te haz logueado como  <?= $_SESSION['username']?>.</p>
         </div>
     </main>
     <!--/Main layout-->

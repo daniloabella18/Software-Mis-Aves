@@ -204,8 +204,8 @@ GROUP BY C.Con_id
         ?>
 
 
-                <h4 class="card-title">Registrar Control</h4>
-                <p class="card-text"> </p>
+                <h4 class="card-title"><?php if(isset($_POST['modificar'])){echo "Modificando control";}else{echo "Registrar Control";} ?></h4>
+                <p class="card-text"> </p><br>
                     <?php
                     if (isset($_POST['modificar'])){ //Recibe la información del formulario agregar ave
                       foreach ($_POST['data'] as $key){ //Los valores que se van a reemplazar
@@ -240,6 +240,34 @@ GROUP BY C.Con_id
                       }
                     }
 
+                    if (isset($_POST['quitar'])){
+                      foreach ($_POST['data'] as $key){ //Los valores que se van a reemplazar
+                        if (!empty($key['checkbox'])) {
+                          $con_id = $key['id'];
+                          $sede = $key['sede'];
+                          $comida1 = $_POST['comida1'] === '' ? null : $_POST['comida1'] ;
+                          $comida2 = '';
+                          $comida2 = empty($_POST['comida2']) ? null : $_POST['comida2'];
+                        }
+                      }
+                      //Se quitan las comidas
+                        $sql = "DELETE FROM control_comida WHERE Cco_control = '".$con_id."' AND Cco_tco ='".$comida1."' ";
+                        $result = $conexion->query($sql);
+                        if ($comida2 != null) {
+                          $sql = "DELETE FROM control_comida WHERE Cco_control = '".$con_id."' AND Cco_tco ='".$comida2."' ";
+                          $resultComida2 = $conexion->query($sql);
+                          echo $conexion->error;
+                        }
+                        //Se quita destino
+                        if($cliente != "nulonulicimo"){//Se inserta destino
+                          $sql= "DELETE FROM destino WHERE Des_Control = '".$con_id."' AND Des_sede = '".$sede."' ";
+                          $resultdq= $conexion->query($sql);
+                        }
+                        //Se quita el control
+                        $sql= "DELETE FROM control WHERE Con_id = '".$con_id."' ";
+                        $resultc = $conexion->query($sql);
+                    }
+
                     //Se agregan los datos enviados
                     if (isset($_POST['submit'])){ //Recibe la información del formulario agregar ave
                       $con_id = $_POST['con_id'];
@@ -272,11 +300,11 @@ GROUP BY C.Con_id
                               ";
                       $resultCon = $conexion->query($sql);
                       echo $conexion->error;
-                      if($cliente != "nulonulicimo"){
-                      //Se inserta destino
-                        $sql= "DELETE FROM `destino` WHERE `destino`.`Des_Control` = '".$con_id."' AND `destino`.`Des_sede` = '".$sede."' ";
-                        $resultdestino = $conexion->query($sql);
-                        $sql = "INSERT INTO `destino` (`Des_Control`, `Des_sede`)
+                      if($cliente != "nulonulicimo"){//Se inserta destino
+                        echo $conexion->error;
+                        $sql= "DELETE FROM destino WHERE Des_Control = '".$con_id."' ";
+                        $resultdq= $conexion->query($sql);
+                        $sql = "INSERT INTO destino (Des_Control, Des_sede)
                                 VALUES ('".$con_id."', '".$sede."')";
                         $resultdestino = $conexion->query($sql);
                         echo $conexion->error;
@@ -461,9 +489,13 @@ GROUP BY C.Con_id
                     <select class="mdb-select" name="cliente" id='cliente'>
                       <?php
                       if (isset($_POST['modificar'])){
-                        echo "tula";
-                         $sql = " SELECT cli_cod, cli_nombre FROM cliente ORDER BY cli_nombre='".$cliente." desc'";
+
+                        $sql= "DELETE FROM destino WHERE Des_Control = '".$con_id."' AND Des_sede = '".$sede."' ";
+                        $resultdestino = $conexion->query($sql);
+                        echo $conexion->error;
+                         $sql = " SELECT cli_cod, cli_nombre FROM cliente ORDER BY cli_nombre='".$cliente."' desc";
                          $option = '';
+
                        }else {
                          $sql = " SELECT cli_cod, cli_nombre FROM cliente";
                          $option = '<option value="nulonulicimo"></option>';

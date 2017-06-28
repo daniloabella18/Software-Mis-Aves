@@ -258,7 +258,7 @@ include '../layouts/head.php';
                       if($cliente != nulonulicimo){
                       //Se inserta destino
                         $sql = "INSERT INTO `destino` (`Des_Control`, `Des_sede`)
-                                VALUES ('".$con_id."', '".$sede."');
+                                VALUES ('".$con_id."', '".$sede."')
                                 ON DUPLICATE KEY UPDATE Des_sede = '".$sede."'";
                         $resultdestino = $conexion->query($sql);
                       }

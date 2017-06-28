@@ -114,11 +114,20 @@ GROUP BY C.Con_id
           //Se recibe la información de buscar un ave
           if (isset($_GET['search'])) {
             //SELECT C.Con_id, A.Ave_anillo, A.Ave_nombre, C.Con_peso,C.Con_cape, U.usu_nombre, C.Con_fecha, T.Tur_descp, C.Con_obs  FROM control C, ave A, usuario U, turno T WHERE C.Con_Ave = A.Ave_anillo and C.Con_usu = U.usu_rut and C.Con_turno = T.Tur_cod
-               $sql = "SELECT C.Con_id , A.Ave_anillo, A.Ave_nombre, C.Con_peso,C.Con_cape, GROUP_CONCAT( CONCAT( TC.Tco_animal, ' - ', CC.Cco_cant) SEPARATOR '<br>') as comi, U.usu_nombre, C.Con_fecha, T.Tur_descp, CL.cli_nombre, S.sed_nombre, C.Con_obs
-                        FROM control_comida CC, control C, ave A, usuario U, turno T, tipo_comida TC, destino D, sede S, cliente CL
-                        WHERE C.Con_Ave = A.Ave_anillo and C.Con_usu = U.usu_rut and C.Con_turno = T.Tur_cod AND CC.Cco_control= C.Con_id and CC.Cco_tco = TC.Tco_cod and D.Des_Control = C.Con_id and S.sed_cod = D.Des_sede and CL.cli_cod = S.sed_cliente
-                        and (C.Con_Ave = '".$_GET['search']."' or A.Ave_nombre = '".$_GET['search']."')
-                        GROUP BY C.Con_id";
+               $sql = "SELECT C.Con_id, A.Ave_anillo, A.Ave_nombre, C.Con_peso, C.Con_cape, A.Ave_especie,  GROUP_CONCAT( CONCAT( TC.Tco_animal, ' - ', CC.Cco_cant) SEPARATOR '<br>') as comi,
+                        CL.cli_nombre, S.sed_nombre, T.Tur_descp, U.usu_nombre, C.Con_obs, C.Con_fecha
+                        FROM ave A, usuario U, turno T, control C
+                        LEFT JOIN destino D
+                        	INNER JOIN sede S ON S.sed_cod = D.Des_sede
+                         ON C.Con_id = D.Des_Control
+                        INNER JOIN cliente CL ON CL.cli_cod = S.sed_cliente
+                        LEFT JOIN control_comida CC
+                        	INNER JOIN tipo_comida TC ON TC.Tco_cod = CC.Cco_tco
+                        ON C.Con_id = CC.Cco_control
+                        WHERE A.Ave_anillo = C.Con_Ave AND C.Con_turno = T.Tur_cod AND C.Con_usu = U.usu_rut
+                        and (A.Ave_anillo = '".$_GET['search']."' or A.Ave_nombre = '".$_GET['search']."')
+                        GROUP BY C.Con_id
+                        ORDER BY C.Con_id desc";
                $result = $conexion->query($sql);
               if(mysqli_num_rows($result) ==0){
                 echo 'No hay controles registrados para el ave '.$_GET['search'];
@@ -265,18 +274,23 @@ GROUP BY C.Con_id
                       echo $conexion->error;
                       if($cliente != "nulonulicimo"){
                       //Se inserta destino
-                        $sql = "REPLACE INTO `destino` (`Des_Control`, `Des_sede`)
+                        $sql= "DELETE FROM `destino` WHERE `destino`.`Des_Control` = '".$con_id."' AND `destino`.`Des_sede` = '".$sede."' ";
+                        $resultdestino = $conexion->query($sql);
+                        $sql = "INSERT INTO `destino` (`Des_Control`, `Des_sede`)
                                 VALUES ('".$con_id."', '".$sede."')";
                         $resultdestino = $conexion->query($sql);
+                        echo $conexion->error;
                       }
                       //Se inserta comida
                       $sql = "REPLACE INTO `control_comida` (`Cco_control`, `Cco_tco`, `Cco_cant`)
                               VALUES ('.$con_id.', '$comida1', '$cantidad1')";
                       $resultComida = $conexion->query($sql);
+                      echo $conexion->error;
                       if ($comida2 != null) {
                         $sql = "REPLACE INTO `control_comida` (`Cco_control`, `Cco_tco`, `Cco_cant`)
                                 VALUES ('.$con_id.', '$comida2', '$cantidad2')";
                         $resultComida2 = $conexion->query($sql);
+                        echo $conexion->error;
                       }
                       /*
                       echo $con_id."<br>";
@@ -366,7 +380,7 @@ GROUP BY C.Con_id
                           <?php
                           if(isset($_POST['modificar'])){
 
-                             $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida` ORDER BY Tco_animal = '".$comida1."'";
+                             $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida` ORDER BY Tco_animal = '".$comida1."' desc";
                            }else {
                              $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida`";
                            }
@@ -405,12 +419,13 @@ GROUP BY C.Con_id
 
                           <?php
                           if(isset($_POST['modificar']) and $comida2 != ''){
-                             $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida` ORDER BY Tco_animal = '".$comida2."'";
+                             $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida` ORDER BY Tco_animal = '".$comida2."' desc";
                              $result = $conexion->query($sql);
                              $option = '';
                              while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
                                  $option .= ' <option value="'.$row['Tco_cod'].'">'.$row['Tco_animal'].'</option>';
                                }
+                              $option .= '<option value=""> </option>';
                              echo $option;
                            }else{
                              echo '<option value="" disabled selected></option>';
@@ -447,7 +462,7 @@ GROUP BY C.Con_id
                       <?php
                       if (isset($_POST['modificar'])){
                         echo "tula";
-                         $sql = " SELECT cli_cod, cli_nombre FROM cliente ORDER BY cli_nombre='".$cliente."'";
+                         $sql = " SELECT cli_cod, cli_nombre FROM cliente ORDER BY cli_nombre='".$cliente." desc'";
                          $option = '';
                        }else {
                          $sql = " SELECT cli_cod, cli_nombre FROM cliente";
@@ -591,7 +606,7 @@ GROUP BY C.Con_id
           }
           //Precarga las sedes de los clientes
           if (isset($_POST['modificar'])){
-             $query = "SELECT sed_cod, sed_cliente, sed_nombre FROM sede ";
+             $query = "SELECT sed_cod, sed_cliente, sed_nombre FROM sede ORDER BY sed_nombre='".$sede."' desc";
            }else {
              $query = "SELECT sed_cod, sed_cliente, sed_nombre FROM sede";
            }

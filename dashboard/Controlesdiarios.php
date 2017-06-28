@@ -79,7 +79,7 @@ include '../layouts/head.php';
 // Se buscan los controles /=============================================================================================================================//
 
                $sql = "SELECT C.Con_id, A.Ave_anillo, A.Ave_nombre, C.Con_peso, C.Con_cape, A.Ave_especie,  GROUP_CONCAT( CONCAT( TC.Tco_animal, ' - ', CC.Cco_cant) SEPARATOR '<br>') as comi,
-                        CL.cli_nombre, S.sed_nombre, T.Tur_descp, U.usu_nombre, C.Con_obs
+                        CL.cli_nombre, S.sed_nombre, T.Tur_descp, U.usu_nombre, U.usu_apellido,C.Con_obs
                         FROM ave A, usuario U, turno T, control C
                         LEFT JOIN destino D
                         	INNER JOIN sede S ON S.sed_cod = D.Des_sede
@@ -112,7 +112,7 @@ include '../layouts/head.php';
                    <th>Destino</th>
                    <th>Sede</th>
                    <th>Turno</th>
-                   <th>Cetrero</th>
+                   <th colspan="2">Cetrero</th>
                    <th>Observación</th>
                    </thead>
                    <tbody>';
@@ -134,6 +134,7 @@ include '../layouts/head.php';
                      $table .= '<td>'.$row['sed_nombre'].'</td>';
                      $table .= '<td>'.$row['Tur_descp'].'</td>';
                      $table .= '<td>'.$row['usu_nombre'].'</td>';
+                     $table .= '<td>'.$row['usu_Apellido'].'</td>';
                      $table .= '<td>'.$row['Con_obs'].'</td>';
                      $table .= "</tr>";
                }

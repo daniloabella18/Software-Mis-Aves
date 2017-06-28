@@ -115,12 +115,11 @@ GROUP BY C.Con_id
           if (isset($_GET['search'])) {
             //SELECT C.Con_id, A.Ave_anillo, A.Ave_nombre, C.Con_peso,C.Con_cape, U.usu_nombre, C.Con_fecha, T.Tur_descp, C.Con_obs  FROM control C, ave A, usuario U, turno T WHERE C.Con_Ave = A.Ave_anillo and C.Con_usu = U.usu_rut and C.Con_turno = T.Tur_cod
                $sql = "SELECT C.Con_id, A.Ave_anillo, A.Ave_nombre, C.Con_peso, C.Con_cape, A.Ave_especie,  GROUP_CONCAT( CONCAT( TC.Tco_animal, ' - ', CC.Cco_cant) SEPARATOR '<br>') as comi,
-                        CL.cli_nombre, S.sed_nombre, T.Tur_descp, U.usu_nombre, C.Con_obs, C.Con_fecha
+                        SS.sed_nombre, SS.cli_nombre, T.Tur_descp, U.usu_nombre, C.Con_obs, C.Con_fecha
                         FROM ave A, usuario U, turno T, control C
                         LEFT JOIN destino D
-                        	INNER JOIN sede S ON S.sed_cod = D.Des_sede
+                        	JOIN (SELECT S.sed_cod, CL.cli_nombre, S.sed_nombre FROM sede S, cliente CL WHERE S.sed_cliente = CL.cli_cod) SS ON SS.sed_cod = D.Des_sede
                          ON C.Con_id = D.Des_Control
-                        INNER JOIN cliente CL ON CL.cli_cod = S.sed_cliente
                         LEFT JOIN control_comida CC
                         	INNER JOIN tipo_comida TC ON TC.Tco_cod = CC.Cco_tco
                         ON C.Con_id = CC.Cco_control

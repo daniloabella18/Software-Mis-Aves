@@ -43,21 +43,31 @@
                 </div>
             </li>
             <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-users"></i> Usuarios</a></li>
-            <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-database"></i> Tablas básicas<i class="fa fa-angle-down rotate-icon"></i></a>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="#" class="waves-effect">Muschas</a>
-                        </li>
-                        <li><a href="#" class="waves-effect">Tablas</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-          <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-text-o"></i>Aves por controlar</a></li>
-          <li><a href="reporte2.php" class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-text-o"></i>Controles diarios</a></li>
-          <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-text-o"></i>30 días</a></li>
-        </ul>
+
+          <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-text-o"></i> Reportes<i class="fa fa-angle-down rotate-icon"></i></a>
+          <div class="collapsible-body">
+              <ul>
+                  <li><a href="#" class="waves-effect">Aves por controlar</a>
+                  </li>
+                  <li><a href="Controlesdiarios.php" class="waves-effect">Controles diarios</a>
+                  </li>
+                  <li><a href="#" class="waves-effect">30 días ave</a>
+                  </li>
+              </ul>
+          </div>
+
     </li>
+    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-database"></i> Tablas básicas<i class="fa fa-angle-down rotate-icon"></i></a>
+        <div class="collapsible-body">
+            <ul>
+                <li><a href="#" class="waves-effect">Muschas</a>
+                </li>
+                <li><a href="#" class="waves-effect">Tablas</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    </ul>
     <!--/. Side navigation links -->
     <div class="sidenav-bg mask-strong"></div>
 </ul>

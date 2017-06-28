@@ -17,7 +17,7 @@
 
   //Precarga las sedes de los clientes
   if (isset($_POST['modificar'])){
-     $query = "SELECT sed_cod, sed_cliente, sed_nombre FROM sede ORDER BY sed_nombre".$key['sede']." ";
+     $query = "SELECT sed_cod, sed_cliente, sed_nombre FROM sede ";
    }else {
      $query = "SELECT sed_cod, sed_cliente, sed_nombre FROM sede";
    }
@@ -191,7 +191,12 @@ include '../layouts/head.php';
 
       <div class="card card-block">
 
-        <?php  echo "Pollito - 1<br>Ratón - 2";?>
+        <?php
+        $test = "Pollito - 1<br>Raton - 1";
+
+
+        ?>
+
 
                 <h4 class="card-title">Registrar Control</h4>
                 <p class="card-text"> </p>
@@ -210,7 +215,21 @@ include '../layouts/head.php';
                           //Datos que nos existen
                           $cetrero = $key['cetrero'];
                           $fecha = $key['fecha'];
-                          echo $key['comida'];
+                          $comidas = explode( "<br>",$key['comida']);
+                          if (count($comidas) == 2) {
+                            $aux = explode("-", $comidas[0]);
+                            $comida1 = $aux[0];
+                            $cantidad1 = $aux[1];
+                            $aux = explode("-", $comidas[1]);
+                            $comida2 = $aux[0];
+                            $cantidad2 = $aux[1];
+                          }else {
+                            $aux = explode("-", $comidas[0]);
+                            $comida1 = $aux[0];
+                            $cantidad1 = $aux[1];
+                            $comida2 = '';
+                            $cantidad2 ='';
+                          }
                         }
                       }
                     }
@@ -346,7 +365,7 @@ include '../layouts/head.php';
                           <?php
                           if(isset($_POST['modificar'])){
 
-                             $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida`";
+                             $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida` ORDER BY Tco_animal = '".$comida1."'";
                            }else {
                              $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida`";
                            }
@@ -357,7 +376,6 @@ include '../layouts/head.php';
                              }
                              echo $option;
                             ?>
-
                         </select>
                         <label for="form61" >Comida</label>
                       </div>
@@ -367,7 +385,7 @@ include '../layouts/head.php';
                 <!--Second column-->
                 <div class="col-md-4">
                     <div class="md-form">
-                        <input type="text" id="form51" class="form-control" name="cantidad1">
+                        <input type="text" id="form51" class="form-control" name="cantidad1" value="<?php if(isset($_POST['modificar'])){echo $cantidad1;}else{echo "";} ?>">
                         <label for="form51" class="ave">Cantidad</label>
                     </div>
                 </div>
@@ -383,8 +401,22 @@ include '../layouts/head.php';
                     <div class="md-form">
                       <div class="md-form">
                         <select class="mdb-select" name="comida2">
-                          <option value="" disabled selected></option>
-                          <?php echo $option; ?>
+
+                          <?php
+                          if(isset($_POST['modificar']) and $comida2 != ''){
+                             $sql = " SELECT Tco_cod, Tco_animal FROM `tipo_comida` ORDER BY Tco_animal = '".$comida2."'";
+                             $result = $conexion->query($sql);
+                             $option = '';
+                             while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                                 $option .= ' <option value="'.$row['Tco_cod'].'">'.$row['Tco_animal'].'</option>';
+                               }
+                             echo $option;
+                           }else{
+                             echo '<option value="" disabled selected></option>';
+                             echo $option;
+                           }
+
+                            ?>
                         </select>
                         <label for="form61" >Comida</label>
                       </div>
@@ -394,7 +426,7 @@ include '../layouts/head.php';
                 <!--CANTIDAD-->
                 <div class="col-md-4">
                     <div class="md-form">
-                        <input type="text" id="form51" class="form-control" name="cantidad2">
+                        <input type="text" id="form51" class="form-control" name="cantidad2" value="<?php if(isset($_POST['modificar'])){echo $cantidad2;}else{echo "";} ?>">
                         <label for="form51" class="ave">Cantidad</label>
                     </div>
                 </div>
@@ -413,11 +445,12 @@ include '../layouts/head.php';
                     <select class="mdb-select" name="cliente" id='cliente'>
                       <?php
                       if (isset($_POST['modificar'])){
-                         $sql = " SELECT cli_cod, cli_nombre FROM cliente ORDER BY ".$cliente."";
+                         $sql = " SELECT cli_cod, cli_nombre FROM cliente ORDER BY cli_nombre='".$cliente."'";
                        }else {
                          $sql = " SELECT cli_cod, cli_nombre FROM cliente";
                        }
                          $result = $conexion->query($sql);
+                         echo $conexion ->error;
                          $option = '';
                          while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
                              echo ' <option value="'.$row['cli_cod'].'">'.$row['cli_nombre'].'</option>';

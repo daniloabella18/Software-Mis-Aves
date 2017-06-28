@@ -98,7 +98,7 @@ include '../layouts/head.php';
                    <th>Ave</th>
                    <th>Peso</th>
                    <th>C/S</th>
-                   <th colspan="2">Comida</th>
+                   <th colspan="2">Comida - Cantidad</th>
                    <th>Cetrero</th>
                    <th>Fecha</th>
                    <th>Turno</th>
@@ -114,19 +114,19 @@ include '../layouts/head.php';
                // Asigna desde la tabla 1 hasta la última, SI MUESTRA
                while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
                      $table .= '<tr>';
-                     $table .= '<td ><input type="hidden" name="data['.$count.'][id]" value="'.$row['Con_id'].'">'.$row['Con_id'].'</td>';
-                     $table .= '<td ><input type="hidden" name="data['.$count.'][anillo]" value="'.$row['Ave_anillo'].'">'.$row['Ave_anillo'].'</td>';
-                     $table .= '<td><input type="hidden" name="data['.$count.'][nombre]" value="'.$row['Ave_nombre'].'">'.$row['Ave_nombre'].'</td>';
-                     $table .= '<td><input type="hidden" name="data['.$count.'][peso]" value="'.$row['Con_peso'].'">'.$row['Con_peso'].'</td>';
-                     $table .= '<td><input type="hidden" name="data['.$count.'][cape]" value="'.$row['Con_cape'].'">'.$row['Con_cape'].'</td>';
-                     $table .= '<td><input type="hidden" name="data['.$count.'][animal]" value="'.$row['comi'].'">'.$row['comi'].'</td>';
+                     $table .= '<td >'.$row['Con_id'].'</td>';
+                     $table .= '<td >'.$row['Ave_anillo'].'</td>';
+                     $table .= '<td>'.$row['Ave_nombre'].'</td>';
+                     $table .= '<td>'.$row['Con_peso'].'</td>';
+                     $table .= '<td>'.$row['Con_cape'].'</td>';
+                     $table .= '<td>'.$row['comi'].'</td>';
                      $table .= '<td></td>';
-                     $table .= '<td><input type="hidden" name="data['.$count.'][cetrero]" value="'.$row['usu_nombre'].'">'.$row['usu_nombre'].'</td>';
-                     $table .= '<td><input type="hidden" name="data['.$count.'][fecha]" value="'.$row['Con_fecha'].'">'.date("d-m-Y", strtotime($row['Con_fecha'])).'</td>';
-                     $table .= '<td><input type="hidden" name="data['.$count.'][turno]" value="'.$row['Tur_descp'].'">'.$row['Tur_descp'].'</td>';
-                     $table .= '<td><input type="hidden" name="data['.$count.'][cliente]" value="'.$row['cli_nombre'].'">'.$row['cli_nombre'].'</td>';
-                     $table .= '<td><input type="hidden" name="data['.$count.'][sede]" value="'.$row['sed_nombre'].'">'.$row['sed_nombre'].'</td>';
-                     $table .= '<td><input type="hidden" name="data['.$count.'][obs]" value="'.$row['Con_obs'].'">'.$row['Con_obs'].'</td>';
+                     $table .= '<td>'.$row['usu_nombre'].'</td>';
+                     $table .= '<td>'.date("d-m-Y", strtotime($row['Con_fecha'])).'</td>';
+                     $table .= '<td>'.$row['Tur_descp'].'</td>';
+                     $table .= '<td>'.$row['cli_nombre'].'</td>';
+                     $table .= '<td>'.$row['sed_nombre'].'</td>';
+                     $table .= '<td>'.$row['Con_obs'].'</td>';
                      $table .= "</tr>";
 
                 $count= $count + 1;
@@ -174,7 +174,7 @@ if(isset($_GET['search'])){
            <tbody>';
        $cont_anterior = -1;
        $table = '';
-       $count = 1;
+
 
 
        // Asigna desde la tabla 1 hasta la última, SI MUESTRA

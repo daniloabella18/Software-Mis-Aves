@@ -226,7 +226,7 @@ include '../layouts/head.php';
                       $anillo = $_POST['anillo'];
                       $peso = $_POST['peso'];
                       $caperuza = $_POST['caperuza'];
-                      $cetrero = $_POST['cetrero'];
+                      $cetrero = $_SESSION['rut'];
                       $observacion = $_POST['observacion'];
                       $comida1 = $_POST['comida1'] === '' ? null : $_POST['comida1'] ;
                       $cantidad1 = $_POST['cantidad1'];
@@ -254,20 +254,17 @@ include '../layouts/head.php';
                       echo $conexion->error;
                       if($cliente != "nulonulicimo"){
                       //Se inserta destino
-                        $sql = "INSERT INTO `destino` (`Des_Control`, `Des_sede`)
-                                VALUES ('".$con_id."', '".$sede."')
-                                ON DUPLICATE KEY UPDATE Des_sede = '".$sede."'";
+                        $sql = "REPLACE INTO `destino` (`Des_Control`, `Des_sede`)
+                                VALUES ('".$con_id."', '".$sede."')";
                         $resultdestino = $conexion->query($sql);
                       }
                       //Se inserta comida
-                      $sql = "INSERT INTO `control_comida` (`Cco_control`, `Cco_tco`, `Cco_cant`)
-                              VALUES ('.$con_id.', '$comida1', '$cantidad1')
-                              ON DUPLICATE KEY UPDATE `Cco_tco = '".$comida1."', Cco_cant= '".$comida1."' ";
+                      $sql = "REPLACE INTO `control_comida` (`Cco_control`, `Cco_tco`, `Cco_cant`)
+                              VALUES ('.$con_id.', '$comida1', '$cantidad1')";
                       $resultComida = $conexion->query($sql);
                       if ($comida2 != null) {
-                        $sql = "INSERT INTO `control_comida` (`Cco_control`, `Cco_tco`, `Cco_cant`)
-                                VALUES ('.$con_id.', '$comida2', '$cantidad2')
-                                ON DUPLICATE KEY UPDATE `Cco_tco = '".$comida2."', Cco_cant= '".$comida2."' ";
+                        $sql = "REPLACE INTO `control_comida` (`Cco_control`, `Cco_tco`, `Cco_cant`)
+                                VALUES ('.$con_id.', '$comida2', '$cantidad2')";
                         $resultComida2 = $conexion->query($sql);
                       }
                       /*
@@ -437,22 +434,20 @@ include '../layouts/head.php';
                   <div class="md-form">
                     <select class="mdb-select" name="cliente" id='cliente'>
                       <?php
-                      $option = '';
                       if (isset($_POST['modificar'])){
+                        echo "tula";
                          $sql = " SELECT cli_cod, cli_nombre FROM cliente ORDER BY cli_nombre='".$cliente."'";
                          $option = '';
                        }else {
                          $sql = " SELECT cli_cod, cli_nombre FROM cliente";
-                         $option = '<option value="" disabled selected></option>';
+                         $option = '<option value="nulonulicimo"></option>';
                        }
                          $result = $conexion->query($sql);
                          echo $conexion ->error;
-                        $option = '<option value="nulonulicimo"></option>';
                          while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
                              $option .= ' <option value="'.$row['cli_cod'].'">'.$row['cli_nombre'].'</option>';
                          }
                          echo $option;
-
                         ?>
 
                         <?php /*

@@ -218,7 +218,6 @@ GROUP BY C.Con_id
                           $cliente = $key['cliente'];
                           $sede = $key['sede'];
                           $observacion = $key['obs'];
-                          //Datos que nos existen
                           $cetrero = $key['cetrero'];
                           $fecha = $key['fecha'];
                           $comidas = explode( "<br>",$key['comida']);
@@ -245,14 +244,28 @@ GROUP BY C.Con_id
                         if (!empty($key['checkbox'])) {
                           $con_id = $key['id'];
                           $sede = $key['sede'];
-                          $comida1 = $_POST['comida1'] === '' ? null : $_POST['comida1'] ;
-                          $comida2 = '';
-                          $comida2 = empty($_POST['comida2']) ? null : $_POST['comida2'];
+                          $cliente = $key['cliente'];
+                          $comidas = explode( "<br>",$key['comida']);
+                          if (count($comidas) == 2) {
+                            $aux = explode("-", $comidas[0]);
+                            $comida1 = $aux[0];
+                            $cantidad1 = $aux[1];
+                            $aux = explode("-", $comidas[1]);
+                            $comida2 = $aux[0];
+                            $cantidad2 = $aux[1];
+                          }else {
+                            $aux = explode("-", $comidas[0]);
+                            $comida1 = $aux[0];
+                            $cantidad1 = $aux[1];
+                            $comida2 = '';
+                            $cantidad2 ='';
+                          }
                         }
                       }
                       //Se quitan las comidas
                         $sql = "DELETE FROM control_comida WHERE Cco_control = '".$con_id."' AND Cco_tco ='".$comida1."' ";
                         $result = $conexion->query($sql);
+                        echo $conexion->error;
                         if ($comida2 != null) {
                           $sql = "DELETE FROM control_comida WHERE Cco_control = '".$con_id."' AND Cco_tco ='".$comida2."' ";
                           $resultComida2 = $conexion->query($sql);
@@ -266,6 +279,7 @@ GROUP BY C.Con_id
                         //Se quita el control
                         $sql= "DELETE FROM control WHERE Con_id = '".$con_id."' ";
                         $resultc = $conexion->query($sql);
+                        echo $conexion->error;
                     }
 
                     //Se agregan los datos enviados

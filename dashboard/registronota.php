@@ -60,7 +60,7 @@ include '../layouts/head.php';
                   <a href="controlave.php" class="nav-link">Registrar Control</a>
               </li>
               <li class="nav-item active">
-                  <a class="nav-link">Registrar Nota</a>
+                  <a href="registronota.php" class="nav-link">Registrar Nota</a>
               </li>
                 <li class="nav-item">
                     <a  href="../logout.php" class="nav-link"><i class="fa fa-user"></i> <span class="hidden-sm-down">Log out</span></a>
@@ -75,100 +75,168 @@ include '../layouts/head.php';
     <!--Main layout-->
     <main>
     <div class="container-fluid text-center">
-      <?php
-      if (isset($_POST['submit'])){
-        $sql = "SELECT Tur_cod, Tur_descp FROM `turno`";
-        $resulttur = $conexion->query($sql);
-        while ($row = $resulttur->fetch_array(MYSQLI_ASSOC)){
-          if( $_POST['turno'] == $row['Tur_descp']){
-            $turno = $row['Tur_cod'];
+      <div class="card card-block">
+        <h4 class="card-title">Buscar notas de un día</h4>
+        <p class="card-text">Busqueda por fecha</p>
+        <form action="" method="GET">
+            <div class="row">
+              <div class="col-md-4 offset-md-4" >
+                <div class="md-form input-group">
+                  <input type="search" class="form-control" placeholder="dd/mm/aaaa" name="search">
+                  <span class="input-group-btn">
+                      <button   type="submit" class="btn btn-primary btn-lg" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                  </span>
+              </div>
+              </div>
+            </div>
+            </form>
+        <br/>
+        <form action="registronota.php" method="post">
+
+        <?php
+
+        //Se recibe la información de buscar un ave
+        if (isset($_GET['search'])) {
+             $sql = "SELECT N.not_cod, U.usu_nombre, U.usu_apellido,  N.not_descrip, N.not_fecha, T.Tur_descp
+                      FROM nota N, usuario U, turno T
+                      WHERE N.not_usuario = U.usu_rut AND T.Tur_cod = N.not_turno AND N.not_fecha = '".date("Y-m-d", strtotime($_GET['search']))."'";
+             $result = $conexion->query($sql);
+             $count = 1;
+            if(mysqli_num_rows($result) ==0){
+              echo 'El ave pedida no existe';
+            }else{
+
+
+                 echo '<div class="table-responsive">
+                      <table class="table ">
+                 <thead>
+                 <th class="addr" id="table_id" ></th>
+                 <th>ID</th>
+                 <th colspan="2">Cetrero</th>
+                 <th>Nota</th>
+                 <th>Fecha</th>
+                 <th>Turno</th>
+                 </thead>
+                 <tbody>';
+             while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                 echo '<tr>';
+                 echo '<td><fieldset class="form-group"><input type="checkbox" id="checkbox'.$count.'" name="data['.$count.'][checkbox]" value="on "><label for="checkbox'.$count.'"></label></fieldset></td>';
+                 echo '<td ><input type="hidden" name="data['.$count.'][not_cod]" value="'.$row['not_cod'].'">'.$row['not_cod'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][nombre]" value="'.$row['usu_nombre'].'">'.$row['usu_nombre'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][apellido]" value="'.$row['usu_apellido'].'">'.$row['usu_apellido'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][nota]" value="'.$row['not_descrip'].'">'.$row['not_descrip'].'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][fecha]" value="'.$row['not_fecha'].'">'.date("d-m-Y", strtotime($row['not_fecha'])).'</td>';
+                 echo '<td><input type="hidden" name="data['.$count.'][turno]" value="'.$row['Tur_descp'].'">'.$row['Tur_descp'].'</td>';
+                 echo "</tr>";
+              $count= $count + 1;
+             }
+             echo '
+                    </tbody>
+                </table>
+                </div>';
+            //Botton de modificar ave
+             echo '<div class="md-form form-group">';
+             echo '<input type="hidden" name="count" value="data">';
+             echo '<button type="submit"  name="modificar" class="btn btn-primary btn-lg">Modificar</button>';
+             //Botton de quitar ave
+             echo '<input type="hidden" name="count" value="data">';
+             echo '<button type="submit"  name="quitar" class="btn btn-primary btn-lg">Quitar</button>';
+             echo "</div>";
+           }
+         }
+            ?>
+          </form>
+      </div>
+      </br>
+
+        <?php
+        if (isset($_POST['submit'])){
+          $sql = "SELECT Tur_cod, Tur_descp FROM `turno`";
+          $resulttur = $conexion->query($sql);
+          while ($row = $resulttur->fetch_array(MYSQLI_ASSOC)){
+            if( $_POST['turno'] == $row['Tur_descp']){
+              $turno = $row['Tur_cod'];
+            }
           }
+
+          $sql = "INSERT INTO `nota` (`not_cod`, `not_usuario`, `not_fecha`, `not_descrip`, `not_turno`)
+          VALUES ('".$_POST['not_cod']."', '".$_POST['cetrero']."', '".date("Y-m-d", strtotime($_POST['fecha']))."', '".$_POST['nota']."', '".$turno."')
+          ON DUPLICATE KEY UPDATE not_usuario=VALUES(not_usuario), not_fecha=VALUES(not_fecha), not_descrip=VALUES(not_descrip), not_turno = VALUES(not_descrip)";
+            $result = $conexion->query($sql);
+            echo $conexion->error;
         }
 
-        $sql = "INSERT INTO `nota` (`not_cod`, `not_usuario`, `not_fecha`, `not_descrip`, `not_turno`)
-        VALUES ('".$_POST['not_cod']."', '".$_POST['cetrero']."', '".date("Y-m-d", strtotime($_POST['fecha']))."', '".$_POST['nota']."', '".$turno."')
-        ON DUPLICATE KEY UPDATE not_usuario=VALUES(not_usuario), not_fecha=VALUES(not_fecha), not_descrip=VALUES(not_descrip), not_turno = VALUES(not_descrip)";
-          $result = $conexion->query($sql);
-          echo $conexion->error;
-      }
+           ?>
+        <div class="card card-block">
+                  <h4 class="card-title">Registrar Nota</h4>
+                  <p class="card-text">Info ayuda </p>
 
-         ?>
-      <div class="card card-block">
-                <h4 class="card-title">Registrar Nota</h4>
-                <p class="card-text">Info ayuda </p>
+        <form Method ="POST" ACTION = "registronota.php">
+              <!--Third row-->
 
-      <form Method ="POST" ACTION = "registronota.php">
-            <!--Third row-->
-
-            <div class="row">
-              <!--Textarea with icon prefix-->
-              <div class="col-md-12">
-                <div class="md-form">
-                    <i class="fa fa-pencil prefix"></i>
-                    <textarea type="text" id="form8" class="md-textarea" name="nota" value="<?php if(isset($_POST['modificar'])){echo $nota;}else{echo "";} ?>"></textarea>
-                    <label for="form8">Nota</label>
+              <div class="row">
+                <!--Textarea with icon prefix-->
+                <div class="col-md-12">
+                  <div class="md-form">
+                      <i class="fa fa-pencil prefix"></i>
+                      <textarea type="text" id="form8" class="md-textarea" name="nota" value="<?php if(isset($_POST['modificar'])){echo $nota;}else{echo "";} ?>"></textarea>
+                      <label for="form8">Nota</label>
+                  </div>
                 </div>
               </div>
-            </div>
 
 
-        <div class="row">
+          <div class="row">
 
-            <!--First column-->
-            <div class="col-md-2">
-                <div class="md-form">
-                    <input type="text" id="form41" class="form-control" name="turno"  value="<?php
-                     if(isset($_POST['modificar'])){
-                       echo $turno;
-                     }else{
-                       $turno=getTurno($conexion);
-                       echo $turno;
-                     }
-                       ?>" readonly="readonly">
-                    <label for="form41" class="">Turno</label>
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="md-form">
-                    <input type="text" id="form41" class="form-control" name="fecha" value="<?php if(isset($_POST['modificar'])){echo $fecha;}else{echo date("d-m-Y");} ?>" readonly="readonly">
-                    <label for="form41" class=""> Fecha</label>
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="md-form">
-                    <input type="text" id="form41" class="form-control" name="cetrero" value="<?php if(isset($_POST['modificar'])){echo $cetrero;}else{echo $_SESSION['rut'];} ?>" readonly="readonly">                    <label for="form41" class=""> Cetrero</label>
-                </div>
-            </div>
-            <!--Third column-->
-            <div class="col-md-2">
-                <div class="md-form">
-                    <input type="text" id="form61" class="form-control" name="not_cod" value="<?php
-                     if(isset($_POST['modificar'])){echo $con_id;}else{
-                        //Se obitene el id de control  del AUTO_INCREMENT
-                       $aux = $conexion->query("SELECT `AUTO_INCREMENT` as AI FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '".$db_name."' AND TABLE_NAME = 'nota'")->fetch_array(MYSQLI_ASSOC);
-                       $con_id = $aux['AI'];
-                       echo $con_id;
-                     } ?>" readonly="readonly">
-                    <label for="form61" class="">ID Nota</label>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-              <div class="md-form form-group">
-                  <button type="submit"  name="submit" class="btn btn-primary btn-lg"><?php if (!isset($_POST['modificar'])){echo 'Agregar nota'; }else {echo 'Modificar nota';} ?> </button>
+              <!--First column-->
+              <div class="col-md-2">
+                  <div class="md-form">
+                      <input type="text" id="form41" class="form-control" name="turno"  value="<?php
+                       if(isset($_POST['modificar'])){
+                         echo $turno;
+                       }else{
+                         $turno=getTurno($conexion);
+                         echo $turno;
+                       }
+                         ?>" readonly="readonly">
+                      <label for="form41" class="">Turno</label>
+                  </div>
               </div>
-            </div>
-        </form>
-        </div>
-  </div>
-</br>
 
+              <div class="col-md-2">
+                  <div class="md-form">
+                      <input type="text" id="form41" class="form-control" name="fecha" value="<?php if(isset($_POST['modificar'])){echo $fecha;}else{echo date("d-m-Y");} ?>" readonly="readonly">
+                      <label for="form41" class=""> Fecha</label>
+                  </div>
+              </div>
 
-    <div class="card card-block">
+              <div class="col-md-2">
+                  <div class="md-form">
+                      <input type="text" id="form41" class="form-control" name="cetrero" value="<?php if(isset($_POST['modificar'])){echo $cetrero;}else{echo $_SESSION['rut'];} ?>" readonly="readonly">                    <label for="form41" class=""> Cetrero</label>
+                  </div>
+              </div>
+              <!--Third column-->
+              <div class="col-md-2">
+                  <div class="md-form">
+                      <input type="text" id="form61" class="form-control" name="not_cod" value="<?php
+                       if(isset($_POST['modificar'])){echo $con_id;}else{
+                          //Se obitene el id de control  del AUTO_INCREMENT
+                         $aux = $conexion->query("SELECT `AUTO_INCREMENT` as AI FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '".$db_name."' AND TABLE_NAME = 'nota'")->fetch_array(MYSQLI_ASSOC);
+                         $con_id = $aux['AI'];
+                         echo $con_id;
+                       } ?>" readonly="readonly">
+                      <label for="form61" class="">ID Nota</label>
+                  </div>
+              </div>
 
-        </div>
+              <div class="col-md-3">
+                <div class="md-form form-group">
+                    <button type="submit"  name="submit" class="btn btn-primary btn-lg"><?php if (!isset($_POST['modificar'])){echo 'Agregar nota'; }else {echo 'Modificar nota';} ?> </button>
+                </div>
+              </div>
+          </form>
+          </div>
+    </div>
     </main>
     <!--/Main layout-->
     <?php include '../layouts/footer.php';

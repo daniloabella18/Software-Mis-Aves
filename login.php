@@ -38,7 +38,7 @@
    font-family: "Roboto", sans-serif;
    text-transform: uppercase;
    outline: 0;
-   background: #4CAF50;
+   background: #5A384B;
    width: 100%;
    border: 0;
    padding: 15px;
@@ -49,7 +49,7 @@
    cursor: pointer;
  }
  .form button:hover,.form button:active,.form button:focus {
-   background: #43A047;
+   background: #BD5D70;
  }
  .form .message {
    margin: 15px 0 0;
@@ -98,10 +98,10 @@
  }
  body {
    background: #878787; /* fallback for old browsers */
-   background: -webkit-linear-gradient(right, #878787, #8DC26F);
-   background: -moz-linear-gradient(right, #878787, #8DC26F);
-   background: -o-linear-gradient(right, #878787, #8DC26F);
-   background: linear-gradient(to left, #878787, #8DC26F);
+   background: -webkit-linear-gradient(right, #878787, #532A3C);
+   background: -moz-linear-gradient(right, #878787, #532A3C);
+   background: -o-linear-gradient(right, #878787, #532A3C);
+   background: linear-gradient(to left, #878787, #532A3C);
    font-family: "Roboto", sans-serif;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
@@ -112,8 +112,14 @@
 </head>
 
 <body>
-  <div class="login-page">1209y
+  <div class="login-page">
     <div class="form">
+    </form>
+    <p>
+      <img src="../assets/img/icon.png" class="flex-center">
+      <b>Mis Aves</b>
+    </p>
+      <br>
       <form action="checklogin.php" class="register-form" method="post">
         <input type="text" placeholder="rut" name="rut" />
         <input type="password" placeholder="password"  name="password"/>

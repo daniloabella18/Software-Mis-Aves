@@ -1,9 +1,9 @@
 <!--Footer-->
-<footer class="page-footer center-on-small-only">
+<footer class="page-footer center-on-small-only ">
 
     <!--Copyright-->
     <div class="footer-copyright">
-        <div class="container-fluid">
+        <div class="container-fluid hidden-print">
           <!--  © 2017 Copyright: <a href="http://www.MDBootstrap.com"> MDBootstrap.com </a> -->
           Creado por <a  href="http://www.sergiosalinas.cl">Sergio Salinas</a> y <a  href="http://mkdefenderearth.blogspot.cl">Danilo Abella</a>
         </div>

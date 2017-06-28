@@ -55,15 +55,17 @@ include '../layouts/head.php';
 <!--/ Cuadro de arriba /--------------------------------------------------------------------------------------------------------------------------------->
 
         <div class="card card-block">
-          <h4 class="card-title">Buscar por ave</h4>
-          <p class="card-text">Ingrese un ave para ver sus controles de los últimos 30 días.</p>
+          <h4 class="card-title hidden-print">Buscar por ave</h4>
+          <p class="card-text hidden-print">Ingrese un ave para ver sus controles de los últimos 30 días.</p>
+          <h4 class="card-title visible-print-block">Últimos 30 días del ave <?php if(isset($_GET['search'])){ echo $_GET['search'];} ?></h4>
+
           <form action="" method="GET">
               <div class="row">
                 <div class="col-md-4 offset-md-4" >
                   <div class="md-form input-group">
-                    <input type="search" class="form-control" placeholder=" dd-mm-aaaa" name="search">
+                    <input type="search" class="form-control hidden-print" placeholder=" dd-mm-aaaa" name="search">
                     <span class="input-group-btn">
-                        <button   type="submit" class="btn btn-primary btn-lg" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        <button   type="submit" class="btn btn-primary btn-lg" type="button"><i class="fa fa-search hidden-print" aria-hidden="true"></i></button>
                     </span>
                 </div>
                 </div>
@@ -96,8 +98,8 @@ include '../layouts/head.php';
               if(mysqli_num_rows($result) ==0){
                 echo 'No hay controles registrados para el día '.$_GET['search'];
               }else{
-                   echo '<div class="table-responsive">
-                        <table class="table ">
+                   //echo '<div class="table-responsive">
+                  echo '      <table class="table ">
                    <thead>
                    <th>ID</th>
                    <th>Anillo</th>
@@ -139,14 +141,22 @@ include '../layouts/head.php';
                echo $table;
                echo '
                       </tbody>
-                  </table>
-                  </div>';
+                  </table>';
+                  //echo '</div>';
              }
 
              $tabla = true;
            }
               ?>
             </form>
+        </div>
+
+
+        <br>
+
+        <div class="card card-block">
+          <button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.print()" >Imprimir</button>
+
         </div>
 
 <br> <!---/ Separa ambos Cuadros -->

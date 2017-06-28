@@ -1,7 +1,7 @@
 <!--Double navigation-->
 
 <!-- Sidebar navigation -->
-<ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">
+<ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar hidden-print">
     <!-- Logo -->
     <li>
         <div class="logo-wrapper waves-light">

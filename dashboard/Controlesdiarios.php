@@ -27,7 +27,7 @@ include '../layouts/head.php';
     <header>
       <?php include '../layouts/sidebar.php';?>
       <!-- Navbar -->
-      <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
+      <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav hidden-print">
           <!-- SideNav slide-out button -->
           <div class="float-xs-left">
               <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
@@ -55,15 +55,17 @@ include '../layouts/head.php';
 <!--/ Cuadro de arriba /--------------------------------------------------------------------------------------------------------------------------------->
 
         <div class="card card-block">
-          <h4 class="card-title">Buscar Controles</h4>
-          <p class="card-text">Búsqueda por fecha</p>
+          <h4 class="card-title hidden-print ">Buscar Controles</h4>
+          <p class="card-text hidden-print">Búsqueda por fecha</p>
+          <h4 class="card-title visible-print-block">Controles realizados el día <?php if(isset($_GET['search'])){ echo $_GET['search'];} ?></h4>
+
           <form action="" method="GET">
               <div class="row">
                 <div class="col-md-4 offset-md-4" >
                   <div class="md-form input-group">
-                    <input type="search" class="form-control" placeholder=" dd-mm-aaaa" name="search">
+                    <input type="search" class="form-control hidden-print" placeholder=" dd-mm-aaaa" name="search">
                     <span class="input-group-btn">
-                        <button   type="submit" class="btn btn-primary btn-lg" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        <button   type="submit" class="btn btn-primary btn-lg" type="button"><i class="fa fa-search hidden-print" aria-hidden="true"></i></button>
                     </span>
                 </div>
                 </div>
@@ -99,8 +101,8 @@ include '../layouts/head.php';
               if(mysqli_num_rows($result) ==0){
                 echo 'No hay controles registrados para el día '.$_GET['search'];
               }else{
-                   echo '<div class="table-responsive">
-                        <table class="table ">
+                   //echo '<div class="table-responsive">
+                    echo ' <table class="table ">
                    <thead>
                    <th>ID</th>
                    <th>Anillo</th>
@@ -134,15 +136,15 @@ include '../layouts/head.php';
                      $table .= '<td>'.$row['sed_nombre'].'</td>';
                      $table .= '<td>'.$row['Tur_descp'].'</td>';
                      $table .= '<td>'.$row['usu_nombre'].'</td>';
-                     $table .= '<td>'.$row['usu_Apellido'].'</td>';
+                     $table .= '<td>'.$row['usu_apellido'].'</td>';
                      $table .= '<td>'.$row['Con_obs'].'</td>';
                      $table .= "</tr>";
                }
                echo $table;
                echo '
                       </tbody>
-                  </table>
-                  </div>';
+                  </table>';
+                  //</div>';
              }
 
              $tabla = true;
@@ -169,7 +171,7 @@ if(isset($_GET['search'])){
        $result = $conexion->query($sql);
 
       if(mysqli_num_rows($result) ==0){
-        echo 'Se necesita tener controles registrados para mostrar las notas del '.$_GET['search'];
+        echo 'No hay controles asociados al día.';
       }else{
            echo '<div class="table-responsive">
                 <table class="table  ">
@@ -206,9 +208,13 @@ if(isset($_GET['search'])){
 
 <!--/ Parte de abajo /---------------------------------------------------------------------->
 
+
 <br>
 
+<div class="card card-block">
+  <button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.print()" >Imprimir</button>
 
+</div>
 </br>
 
 

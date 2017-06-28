@@ -55,7 +55,7 @@
                   </li>
                   <li><a href="Controlesdiarios.php" class="waves-effect">Controles diarios</a>
                   </li>
-                  <li><a href="#" class="waves-effect">30 días ave</a>
+                  <li><a href="histoticoave.php" class="waves-effect">30 días ave</a>
                   </li>
               </ul>
           </div>

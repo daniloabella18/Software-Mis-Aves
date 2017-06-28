@@ -63,7 +63,7 @@ include '../layouts/head.php';
               <div class="row">
                 <div class="col-md-4 offset-md-4" >
                   <div class="md-form input-group">
-                    <input type="search" class="form-control hidden-print" placeholder=" dd-mm-aaaa" name="search">
+                    <input type="search" class="form-control hidden-print" placeholder="Anillo o nombre de ave" name="search">
                     <span class="input-group-btn">
                         <button   type="submit" class="btn btn-primary btn-lg" type="button"><i class="fa fa-search hidden-print" aria-hidden="true"></i></button>
                     </span>
@@ -89,6 +89,7 @@ include '../layouts/head.php';
                         ON C.Con_id = CC.Cco_control
                         WHERE A.Ave_anillo = C.Con_Ave AND C.Con_turno = T.Tur_cod AND C.Con_usu = U.usu_rut
                         and (A.Ave_anillo = '".$_GET['search']."' or A.Ave_nombre = '".$_GET['search']."')
+                        and C.Con_fecha BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()
                         GROUP BY C.Con_id
                         ORDER BY C.Con_id desc";
                $result = $conexion->query($sql);

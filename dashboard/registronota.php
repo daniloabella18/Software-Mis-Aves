@@ -150,6 +150,17 @@ include '../layouts/head.php';
       </br>
 
         <?php
+
+        if (isset($_POST['quitar'])){
+          foreach ($_POST['data'] as $key){
+            if (!empty($key['checkbox'])) {
+              $sql = "DELETE FROM nota WHERE not_cod = '".$key['not_cod']."' ";
+              $resultquitar = $conexion->query($sql);
+              }
+            }
+
+        }
+
         if (isset($_POST['submit'])){
           $sql = "SELECT Tur_cod, Tur_descp FROM `turno`";
           $resulttur = $conexion->query($sql);
@@ -161,11 +172,23 @@ include '../layouts/head.php';
 
           $sql = "INSERT INTO `nota` (`not_cod`, `not_usuario`, `not_fecha`, `not_descrip`, `not_turno`)
           VALUES ('".$_POST['not_cod']."', '".$_POST['cetrero']."', '".date("Y-m-d", strtotime($_POST['fecha']))."', '".$_POST['nota']."', '".$turno."')
-          ON DUPLICATE KEY UPDATE not_usuario=VALUES(not_usuario), not_fecha=VALUES(not_fecha), not_descrip=VALUES(not_descrip), not_turno = VALUES(not_descrip)";
+          ON DUPLICATE KEY UPDATE not_fecha=VALUES(not_fecha), not_descrip=VALUES(not_descrip), not_turno = VALUES(not_descrip)";
             $result = $conexion->query($sql);
             echo $conexion->error;
         }
-
+        if (isset($_POST['modificar'])){
+          foreach ($_POST['data'] as $key){
+            if (!empty($key['checkbox'])) {
+                $not_cod = $key['not_cod'];
+                $nota = $key['nota'];
+                $cetrero = $key['nombre'];
+                $nota =  $key['nota'];
+                $fecha =  $key['fecha'];
+                $turno = $key['turno'];
+                break;
+            }
+          }
+        }
            ?>
         <div class="card card-block">
                   <h4 class="card-title">Registrar Nota</h4>
@@ -179,7 +202,7 @@ include '../layouts/head.php';
                 <div class="col-md-12">
                   <div class="md-form">
                       <i class="fa fa-pencil prefix"></i>
-                      <textarea type="text" id="form8" class="md-textarea" name="nota" value="<?php if(isset($_POST['modificar'])){echo $nota;}else{echo "";} ?>"></textarea>
+                      <textarea type="text" id="form8" class="md-textarea" name="nota" ><?php if(isset($_POST['modificar'])){echo $nota;}else{echo "";} ?></textarea>
                       <label for="form8">Nota</label>
                   </div>
                 </div>
@@ -219,7 +242,7 @@ include '../layouts/head.php';
               <div class="col-md-2">
                   <div class="md-form">
                       <input type="text" id="form61" class="form-control" name="not_cod" value="<?php
-                       if(isset($_POST['modificar'])){echo $con_id;}else{
+                       if(isset($_POST['modificar'])){echo $not_cod;}else{
                           //Se obitene el id de control  del AUTO_INCREMENT
                          $aux = $conexion->query("SELECT `AUTO_INCREMENT` as AI FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '".$db_name."' AND TABLE_NAME = 'nota'")->fetch_array(MYSQLI_ASSOC);
                          $con_id = $aux['AI'];
@@ -251,6 +274,14 @@ include '../layouts/head.php';
       }else {
         echo 'toastr.success("La nota ha sido agregada correctamente");';
       }
+    }
+    if (isset($_POST['quitar'])){
+      if(!$resultquitar){
+        echo("Hubo un error al procesar la solicitud: " .$conexion->error);
+          echo 'toastr.error("Error al registrar el control");';
+    }else {
+      echo 'toastr.success("La nota ha sido quitada correctamente");';
+    }
     }
 echo "  });
 </script>";

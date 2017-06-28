@@ -126,7 +126,8 @@ GROUP BY C.Con_id
                         WHERE A.Ave_anillo = C.Con_Ave AND C.Con_turno = T.Tur_cod AND C.Con_usu = U.usu_rut
                         and (A.Ave_anillo = '".$_GET['search']."' or A.Ave_nombre = '".$_GET['search']."')
                         GROUP BY C.Con_id
-                        ORDER BY C.Con_id desc";
+                        ORDER BY C.Con_id desc
+                        LIMIT 6";
                $result = $conexion->query($sql);
               if(mysqli_num_rows($result) ==0){
                 echo 'No hay controles registrados para el ave '.$_GET['search'];

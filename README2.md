@@ -1,17 +1,5 @@
 # Software-Mis-Aves
-Software para el control de aves y cetreros "Mis aves"
-
-## TODO
-
-  - crear login
-  - agregar reportes
-  - hacer huea de reportes
-
-### Procesos generación reportes
-
-1. Generación historico días
-2. Control peso diario Ave
-3. Control aves por controlar por turno
+Software para el control de aves y cetreros "Mis aves" escrito en PHP 7 con base de datos MySQL.
 
 ## Informes
  1. https://www.overleaf.com/8996848yfqzxnfhtfzq
